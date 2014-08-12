@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
 	GameController controller;
 	TableLayout myLayout;
 	SparseIntArray rowsIDs = new SparseIntArray();
+	int[][] playfield = new int[6][7];
 
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
@@ -80,7 +81,7 @@ public class MainActivity extends Activity {
 						try {
 							System.out.println("rownumber " + rownumber
 									+ " clicked");
-							clicklistener(row );
+							clicklistener(row , rownumber);
 						} catch (Exception e) {
 						}
 					}
@@ -110,9 +111,14 @@ public class MainActivity extends Activity {
 		});
 	}
 
-	protected void clicklistener(LinearLayout row) {
+	protected void clicklistener(LinearLayout row, int rownumber) {
 		//alle Daten von gamecontroller abrufen -> hier ausführen
 		int bottom = 5;
 		row.getChildAt(bottom).setBackgroundColor(Color.RED);
+		playfield[nextfree()][rownumber] = 2;
+	}
+
+	private int nextfree() {
+		return 0;
 	}
 }
