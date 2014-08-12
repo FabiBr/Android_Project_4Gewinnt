@@ -15,11 +15,11 @@ import android.widget.TableRow;
  --------------------------------------------------------------------------------------------------------------------------------------------------
  1. Start: Anmelden oder Registrieren   
  1.1 Anmelden: Username und PW an Server 
- wenn korrekt -> Menü
+ wenn korrekt -> Menï¿½
  wenn falsch -> nochmal | registrieren
- 1.2 Registrieren: E-Mail und Password(2x) und Benutzername -> Server, dann -> Menü
- 2. Menü: Spieler suchen mit Benutzername in Serverdatenbank -> Anfrage
- 3. Nach Bestätigung auf in Server gespeicherte Anfrage -> Spielbeginn
+ 1.2 Registrieren: E-Mail und Password(2x) und Benutzername -> Server, dann -> Menï¿½
+ 2. Menï¿½: Spieler suchen mit Benutzername in Serverdatenbank -> Anfrage
+ 3. Nach Bestï¿½tigung auf in Server gespeicherte Anfrage -> Spielbeginn
  4. Spieler 1 "Spielmodus" - Spieler 2 "Wartemodus"
  Anmerkungen:
  - komplettes Spielfeld muss auf Server zwischengespeichert werden ( int[6][7] mit zahlen von 0-2 ) nach Ende jedes Zuges
@@ -30,11 +30,11 @@ import android.widget.TableRow;
 /*
  -------------------------------------------------------------------------------------------------------------------------------------------------- 
  Themen:
- - Git dreck geht nicht !
- - ich würde Logik machen - zuerst für auf ein Gerät spielbar -> bereits angefangen
- - einer muss Menüsteuerung machen
+ - Git dreck geht nicht ! Und stinkt nach SCHEIÃŸE!
+ - ich wï¿½rde Logik machen - zuerst fï¿½r auf ein Gerï¿½t spielbar -> bereits angefangen
+ - einer muss Menï¿½steuerung machen
  - einer Serveranfragen und Antworten regeln
- - Die engine wird nicht benötigt - was sagt ihr
+ - Die engine wird nicht benï¿½tigt - was sagt ihr
  --------------------------------------------------------------------------------------------------------------------------------------------------
  */
 
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 	}
 
 	/*
-	 * Erstellt für jede Reihe einen Listener
+	 * Erstellt fï¿½r jede Reihe einen Listener
 	 */
 	private void textviewrun() {
 		System.out.println("Listeners setzen");
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 		// TODO: Layout playground als eigenes Layout abspeichern und hier
 		// direkt aufrufen
 		for (int i = 0; i < playground.getChildCount(); i++) {
-			// row = jede Reihe im Spielfeld ( 7 Stück )
+			// row = jede Reihe im Spielfeld ( 7 Stï¿½ck )
 			final LinearLayout row = (LinearLayout) playground.getChildAt(i);
 			rowsIDs.put(i, row.getId());
 			final int rownumber = i;
@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
 	}
 
 	protected void clicklistener(LinearLayout row, int rownumber) {
-		//alle Daten von gamecontroller abrufen -> hier ausführen
+		//alle Daten von gamecontroller abrufen -> hier ausfï¿½hren
 		int bottom = 5;
 		row.getChildAt(bottom).setBackgroundColor(Color.RED);
 		playfield[nextfree()][rownumber] = 2;
