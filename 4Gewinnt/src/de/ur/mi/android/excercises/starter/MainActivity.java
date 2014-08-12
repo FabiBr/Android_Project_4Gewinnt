@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
 	TableLayout myLayout;
 	SparseIntArray rowsIDs = new SparseIntArray();
 	int[][] playfield = new int[6][7];
+	int playernumber = 1;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
@@ -103,6 +104,8 @@ public class MainActivity extends Activity {
 						textviewrun();
 						controller = new GameController(myLayout);
 						controller.startGame();
+						playfield = new int[6][7];
+						playernumber = 1;
 
 					} catch (Exception e) {
 					}
@@ -112,7 +115,7 @@ public class MainActivity extends Activity {
 		});
 	}
 
-	int playernumber = 1;
+
 
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausf�hren
