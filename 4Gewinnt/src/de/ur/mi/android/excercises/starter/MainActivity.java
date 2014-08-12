@@ -50,9 +50,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		try {
 			textviewrun();
-			 controller = new GameController(myLayout); 
-			 controller.startGame();
-			
+			controller = new GameController(myLayout);
+			controller.startGame();
+
 		} catch (Exception e) {
 		}
 
@@ -81,28 +81,29 @@ public class MainActivity extends Activity {
 						try {
 							System.out.println("rownumber " + rownumber
 									+ " clicked");
-							clicklistener(row , rownumber);
+							clicklistener(row, rownumber);
 						} catch (Exception e) {
 						}
 					}
 				});
 			}
 		}
-		
-		//Button Click Listener
-		final RelativeLayout buttonlay = (RelativeLayout) myLayout.getChildAt(2);
-		buttonlay.getChildAt(0).setOnClickListener(new OnClickListener(){
+
+		// Button Click Listener
+		final RelativeLayout buttonlay = (RelativeLayout) myLayout
+				.getChildAt(2);
+		buttonlay.getChildAt(0).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				try {
 					System.out.println("button clicked");
-					//buttonlay.getChildAt(0).setBackgroundColor(Color.RED);
+					// buttonlay.getChildAt(0).setBackgroundColor(Color.RED);
 					setContentView(R.layout.activity_main);
 					try {
 						textviewrun();
-						 controller = new GameController(myLayout); 
-						 controller.startGame();
-						
+						controller = new GameController(myLayout);
+						controller.startGame();
+
 					} catch (Exception e) {
 					}
 				} catch (Exception e) {
@@ -111,14 +112,35 @@ public class MainActivity extends Activity {
 		});
 	}
 
+	int playernumber = 1;
+
 	protected void clicklistener(LinearLayout row, int rownumber) {
-		//alle Daten von gamecontroller abrufen -> hier ausf�hren
-		int bottom = 5;
-		row.getChildAt(bottom).setBackgroundColor(Color.RED);
-		playfield[nextfree()][rownumber] = 2;
+		// alle Daten von gamecontroller abrufen -> hier ausf�hren
+		int bottom = nextfree(rownumber);
+		if (bottom < 6) {
+			setstones(bottom, rownumber, row);
+		}
+	}
+	
+	private void setstones(int bottom, int rownumber, LinearLayout row){
+		if (playernumber == 1) {
+			row.getChildAt(bottom).setBackgroundColor(Color.RED);
+			playernumber = 2;
+			playfield[bottom][rownumber] = 1;
+		} else if (playernumber == 2) {
+			row.getChildAt(bottom).setBackgroundColor(Color.BLUE);
+			playernumber = 1;
+			playfield[bottom][rownumber] = 2;
+		}
 	}
 
-	private int nextfree() {
-		return 0;
+	private int nextfree(int rownumber) {
+		for (int i = 5; i >= 0; i--) {
+			int checknum = playfield[i][rownumber];
+			if (checknum != 1 && checknum != 2) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
