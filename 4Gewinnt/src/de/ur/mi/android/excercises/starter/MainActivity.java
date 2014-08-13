@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -115,26 +116,75 @@ public class MainActivity extends Activity {
 		});
 	}
 
-
-
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausf�hren
 		int bottom = nextfree(rownumber);
 		if (bottom < 6) {
 			setstones(bottom, rownumber, row);
+			if (playernumber == 0) {
+				((ViewGroup) myLayout.getChildAt(2)).getChildAt(0)
+						.setBackgroundColor(Color.GREEN);
+			}
 		}
 	}
-	
-	private void setstones(int bottom, int rownumber, LinearLayout row){
+
+	private void setstones(int bottom, int rownumber, LinearLayout row) {
 		if (playernumber == 1) {
 			row.getChildAt(bottom).setBackgroundColor(Color.RED);
 			playernumber = 2;
 			playfield[bottom][rownumber] = 1;
+			if (wincheck(bottom, rownumber)) {
+				playernumber = 0;
+			}
 		} else if (playernumber == 2) {
 			row.getChildAt(bottom).setBackgroundColor(Color.BLUE);
 			playernumber = 1;
 			playfield[bottom][rownumber] = 2;
+			if (wincheck(bottom, rownumber)) {
+				playernumber = 0;
+			}
+		} else {
 		}
+	}
+
+	private boolean wincheck(int bottom, int rownumber) {
+		// vertical check
+		if (bottom < 3
+				&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber]
+				&& playfield[bottom + 1][rownumber] == playfield[bottom + 2][rownumber]
+				&& playfield[bottom + 2][rownumber] == playfield[bottom + 3][rownumber])
+			return true;
+		// horizontal check
+		else if (rownumber < 4) {
+			// first stone
+			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 3]) {
+				return true;
+			}
+		} else if (rownumber >= 4) {
+			// last stone
+			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 3]) {
+				return true;
+			}
+		} else if (rownumber > 0) {
+			// second stone
+			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]) {
+				return true;
+			}
+		} else if (rownumber < 6) {
+			// third stone
+			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private int nextfree(int rownumber) {
