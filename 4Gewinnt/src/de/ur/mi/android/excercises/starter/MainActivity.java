@@ -118,6 +118,7 @@ public class MainActivity extends Activity {
 
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausf�hren
+		
 		int bottom = nextfree(rownumber);
 		if (bottom < 6) {
 			setstones(bottom, rownumber, row);
