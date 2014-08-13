@@ -148,42 +148,48 @@ public class MainActivity extends Activity {
 	}
 
 	private boolean wincheck(int bottom, int rownumber) {
+		//-------------------------------------------------------------------------------
 		// vertical check
 		if (bottom < 3
 				&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber]
 				&& playfield[bottom + 1][rownumber] == playfield[bottom + 2][rownumber]
 				&& playfield[bottom + 2][rownumber] == playfield[bottom + 3][rownumber])
 			return true;
+		//-------------------------------------------------------------------------------
 		// horizontal check
 		else if (rownumber < 4) {
 			// first stone
-			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
+			if (playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 3]) {
 				return true;
 			}
 		} else if (rownumber >= 4) {
 			// last stone
-			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
+			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 3]) {
 				return true;
 			}
-		} else if (rownumber > 0) {
+		}
+		if (rownumber != 0) {
 			// second stone
-			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
+			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]) {
 				return true;
 			}
-		} else if (rownumber < 6) {
+		}
+		if (rownumber != 6) {
 			// third stone
-			if (	   playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
+			if (playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]) {
 				return true;
 			}
 		}
+		//-------------------------------------------------------------------------------
+		//TODO: diagonal check
 		return false;
 	}
 
