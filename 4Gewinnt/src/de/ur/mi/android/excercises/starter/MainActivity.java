@@ -31,7 +31,6 @@ import android.widget.TableRow;
 /*
  -------------------------------------------------------------------------------------------------------------------------------------------------- 
  Themen:
- - Git dreck geht nicht ! Und stinkt nach SCHEIßE!
  - ich w�rde Logik machen - zuerst f�r auf ein Ger�t spielbar -> bereits angefangen
  - einer muss Men�steuerung machen
  - einer Serveranfragen und Antworten regeln
