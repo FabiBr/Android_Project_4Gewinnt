@@ -52,8 +52,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		try {
 			textviewrun();
-			controller = new GameController(myLayout);
-			controller.startGame();
 
 		} catch (Exception e) {
 		}
@@ -103,8 +101,6 @@ public class MainActivity extends Activity {
 					setContentView(R.layout.activity_main);
 					try {
 						textviewrun();
-						controller = new GameController(myLayout);
-						controller.startGame();
 						playfield = new int[6][7];
 						playernumber = 1;
 
@@ -149,16 +145,70 @@ public class MainActivity extends Activity {
 	}
 
 	private boolean wincheck(int bottom, int rownumber) {
-		//-------------------------------------------------------------------------------
-		// vertical check
-		if (bottom < 3
-				&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber]
-				&& playfield[bottom + 1][rownumber] == playfield[bottom + 2][rownumber]
-				&& playfield[bottom + 2][rownumber] == playfield[bottom + 3][rownumber])
+		if (vcheck(bottom, rownumber) || hcheck(bottom, rownumber)
+				|| dcheck(bottom, rownumber))
 			return true;
-		//-------------------------------------------------------------------------------
+		return false;
+
+	}
+
+	private boolean dcheck(int bottom, int rownumber) {
+		// diagonal check
+		// for first and last stone
+		if (rownumber <= 3 && bottom > 2) {
+			// first quater
+			if (playfield[bottom][rownumber] == playfield[bottom - 1][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber + 2]
+					&& playfield[bottom][rownumber] == playfield[bottom - 3][rownumber + 3]) {
+				return true;
+			}
+		}
+		if (rownumber <= 3 && bottom <= 2) {
+			// second quater
+			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber + 2]
+					&& playfield[bottom][rownumber] == playfield[bottom + 3][rownumber + 3]) {
+				return true;
+			}
+		}
+		if (rownumber >= 3 && bottom > 2) {
+			// third quater
+			if (playfield[bottom][rownumber] == playfield[bottom - 1][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber - 2]
+					&& playfield[bottom][rownumber] == playfield[bottom - 3][rownumber - 3]) {
+				return true;
+			}
+		}
+		if (rownumber >= 3 && bottom <= 2) {
+			// forth quater
+			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber - 2]
+					&& playfield[bottom][rownumber] == playfield[bottom + 3][rownumber - 3]) {
+				return true;
+			}
+		}
+		// for second stone
+		if (rownumber <= 4 && bottom >= 2) {
+			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom - 1][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber + 2]) {
+				return true;
+			}
+		}
+		// for third stone
+		if (rownumber >= 2 && bottom <= 3) {
+			if (playfield[bottom][rownumber] == playfield[bottom - 2][rownumber - 2]
+					&& playfield[bottom][rownumber] == playfield[bottom - 1][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean hcheck(int bottom, int rownumber) {
 		// horizontal check
-		else if (rownumber < 4) {
+		if (rownumber < 4) {
 			// first stone
 			if (playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]
@@ -181,16 +231,24 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		}
-		if (rownumber != 6) {
+		if (rownumber <= 5) {
 			// third stone
-			if (playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
+			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]) {
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]) {
 				return true;
 			}
 		}
-		//-------------------------------------------------------------------------------
-		//TODO: diagonal check
+		return false;
+	}
+
+	private boolean vcheck(int bottom, int rownumber) {
+		// vertical check
+		if (bottom < 3
+				&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber]
+				&& playfield[bottom + 1][rownumber] == playfield[bottom + 2][rownumber]
+				&& playfield[bottom + 2][rownumber] == playfield[bottom + 3][rownumber])
+			return true;
 		return false;
 	}
 
