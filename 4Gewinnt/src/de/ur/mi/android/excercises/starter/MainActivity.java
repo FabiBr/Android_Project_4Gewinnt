@@ -34,12 +34,24 @@ import android.widget.TableRow;
 /*
  -------------------------------------------------------------------------------------------------------------------------------------------------- 
  Themen:
- - Git dreck geht nicht ! Und stinkt nach SCHEIßE!
  - ich w�rde Logik machen - zuerst f�r auf ein Ger�t spielbar -> bereits angefangen
  - einer muss Men�steuerung machen
  - einer Serveranfragen und Antworten regeln
  - Die engine wird nicht ben�tigt - was sagt ihr
  --------------------------------------------------------------------------------------------------------------------------------------------------
+ */
+
+
+/**
+ * @author Fabian
+ * GameDB - User_Table implementiert. Zum nutzen:
+ * 1. db.open()
+ * 2. db.addUser / db.getUser / etc.
+ * 3. db.close(),
+ * 
+ * 
+ * 
+ * Mit der md5 encription in der User klasse aufpassen, nich sicher ob des schon funktioniert
  */
 
 public class MainActivity extends Activity {
@@ -48,6 +60,8 @@ public class MainActivity extends Activity {
 	SparseIntArray rowsIDs = new SparseIntArray();
 	int[][] playfield = new int[6][7];
 	int playernumber = 1;
+	
+	private GameDB db;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
@@ -265,32 +279,4 @@ public class MainActivity extends Activity {
 		return -1;
 	}
 	
-	// pw/username enciption
-	public String computeMD5Hash(String password)
-    {
-		String result = "";
-        try {
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(password.getBytes());
-            byte messageDigest[] = digest.digest();
-      
-            StringBuffer MD5Hash = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-            {
-                String h = Integer.toHexString(0xFF & messageDigest[i]);
-                while (h.length() < 2)
-                    h = "0" + h;
-                MD5Hash.append(h);
-            }
-                  
-            result = MD5Hash.toString();
-             
-            }
-            catch (NoSuchAlgorithmException e)
-            {
-            e.printStackTrace();
-            }
-        return result;
-         
-    }
 }
