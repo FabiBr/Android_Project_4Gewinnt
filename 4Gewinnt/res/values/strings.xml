@@ -5,5 +5,24 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="question_mark">""</string>
+    <string name="title_activity_menue">MainActivity</string>
+    <string name="title_activity_game">MainActivity</string>
+    <string name="title_activity_login">Omeln</string>
+    <string name="Login">Omeln</string>
+    <string name="Nickname">Nicknam</string>
+    <string name="Passwort">Passwort</string>
+    <string name="PWWH">Passwort nommol</string>
+    <string name="logcheckbutton">Bestätigen</string>
+    <string name="title_activity_register">Nei omeln</string>
+    <string name="register">Bin nei do</string>
+    <string name="blank"></string>
+    <string name="greetings">Des is de bayrische Version</string>
+    <string name="greetings2">von 4 gwinnt. Vui Spaß</string>
+    <string name="greetings3">" wünscht des Entwickler-Team"</string>
+    <string name="restart">Nei ofanga</string>
+    <string name="title_activity_overview">Overview</string>
+    <string name="search">Freind suacha</string>
+    <string name="outstandinggames">De Spui san offa:</string>
+    <string name="simplegame">"Spui afm Delefon "</string>
 
 </resources>

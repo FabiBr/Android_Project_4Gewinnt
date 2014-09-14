@@ -1,0 +1,585 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:gravity="center"
+            android:text="Grod spule gegan:" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Hansl" />
+    </LinearLayout>
+
+    <TableRow android:background="@color/blue" >
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow01"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow02"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow03"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow04"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow05"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow06"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow11"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow12"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow13"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow14"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow15"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow16"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow21"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow22"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow23"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow24"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow25"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow26"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow31"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow32"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow33"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow34"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow35"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow36"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow41"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow42"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow43"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow44"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow45"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow46"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow61"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow62"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow63"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow64"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow65"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow66"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.10"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TableRow71"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow72"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow73"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow74"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow75"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TableRow76"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/question_mark"
+                android:visibility="visible" />
+        </LinearLayout>
+    </TableRow>
+
+    <RelativeLayout>
+
+        <Button
+            android:id="@+id/Button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/black"
+            android:gravity="center"
+            android:text="@string/restart"
+            android:textColor="@color/red"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</TableLayout>
+
