@@ -117,6 +117,7 @@ public class GameActivity extends Activity {
 	}
 
 	private boolean wincheck(int bottom, int rownumber) {
+
 		if (vcheck(bottom, rownumber) || hcheck(bottom, rownumber)
 				|| dcheck(bottom, rownumber))
 			return true;
@@ -160,27 +161,37 @@ public class GameActivity extends Activity {
 			}
 		}
 		// for second stone
-		if (rownumber <= 4 && bottom >= 2) {
+		
 			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber - 1]
 					&& playfield[bottom][rownumber] == playfield[bottom - 1][rownumber + 1]
 					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber + 2]) {
 				return true;
 			}
-		}
+			if (playfield[bottom][rownumber] == playfield[bottom -1][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]
+					&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber + 2]) {
+				return true;
+			}
+		
 		// for third stone
-		if (rownumber >= 2 && bottom <= 3) {
+		
 			if (playfield[bottom][rownumber] == playfield[bottom - 2][rownumber - 2]
 					&& playfield[bottom][rownumber] == playfield[bottom - 1][rownumber - 1]
 					&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]) {
 				return true;
 			}
-		}
+			if (playfield[bottom][rownumber] == playfield[bottom +2][rownumber - 2]
+					&& playfield[bottom][rownumber] == playfield[bottom +1][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom -1][rownumber + 1]) {
+				return true;
+			}
+		
 		return false;
 	}
 
 	private boolean hcheck(int bottom, int rownumber) {
 		// horizontal check
-		if (rownumber < 4) {
+		if (rownumber <= 3) {
 			// first stone
 			if (playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]
@@ -188,7 +199,7 @@ public class GameActivity extends Activity {
 				return true;
 			}
 		}
-		if (rownumber >= 4) {
+		if (rownumber >= 3) {
 			// last stone
 			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
 					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
@@ -196,14 +207,7 @@ public class GameActivity extends Activity {
 				return true;
 			}
 		}
-		if (rownumber <= 5) {
-			// third stone
-			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]) {
-				return true;
-			}
-		}
+
 		if (rownumber != 0) {
 			// second stone
 			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
@@ -212,10 +216,13 @@ public class GameActivity extends Activity {
 				return true;
 			}
 		}
-		if (playfield[bottom][1] == playfield[bottom][0]
-				&& playfield[bottom][1] == playfield[bottom][2]
-				&& playfield[bottom][1] == playfield[bottom][3]) {
-			return true;
+		if (rownumber != 6) {
+			// third stone
+			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
+					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]) {
+				return true;
+			}
 		}
 
 		return false;
@@ -225,8 +232,8 @@ public class GameActivity extends Activity {
 		// vertical check
 		if (bottom < 3
 				&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber]
-				&& playfield[bottom + 1][rownumber] == playfield[bottom + 2][rownumber]
-				&& playfield[bottom + 2][rownumber] == playfield[bottom + 3][rownumber])
+				&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber]
+				&& playfield[bottom][rownumber] == playfield[bottom + 3][rownumber])
 			return true;
 		return false;
 	}
