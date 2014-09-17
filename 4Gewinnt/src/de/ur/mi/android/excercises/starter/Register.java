@@ -25,6 +25,8 @@ public class Register extends Activity {
 	// beim testen mit virtual device einfach localhost verwenden
 	private static final String SERVER_IP = null;
 	private static final int SERVERPORT = 4444;
+	
+	private MyProtocol  myP = new MyProtocol();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +40,7 @@ public class Register extends Activity {
 			public void onClick(View v) {
 				try {
 					if (checkPassword()) {
-						try {
-							EditText username = (EditText) findViewById(R.id.editText1);
-							EditText password = (EditText) findViewById(R.id.editText2);
-							String name = username.getText().toString();
-							String pw = password.getText().toString();
-
-							PrintWriter out = new PrintWriter(
-									new BufferedWriter(new OutputStreamWriter(
-											socket.getOutputStream())), true);
-							out.println(name + " ," + pw);
-							out.flush();
-
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
+						sendData();
 						startActivity(new Intent(Register.this, Overview.class));
 					} else
 						Toast.makeText(Register.this,
@@ -83,6 +66,30 @@ public class Register extends Activity {
 		if (s_pw.equals(s_pwwh))
 			return true;
 		return false;
+	}
+	
+	private void sendData() {
+		
+		try {
+			EditText username = (EditText) findViewById(R.id.editText1);
+			EditText password = (EditText) findViewById(R.id.editText2);
+			String name = username.getText().toString();
+			String pw = password.getText().toString();
+			String output = myP.newUserDataOutput(name, pw);
+
+			PrintWriter out = new PrintWriter(
+					new BufferedWriter(new OutputStreamWriter(
+							socket.getOutputStream())), true);
+			out.println(output);
+			out.flush();
+
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	class ClientThread implements Runnable {
