@@ -18,7 +18,9 @@ import android.widget.TextView;
 public class GameActivity extends Activity {
 	TableLayout myLayout;
 	SparseIntArray rowsIDs = new SparseIntArray();
-	int[][] playfield = new int[6][7];
+	//int[][] playfield = new int[6][7];
+	int[][] playfield;
+	Field Field = new Field();
 	int playernumber = 1;
 	Field field;
 
@@ -74,7 +76,8 @@ public class GameActivity extends Activity {
 					setContentView(R.layout.game);
 					try {
 						textviewrun();
-						playfield = new int[6][7];
+						Field = new Field();
+						playfield = Field.getField();
 						playernumber = 1;
 
 					} catch (Exception e) {
@@ -118,7 +121,7 @@ public class GameActivity extends Activity {
 			row.getChildAt(bottom).setBackgroundColor(Color.RED);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
-			playfield[bottom][rownumber] = 1;
+			Field.setField(bottom, rownumber, 1);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
@@ -127,7 +130,7 @@ public class GameActivity extends Activity {
 			row.getChildAt(bottom).setBackgroundColor(Color.BLUE);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
-			playfield[bottom][rownumber] = 2;
+			Field.setField(bottom, rownumber, 2);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
@@ -150,59 +153,59 @@ public class GameActivity extends Activity {
 		// for first and last stone
 		if (rownumber <= 3 && bottom > 2) {
 			// first quater
-			if (playfield[bottom][rownumber] == playfield[bottom - 1][rownumber + 1]
-					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber + 2]
-					&& playfield[bottom][rownumber] == playfield[bottom - 3][rownumber + 3]) {
+			if (Field.getField(bottom, rownumber)==Field.getField(bottom-1, rownumber+1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom-2, rownumber+2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom-3, rownumber+3)) {
 				return true;
 			}
 		}
 		if (rownumber <= 3 && bottom <= 2) {
 			// second quater
-			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]
-					&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber + 2]
-					&& playfield[bottom][rownumber] == playfield[bottom + 3][rownumber + 3]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber+1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber+2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+3, rownumber+3)) {
 				return true;
 			}
 		}
 		if (rownumber >= 3 && bottom > 2) {
 			// third quater
-			if (playfield[bottom][rownumber] == playfield[bottom - 1][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom - 3][rownumber - 3]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber-1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom-2, rownumber-2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom-3, rownumber-3)) {
 				return true;
 			}
 		}
 		if (rownumber >= 3 && bottom <= 2) {
 			// forth quater
-			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom + 3][rownumber - 3]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber-1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber-2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+3, rownumber-3)) {
 				return true;
 			}
 		}
 		// for second stone
 		
-			if (playfield[bottom][rownumber] == playfield[bottom + 1][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom - 1][rownumber + 1]
-					&& playfield[bottom][rownumber] == playfield[bottom - 2][rownumber + 2]) {
+			if (Field.getField(bottom, rownumber) == playfield[bottom + 1][rownumber - 1]
+					&& Field.getField(bottom, rownumber) == playfield[bottom - 1][rownumber + 1]
+					&& Field.getField(bottom, rownumber) == playfield[bottom - 2][rownumber + 2]) {
 				return true;
 			}
-			if (playfield[bottom][rownumber] == playfield[bottom -1][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]
-					&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber + 2]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber-1)
+					&&Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber+1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber+2)) {
 				return true;
 			}
 		
 		// for third stone
 		
-			if (playfield[bottom][rownumber] == playfield[bottom - 2][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom - 1][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber + 1]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom-2, rownumber-2)
+					&&Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber-1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber+1)) {
 				return true;
 			}
-			if (playfield[bottom][rownumber] == playfield[bottom +2][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom +1][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom -1][rownumber + 1]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber-2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber-1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber+1)) {
 				return true;
 			}
 		
@@ -213,37 +216,37 @@ public class GameActivity extends Activity {
 		// horizontal check
 		if (rownumber <= 3) {
 			// first stone
-			if (playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 3]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+3)) {
 				return true;
 			}
 		}
 		if (rownumber >= 3) {
 			// last stone
-			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 3]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-1)
+					&&Field.getField(bottom, rownumber)== Field.getField(bottom, rownumber-2)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-3)) {
 				return true;
 			}
 		}
 
-		if (rownumber != 0) {
+		//if (rownumber != 0) {
 			// second stone
-			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 2]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-1)
+					&&Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+1)
+					&&Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+2)) {
 				return true;
 			}
-		}
-		if (rownumber != 6) {
+		//}
+		//if (rownumber != 6) {
 			// third stone
-			if (playfield[bottom][rownumber] == playfield[bottom][rownumber - 2]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber - 1]
-					&& playfield[bottom][rownumber] == playfield[bottom][rownumber + 1]) {
+			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-2)
+					&& Field.getField(bottom, rownumber) ==Field.getField(bottom, rownumber-1)
+					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+1) ){
 				return true;
 			}
-		}
+		//}
 
 		return false;
 	}
@@ -251,16 +254,16 @@ public class GameActivity extends Activity {
 	private boolean vcheck(int bottom, int rownumber) {
 		// vertical check
 		if (bottom < 3
-				&& playfield[bottom][rownumber] == playfield[bottom + 1][rownumber]
-				&& playfield[bottom][rownumber] == playfield[bottom + 2][rownumber]
-				&& playfield[bottom][rownumber] == playfield[bottom + 3][rownumber])
+				&& Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber)
+				&& Field.getField(bottom, rownumber)== Field.getField(bottom+2, rownumber)
+				&& Field.getField(bottom, rownumber) == Field.getField(bottom+3, rownumber))
 			return true;
 		return false;
 	}
 
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
-			int checknum = playfield[i][rownumber];
+			int checknum = Field.getField(i, rownumber);
 			if (checknum != 1 && checknum != 2) {
 				return i;
 			}
