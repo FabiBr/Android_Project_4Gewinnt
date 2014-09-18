@@ -4,10 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="1"
     tools:context="de.ur.mi.android.excercises.starter.Overview"
     tools:ignore="MergeRootFrame" >
 
-    <SearchView
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:orientation="vertical" >
+
+            <SearchView
         android:id="@+id/searchView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,18 +28,46 @@
             android:layout_height="wrap_content"
             android:text="@string/search" />
     </SearchView>
+        <Button
+            android:id="@+id/gamestart"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:text="@string/simplegame" />
 
-    <Button
-        android:id="@+id/gamestart"
+        <TextView
+            android:id="@+id/currentPlayers"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:text="@string/currentplayers" >
+        </TextView>
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
+
+        <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
-        android:text="@string/simplegame" />
+        android:layout_weight="0.4"
+        android:orientation="vertical" >
+    <TextView
+        android:id="@+id/alreadyplayed"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:text="@string/alreadyplayed" >
+    </TextView>
 
-    <ExpandableListView
-        android:id="@+id/expandableListView1"
+    <ListView
+        android:id="@+id/listView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ExpandableListView>
+        android:layout_height="wrap_content">
+    </ListView>
+      </LinearLayout>
 
 </LinearLayout>
