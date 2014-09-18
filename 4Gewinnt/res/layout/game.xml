@@ -9,25 +9,29 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:layout_weight="0.05">
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/green"
             android:gravity="center"
-            android:text="Grod spule gegan:" />
+            android:text="Grod spuit da:" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Hansl" />
+            android:text="Hansl Oans" />
     </LinearLayout>
 
-    <TableRow android:background="@color/blue" >
+    <TableRow android:background="@color/blue" 
+        android:layout_weight="0.75"
+        android:weightSum="0.7">
 
         <LinearLayout
+            android:layout_height="fill_parent"
             android:layout_weight="0.10"
             android:orientation="vertical" >
 
@@ -106,6 +110,7 @@
 
         <LinearLayout
             android:layout_weight="0.10"
+            android:layout_height="fill_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -183,6 +188,7 @@
 
         <LinearLayout
             android:layout_weight="0.10"
+            android:layout_height="fill_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -260,6 +266,7 @@
 
         <LinearLayout
             android:layout_weight="0.10"
+            android:layout_height="fill_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -337,6 +344,7 @@
 
         <LinearLayout
             android:layout_weight="0.10"
+            android:layout_height="fill_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -414,6 +422,7 @@
 
         <LinearLayout
             android:layout_weight="0.10"
+            android:layout_height="fill_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -491,6 +500,7 @@
 
         <LinearLayout
             android:layout_weight="0.10"
+            android:layout_height="fill_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -567,7 +577,8 @@
         </LinearLayout>
     </TableRow>
 
-    <RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="0.2">
 
         <Button
             android:id="@+id/Button"
@@ -579,6 +590,16 @@
             android:text="@string/restart"
             android:textColor="@color/red"
             android:visibility="visible" />
+                <Button
+            android:id="@+id/Mainmenue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/black"
+            android:gravity="center"
+            android:text="@string/restart"
+            android:textColor="@color/red"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </TableLayout>
