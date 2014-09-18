@@ -3,11 +3,11 @@ package de.ur.mi.android.excercises.starter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.graphics.Color;
-
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -91,8 +91,9 @@ public class GameActivity extends Activity {
 		if (bottom < 6) {
 			setstones(bottom, rownumber, row);
 			if (playernumber == 0) {
-				((ViewGroup) myLayout.getChildAt(2)).getChildAt(0)
-						.setBackgroundColor(Color.GREEN);
+				Button button = (Button)findViewById(R.id.Button);
+				button.setText("Gwunna! Nummol?");
+				button.setBackgroundColor(getResources().getColor(R.color.green));
 			}
 		}
 	}

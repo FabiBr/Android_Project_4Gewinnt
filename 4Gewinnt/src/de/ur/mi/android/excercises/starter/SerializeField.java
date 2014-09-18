@@ -2,7 +2,7 @@ package de.ur.mi.android.excercises.starter;
 
 import java.io.*;
 
-public class Serialize {
+public class SerializeField {
 
 	public static void main(String[] args){
 

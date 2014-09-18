@@ -2,7 +2,7 @@ package de.ur.mi.android.excercises.starter;
 
 import java.io.*;
 
-public class Deserialize {
+public class DeserializeField {
 	
 	public static void main(String[] args){
 
