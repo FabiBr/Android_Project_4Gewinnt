@@ -27,5 +27,7 @@
     <string name="mainmenuegamebutton">Startbuldschiam</string>
     <string name="currentplayers">Gega de spuist eiz grod</string>
     <string name="alreadyplayed">Gega de host scho amoi gspuit</string>
+    <string name="hansl1">Hansl Oans</string>
+    <string name="hansl2">Hansl Zwoa</string>
 
 </resources>

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 public class Register extends Activity {
 	Socket socket = null;
+	public String name;
 
 	// zum Testen: Server Main() einfach in Eclipse laugen lassen. Beim debuggen
 	// mit echtem gerät bei Server IP die eignene IP eingeben console ->
@@ -53,15 +54,14 @@ public class Register extends Activity {
 	}
 
 	private boolean checkPassword() {
-		String s_name, s_pw, s_pwwh;
+		String s_name = null, s_pw, s_pwwh;
 		EditText name = (EditText) findViewById(R.id.editText1);
 		EditText pw = (EditText) findViewById(R.id.editText2);
 		EditText pwwh = (EditText) findViewById(R.id.editText3);
 		s_name = name.getText().toString();
 		s_pw = pw.getText().toString();
 		s_pwwh = pwwh.getText().toString();
-		System.out.println(s_pw);
-		System.out.println(s_pwwh);
+		if(s_name != null)this.name = s_name;
 		// TODO: in Datenbank speichern
 		if (s_pw.equals(s_pwwh))
 			return true;

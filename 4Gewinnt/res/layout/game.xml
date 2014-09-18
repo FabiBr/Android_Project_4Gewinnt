@@ -20,10 +20,11 @@
             android:text="Grod spuit da:" />
 
         <TextView
+            android:id="@+id/iscurrentlyplaying"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Hansl Oans" />
+            android:text="@string/hansl1" />
     </LinearLayout>
 
     <TableRow

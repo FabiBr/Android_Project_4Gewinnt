@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class GameActivity extends Activity {
 	TableLayout myLayout;
@@ -112,20 +113,25 @@ public class GameActivity extends Activity {
 	}
 
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
+		TextView player = ((TextView)findViewById(R.id.iscurrentlyplaying));
 		if (playernumber == 1) {
 			row.getChildAt(bottom).setBackgroundColor(Color.RED);
 			playernumber = 2;
+			player.setText(R.string.hansl2);
 			playfield[bottom][rownumber] = 1;
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
+			
 		} else if (playernumber == 2) {
 			row.getChildAt(bottom).setBackgroundColor(Color.BLUE);
 			playernumber = 1;
+			player.setText(R.string.hansl1);
 			playfield[bottom][rownumber] = 2;
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
+			
 		} else {
 		}
 	}
