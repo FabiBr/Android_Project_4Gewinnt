@@ -1,6 +1,7 @@
 package de.ur.mi.android.excercises.starter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.util.SparseIntArray;
@@ -65,9 +66,8 @@ public class GameActivity extends Activity {
 		}
 
 		// Button Click Listener
-		final RelativeLayout buttonlay = (RelativeLayout) myLayout
-				.getChildAt(2);
-		buttonlay.getChildAt(0).setOnClickListener(new OnClickListener() {
+
+		((Button)findViewById(R.id.Button)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				try {
 					setContentView(R.layout.game);
@@ -75,6 +75,19 @@ public class GameActivity extends Activity {
 						textviewrun();
 						playfield = new int[6][7];
 						playernumber = 1;
+
+					} catch (Exception e) {
+					}
+				} catch (Exception e) {
+				}
+			}
+		});
+		((Button)findViewById(R.id.Mainmenue)).setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				try {
+					setContentView(R.layout.game);
+					try {
+						startActivity(new Intent(GameActivity.this, MainActivity.class));
 
 					} catch (Exception e) {
 					}

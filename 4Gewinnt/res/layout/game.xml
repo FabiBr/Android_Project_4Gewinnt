@@ -1,16 +1,16 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" 
-        android:layout_weight="0.05">
+        android:layout_weight="0.05"
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="fill_parent"
@@ -26,9 +26,10 @@
             android:text="Hansl Oans" />
     </LinearLayout>
 
-    <TableRow android:background="@color/blue" 
+    <TableRow
         android:layout_weight="0.75"
-        android:weightSum="0.7">
+        android:background="@color/blue"
+        android:weightSum="0.7" >
 
         <LinearLayout
             android:layout_height="fill_parent"
@@ -109,8 +110,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.10"
             android:layout_height="fill_parent"
+            android:layout_weight="0.10"
             android:orientation="vertical" >
 
             <TextView
@@ -187,8 +188,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.10"
             android:layout_height="fill_parent"
+            android:layout_weight="0.10"
             android:orientation="vertical" >
 
             <TextView
@@ -265,8 +266,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.10"
             android:layout_height="fill_parent"
+            android:layout_weight="0.10"
             android:orientation="vertical" >
 
             <TextView
@@ -343,8 +344,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.10"
             android:layout_height="fill_parent"
+            android:layout_weight="0.10"
             android:orientation="vertical" >
 
             <TextView
@@ -421,8 +422,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.10"
             android:layout_height="fill_parent"
+            android:layout_weight="0.10"
             android:orientation="vertical" >
 
             <TextView
@@ -499,8 +500,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.10"
             android:layout_height="fill_parent"
+            android:layout_weight="0.10"
             android:orientation="vertical" >
 
             <TextView
@@ -578,7 +579,10 @@
     </TableRow>
 
     <RelativeLayout
-        android:layout_weight="0.2">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/Button"
@@ -590,17 +594,23 @@
             android:text="@string/restart"
             android:textColor="@color/red"
             android:visibility="visible" />
-                <Button
+    </RelativeLayout>
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:orientation="vertical" >
+
+        <Button
             android:id="@+id/Mainmenue"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@color/black"
+            android:background="@color/grey"
             android:gravity="center"
-            android:text="@string/restart"
-            android:textColor="@color/red"
-            android:visibility="invisible" />
+            android:text="@string/mainmenuegamebutton"
+            android:textColor="@color/black"
+            android:visibility="visible" />
     </RelativeLayout>
 
 </TableLayout>
-
