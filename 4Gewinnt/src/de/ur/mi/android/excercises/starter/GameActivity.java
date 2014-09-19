@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -18,7 +20,7 @@ import android.widget.TextView;
 public class GameActivity extends Activity {
 	TableLayout myLayout;
 	SparseIntArray rowsIDs = new SparseIntArray();
-	//int[][] playfield = new int[6][7];
+	// int[][] playfield = new int[6][7];
 	int[][] playfield;
 	Field Field = new Field();
 	int playernumber = 1;
@@ -58,8 +60,6 @@ public class GameActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						try {
-							System.out.println("rownumber " + rownumber
-									+ " clicked");
 							clicklistener(row, rownumber);
 						} catch (Exception e) {
 						}
@@ -70,77 +70,82 @@ public class GameActivity extends Activity {
 
 		// Button Click Listener
 
-		((Button)findViewById(R.id.Button)).setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				try {
-					setContentView(R.layout.game);
-					try {
-						textviewrun();
-						Field = new Field();
-						playfield = Field.getField();
-						playernumber = 1;
+		((Button) findViewById(R.id.Button))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						try {
+							setContentView(R.layout.game);
+							try {
+								textviewrun();
+								Field = new Field();
+								playfield = Field.getField();
+								playernumber = 1;
 
-					} catch (Exception e) {
+							} catch (Exception e) {
+							}
+						} catch (Exception e) {
+						}
 					}
-				} catch (Exception e) {
-				}
-			}
-		});
-		((Button)findViewById(R.id.Mainmenue)).setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				try {
-					setContentView(R.layout.game);
-					try {
-						startActivity(new Intent(GameActivity.this, MainActivity.class));
+				});
+		((Button) findViewById(R.id.Mainmenue))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						try {
+							setContentView(R.layout.game);
+							try {
+								startActivity(new Intent(GameActivity.this,
+										MainActivity.class));
 
-					} catch (Exception e) {
+							} catch (Exception e) {
+							}
+						} catch (Exception e) {
+						}
 					}
-				} catch (Exception e) {
-				}
-			}
-		});
+				});
 	}
 
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausf�hren
-
 		int bottom = nextfree(rownumber);
 		if (bottom < 6) {
 			setstones(bottom, rownumber, row);
 			if (playernumber == 0) {
-				Button button = (Button)findViewById(R.id.Button);
+				Button button = (Button) findViewById(R.id.Button);
 				button.setText("Gwunna! Nummol?");
-				button.setBackgroundColor(getResources().getColor(R.color.green));
+				button.setBackgroundColor(getResources()
+						.getColor(R.color.green));
 			}
 		}
 	}
 
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
-		TextView player = ((TextView)findViewById(R.id.iscurrentlyplaying));
+		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
+		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		if (playernumber == 1) {
-			row.getChildAt(bottom).setBackgroundColor(Color.RED);
+			bottomstone.setBackgroundColor(Color.RED);
+			// bottomstone.setImageDrawable(getResources().getDrawable(R.drawable.rot));
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
-			
+
 		} else if (playernumber == 2) {
-			row.getChildAt(bottom).setBackgroundColor(Color.BLUE);
+			bottomstone.setBackgroundColor(Color.BLUE);
+			// row.getChildAt(bottom).setBackgroundResource(R.drawable.blau);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
-			
+
 		} else {
 		}
 	}
 
 	private boolean wincheck(int bottom, int rownumber) {
-
 		if (vcheck(bottom, rownumber) || hcheck(bottom, rownumber)
 				|| dcheck(bottom, rownumber))
 			return true;
@@ -149,114 +154,53 @@ public class GameActivity extends Activity {
 	}
 
 	private boolean dcheck(int bottom, int rownumber) {
-		// diagonal check
-		// for first and last stone
-		if (rownumber <= 3 && bottom > 2) {
-			// first quater
-			if (Field.getField(bottom, rownumber)==Field.getField(bottom-1, rownumber+1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom-2, rownumber+2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom-3, rownumber+3)) {
-				return true;
+
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 6; j++) {
+				if (Field.getField(j, i) != 0
+						&& Field.getField(j, i) == Field.getField(j-1, i + 1)
+						&& Field.getField(j, i) == Field.getField(j - 2, i + 2)
+						&& Field.getField(j, i) == Field.getField(j - 3, i + 3))
+					return true;
+
 			}
 		}
-		if (rownumber <= 3 && bottom <= 2) {
-			// second quater
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber+1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber+2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+3, rownumber+3)) {
-				return true;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 6; j++) {
+				if (Field.getField(j, i) != 0
+						&& Field.getField(j, i) == Field.getField(j + 1, i - 1)
+						&& Field.getField(j, i) == Field.getField(j + 2, i - 2)
+						&& Field.getField(j, i) == Field.getField(j + 3, i - 3))
+					return true;
+
 			}
 		}
-		if (rownumber >= 3 && bottom > 2) {
-			// third quater
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber-1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom-2, rownumber-2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom-3, rownumber-3)) {
-				return true;
-			}
-		}
-		if (rownumber >= 3 && bottom <= 2) {
-			// forth quater
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber-1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber-2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+3, rownumber-3)) {
-				return true;
-			}
-		}
-		// for second stone
-		
-			if (Field.getField(bottom, rownumber) == playfield[bottom + 1][rownumber - 1]
-					&& Field.getField(bottom, rownumber) == playfield[bottom - 1][rownumber + 1]
-					&& Field.getField(bottom, rownumber) == playfield[bottom - 2][rownumber + 2]) {
-				return true;
-			}
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber-1)
-					&&Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber+1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber+2)) {
-				return true;
-			}
-		
-		// for third stone
-		
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom-2, rownumber-2)
-					&&Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber-1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber+1)) {
-				return true;
-			}
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom+2, rownumber-2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber-1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom-1, rownumber+1)) {
-				return true;
-			}
-		
 		return false;
 	}
 
 	private boolean hcheck(int bottom, int rownumber) {
-		// horizontal check
-		if (rownumber <= 3) {
-			// first stone
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+3)) {
-				return true;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 6; j++) {
+				if (Field.getField(j, i) != 0
+						&& Field.getField(j, i) == Field.getField(j, i + 1)
+						&& Field.getField(j, i) == Field.getField(j, i + 2)
+						&& Field.getField(j, i) == Field.getField(j, i + 3))
+					return true;
+
 			}
 		}
-		if (rownumber >= 3) {
-			// last stone
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-1)
-					&&Field.getField(bottom, rownumber)== Field.getField(bottom, rownumber-2)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-3)) {
-				return true;
-			}
-		}
-
-		//if (rownumber != 0) {
-			// second stone
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-1)
-					&&Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+1)
-					&&Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+2)) {
-				return true;
-			}
-		//}
-		//if (rownumber != 6) {
-			// third stone
-			if (Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber-2)
-					&& Field.getField(bottom, rownumber) ==Field.getField(bottom, rownumber-1)
-					&& Field.getField(bottom, rownumber) == Field.getField(bottom, rownumber+1) ){
-				return true;
-			}
-		//}
-
 		return false;
 	}
 
 	private boolean vcheck(int bottom, int rownumber) {
 		// vertical check
 		if (bottom < 3
-				&& Field.getField(bottom, rownumber) == Field.getField(bottom+1, rownumber)
-				&& Field.getField(bottom, rownumber)== Field.getField(bottom+2, rownumber)
-				&& Field.getField(bottom, rownumber) == Field.getField(bottom+3, rownumber))
+				&& Field.getField(bottom, rownumber) == Field.getField(
+						bottom + 1, rownumber)
+				&& Field.getField(bottom, rownumber) == Field.getField(
+						bottom + 2, rownumber)
+				&& Field.getField(bottom, rownumber) == Field.getField(
+						bottom + 3, rownumber))
 			return true;
 		return false;
 	}
