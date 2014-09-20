@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
 		super.onCreate(savedInstanceState);

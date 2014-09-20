@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class Register extends Activity {
 	Socket socket = null;
 	public String name;
+	private GameDB db;
 
 	// zum Testen: Server Main() einfach in Eclipse laugen lassen. Beim debuggen
 	// mit echtem gerät bei Server IP die eignene IP eingeben console ->
@@ -33,6 +34,8 @@ public class Register extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		DatabaseState state = ((DatabaseState) getApplicationContext());
+		db = state.getDb();
 		new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.regcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
@@ -41,6 +44,7 @@ public class Register extends Activity {
 			public void onClick(View v) {
 				try {
 					if (checkPassword()) {
+						safeDataLocal();
 						sendData();
 						startActivity(new Intent(Register.this, Overview.class));
 					} else
@@ -90,6 +94,15 @@ public class Register extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void safeDataLocal() {
+		EditText username = (EditText) findViewById(R.id.editText1);
+		EditText password = (EditText) findViewById(R.id.editText2);
+		String name = username.getText().toString();
+		String pw = password.getText().toString();
+		User me = new User(1, name, pw, 0, 0, 0);
+		db.addUser(me);
 	}
 
 	class ClientThread implements Runnable {
