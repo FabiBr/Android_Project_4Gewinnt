@@ -1,7 +1,9 @@
 package de.ur.mi.android.excercises.starter;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -9,6 +11,7 @@ import java.net.UnknownHostException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,10 +28,10 @@ public class Register extends Activity {
 	// mit echtem gerät bei Server IP die eignene IP eingeben console ->
 	// ipconfig
 	// beim testen mit virtual device einfach localhost verwenden
-	private static final String SERVER_IP = null;
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
-	
-	private MyProtocol  myP = new MyProtocol();
+
+	private MyProtocol myP = new MyProtocol();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,9 @@ public class Register extends Activity {
 			public void onClick(View v) {
 				try {
 					if (checkPassword()) {
-						safeDataLocal();
+						// safeDataLocal();
 						sendData();
+						new CallbackHandler().execute(socket);
 						startActivity(new Intent(Register.this, Overview.class));
 					} else
 						Toast.makeText(Register.this,
@@ -65,15 +69,16 @@ public class Register extends Activity {
 		s_name = name.getText().toString();
 		s_pw = pw.getText().toString();
 		s_pwwh = pwwh.getText().toString();
-		if(s_name != null)this.name = s_name;
+		if (s_name != null)
+			this.name = s_name;
 		// TODO: in Datenbank speichern
 		if (s_pw.equals(s_pwwh))
 			return true;
 		return false;
 	}
-	
+
 	private void sendData() {
-		
+
 		try {
 			EditText username = (EditText) findViewById(R.id.editText1);
 			EditText password = (EditText) findViewById(R.id.editText2);
@@ -81,12 +86,10 @@ public class Register extends Activity {
 			String pw = password.getText().toString();
 			String output = myP.newUserDataOutput(name, pw);
 
-			PrintWriter out = new PrintWriter(
-					new BufferedWriter(new OutputStreamWriter(
-							socket.getOutputStream())), true);
+			PrintWriter out = new PrintWriter(new BufferedWriter(
+					new OutputStreamWriter(socket.getOutputStream())), true);
 			out.println(output);
 			out.flush();
-
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -95,7 +98,7 @@ public class Register extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void safeDataLocal() {
 		EditText username = (EditText) findViewById(R.id.editText1);
 		EditText password = (EditText) findViewById(R.id.editText2);
@@ -103,6 +106,33 @@ public class Register extends Activity {
 		String pw = password.getText().toString();
 		User me = new User(1, name, pw, 0, 0, 0);
 		db.addUser(me);
+	}
+
+	private class CallbackHandler extends AsyncTask<Socket, Void, String> {
+		private BufferedReader input;
+
+		@Override
+		protected String doInBackground(Socket... params) {
+			Socket socket = params[0];
+			try {
+				input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				String read = input.readLine();
+				return read;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			Toast.makeText(Register.this,
+					result,
+					Toast.LENGTH_LONG).show();
+			super.onPostExecute(result);
+		}
 	}
 
 	class ClientThread implements Runnable {
