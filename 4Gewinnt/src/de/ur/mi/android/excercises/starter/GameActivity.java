@@ -125,7 +125,9 @@ public class GameActivity extends Activity {
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		if (playernumber == 1) {
 			bottomstone.setBackgroundColor(Color.RED);
-			bottomstone.setBackgroundResource(R.drawable.rot);
+			//bottomstone.setBackgroundResource(0);
+			//bottomstone.setBackground(getResources().getDrawable(
+             //       R.drawable.rot));
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
