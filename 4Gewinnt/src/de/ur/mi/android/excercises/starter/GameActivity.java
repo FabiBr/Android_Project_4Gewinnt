@@ -2,6 +2,7 @@ package de.ur.mi.android.excercises.starter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameActivity extends Activity {
 	TableLayout myLayout;
@@ -123,54 +125,75 @@ public class GameActivity extends Activity {
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		if (playernumber == 1) {
 			bottomstone.setBackgroundColor(Color.RED);
-			// bottomstone.setImageDrawable(getResources().getDrawable(R.drawable.rot));
+			bottomstone.setBackgroundResource(R.drawable.rot);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
+			if (drawcheck()) {
+				playernumber = 0;
+				Toast.makeText(GameActivity.this, "Unentschieden !!!!!",
+						Toast.LENGTH_LONG).show();
+			}
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundColor(Color.BLUE);
-			// row.getChildAt(bottom).setBackgroundResource(R.drawable.blau);
+			// bottomstone.setBackgroundResource(R.drawable.blau);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
+			if (drawcheck()) {
+				playernumber = 0;
+				Toast.makeText(GameActivity.this, "Unentschieden !!!!!",
+						Toast.LENGTH_LONG).show();
+			}
 
 		} else {
 		}
 	}
 
+	private boolean drawcheck() {
+		for (int i = 0; i < 7; i++) {
+				if (nextfree(i) != -1)
+					return false;
+
+			
+		}
+		return true;
+	}
+
 	private boolean wincheck(int bottom, int rownumber) {
-		if (vcheck(bottom, rownumber) || hcheck(bottom, rownumber)
-				|| dcheck(bottom, rownumber))
+		if (vcheck(bottom, rownumber) || hcheck() || dcheck())
 			return true;
 		return false;
 
 	}
 
-	private boolean dcheck(int bottom, int rownumber) {
-
+	private boolean dcheck() {
+		// diagonal check
+		// down up
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 6; j++) {
 				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j-1, i + 1)
+						&& Field.getField(j, i) == Field.getField(j - 1, i + 1)
 						&& Field.getField(j, i) == Field.getField(j - 2, i + 2)
 						&& Field.getField(j, i) == Field.getField(j - 3, i + 3))
 					return true;
 
 			}
 		}
+		// up down
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 6; j++) {
 				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j + 1, i - 1)
-						&& Field.getField(j, i) == Field.getField(j + 2, i - 2)
-						&& Field.getField(j, i) == Field.getField(j + 3, i - 3))
+						&& Field.getField(j, i) == Field.getField(j + 1, i + 1)
+						&& Field.getField(j, i) == Field.getField(j + 2, i + 2)
+						&& Field.getField(j, i) == Field.getField(j + 3, i + 3))
 					return true;
 
 			}
@@ -178,7 +201,8 @@ public class GameActivity extends Activity {
 		return false;
 	}
 
-	private boolean hcheck(int bottom, int rownumber) {
+	private boolean hcheck() {
+		// horizontal check
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 6; j++) {
 				if (Field.getField(j, i) != 0
