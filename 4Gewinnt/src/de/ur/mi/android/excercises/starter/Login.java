@@ -1,11 +1,19 @@
 package de.ur.mi.android.excercises.starter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import de.ur.mi.android.excercises.starter.Register.ClientThread;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,19 +24,24 @@ import android.widget.Toast;
 public class Login extends Activity {
 
 	Socket socket = null;
-	private static final String SERVER_IP = null;
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
+	private MyProtocol myP = new MyProtocol();
+	private String callback;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.logcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				try {
+					sendData();
+					new CallbackHandler().execute(socket);
 					if (checkUser()) {
 						startActivity(new Intent(Login.this, Overview.class));
 					} else
@@ -43,15 +56,59 @@ public class Login extends Activity {
 		});
 
 	}
+	
+	private void sendData() {
+		try {
+			EditText username = (EditText) findViewById(R.id.editText4);
+			EditText password = (EditText) findViewById(R.id.editText5);
+			String name = username.getText().toString();
+			String pw = password.getText().toString();
+			String output = myP.loginPwCheck(name, pw);
+
+			PrintWriter out = new PrintWriter(new BufferedWriter(
+					new OutputStreamWriter(socket.getOutputStream())), true);
+			out.println(output);
+			out.flush();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	private boolean checkUser() {
-		String s_name, s_pw;
-		EditText name = (EditText) findViewById(R.id.editText4);
-		EditText pw = (EditText) findViewById(R.id.editText5);
-		s_name = name.getText().toString();
-		s_pw = pw.getText().toString();
-		// TODO: aus Datenbank user abrufen
+		if (callback.equals("1")){
+			callback = null;
+			return true;
+		}
 		return false;
+	}
+	
+	private class CallbackHandler extends AsyncTask<Socket, Void, String> {
+		private BufferedReader input;
+
+		@Override
+		protected String doInBackground(Socket... params) {
+			Socket socket = params[0];
+			try {
+				input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				String read = input.readLine();
+				return read;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			callback = result;
+			super.onPostExecute(result);
+		}
 	}
 
 	class ClientThread implements Runnable {

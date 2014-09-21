@@ -47,7 +47,6 @@ public class Register extends Activity {
 			public void onClick(View v) {
 				try {
 					if (checkPassword()) {
-						// safeDataLocal();
 						sendData();
 						new CallbackHandler().execute(socket);
 						startActivity(new Intent(Register.this, Overview.class));
@@ -69,11 +68,11 @@ public class Register extends Activity {
 		s_name = name.getText().toString();
 		s_pw = pw.getText().toString();
 		s_pwwh = pwwh.getText().toString();
-		if (s_name != null)
+		if (s_name != null && s_pw != null &&s_pw.equals(s_pwwh)) {
 			this.name = s_name;
-		// TODO: in Datenbank speichern
-		if (s_pw.equals(s_pwwh))
+			safeDataLocal(s_name, s_pw);
 			return true;
+		}
 		return false;
 	}
 
@@ -99,13 +98,11 @@ public class Register extends Activity {
 		}
 	}
 
-	private void safeDataLocal() {
-		EditText username = (EditText) findViewById(R.id.editText1);
-		EditText password = (EditText) findViewById(R.id.editText2);
-		String name = username.getText().toString();
-		String pw = password.getText().toString();
-		User me = new User(1, name, pw, 0, 0, 0);
+	private void safeDataLocal(String username, String pw) {
+		User me = new User(1, username, pw, 0, 0, 0);
+		db.open();
 		db.addUser(me);
+		db.close();
 	}
 
 	private class CallbackHandler extends AsyncTask<Socket, Void, String> {

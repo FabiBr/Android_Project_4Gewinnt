@@ -2,9 +2,10 @@ package de.ur.mi.android.excercises.starter;
 
 public class MyProtocol {
 	
-	private static String INSERT_NEWUSER_KEY = "newUserInsert";
-	private static String INSERT_GAME_KEY = "newGameInsert";
-	private static String  INCREMENT_USER_WIN_KEY = "userWins";
+	private static final String INSERT_NEWUSER_KEY = "newUserInsert";
+	private static final String INSERT_GAME_KEY = "newGameInsert";
+	private static final String INCREMENT_USER_WIN_KEY = "userWins";
+	private static final String PASSWORD_CHECK_KEY = "checkPw";
 	
 	public MyProtocol() {
 		
@@ -27,6 +28,13 @@ public class MyProtocol {
 		String protocolString = INCREMENT_USER_WIN_KEY + " " + username;
 
 		return protocolString;
+	}
+	
+	public String loginPwCheck(String username, String userPw) {
+		
+		String protocolString = PASSWORD_CHECK_KEY + " " + username + " " + userPw;
+		return protocolString;
+		
 	}
 	
 }
