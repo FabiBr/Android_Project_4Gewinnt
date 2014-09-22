@@ -20,6 +20,7 @@ public class GameActivity extends Activity {
 	Field Field = new Field();
 	int playernumber = 1;
 	Field field;
+	int counter = 0;
 
 	private GameDB db;
 
@@ -126,13 +127,11 @@ public class GameActivity extends Activity {
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
+			counter ++;
+			drawcheck();
+			extrafunction();
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
-			}
-			if (drawcheck()) {
-				playernumber = 0;
-				Toast.makeText(GameActivity.this, "Unentschieden !!!!!",
-						Toast.LENGTH_LONG).show();
 			}
 
 		} else if (playernumber == 2) {
@@ -141,27 +140,31 @@ public class GameActivity extends Activity {
 			playernumber = 1;
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
+			counter++;
+			drawcheck();
+			extrafunction();
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
-			if (drawcheck()) {
-				playernumber = 0;
-				Toast.makeText(GameActivity.this, "Unentschieden !!!!!",
-						Toast.LENGTH_LONG).show();
-			}
+
 
 		} else {
 		}
 	}
 
-	private boolean drawcheck() {
-		for (int i = 0; i < 7; i++) {
-				if (nextfree(i) != -1)
-					return false;
-
-			
+	private void drawcheck() {
+		if (counter == 42) {
+			playernumber = 0;
+			Button button = (Button) findViewById(R.id.Button);
+			button.setText("Unentschieden. Nochmal?");
+			button.setBackgroundColor(getResources()
+					.getColor(R.color.green));
 		}
-		return true;
+	}
+
+	private void extrafunction() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private boolean wincheck(int bottom, int rownumber) {
