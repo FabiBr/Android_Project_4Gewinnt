@@ -2,18 +2,12 @@ package de.ur.mi.android.excercises.starter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -22,7 +16,6 @@ import android.widget.Toast;
 public class GameActivity extends Activity {
 	TableLayout myLayout;
 	SparseIntArray rowsIDs = new SparseIntArray();
-	// int[][] playfield = new int[6][7];
 	int[][] playfield;
 	Field Field = new Field();
 	int playernumber = 1;
@@ -38,6 +31,8 @@ public class GameActivity extends Activity {
 			textviewrun();
 		} catch (Exception e) {
 		}
+		Toast.makeText(GameActivity.this, "Grabsch moi afs spuifoid",
+				Toast.LENGTH_LONG).show();
 
 	}
 
@@ -48,7 +43,7 @@ public class GameActivity extends Activity {
 		System.out.println("Listeners setzen");
 		myLayout = (TableLayout) findViewById(R.id.layout);
 		// playground = spielfeld
-		TableRow playground = (TableRow) myLayout.getChildAt(1); // TODO:
+		TableRow playground = (TableRow) findViewById(R.id.playground); // TODO:
 																	// enthardcoden
 		// TODO: Layout playground als eigenes Layout abspeichern und hier
 		// direkt aufrufen
@@ -123,11 +118,11 @@ public class GameActivity extends Activity {
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
+		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
 		if (playernumber == 1) {
-			bottomstone.setBackgroundColor(Color.RED);
-			//bottomstone.setBackgroundResource(0);
-			//bottomstone.setBackground(getResources().getDrawable(
-             //       R.drawable.rot));
+		
+			bottomstone.setBackgroundResource(R.drawable.rot);
+			playericon.setBackgroundResource(R.drawable.blau);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
@@ -141,8 +136,8 @@ public class GameActivity extends Activity {
 			}
 
 		} else if (playernumber == 2) {
-			bottomstone.setBackgroundColor(Color.BLUE);
-			// bottomstone.setBackgroundResource(R.drawable.blau);
+			bottomstone.setBackgroundResource(R.drawable.blau);
+			playericon.setBackgroundResource(R.drawable.rot);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);

@@ -48,7 +48,7 @@ public class Register extends Activity {
 				try {
 					if (checkPassword()) {
 						sendData();
-						new CallbackHandler().execute(socket);
+						//new CallbackHandler().execute(socket);
 						startActivity(new Intent(Register.this, Overview.class));
 					} else
 						Toast.makeText(Register.this,
