@@ -31,7 +31,7 @@ public class GameActivity extends Activity {
 			textviewrun();
 		} catch (Exception e) {
 		}
-		Toast.makeText(GameActivity.this, "Grabsch moi afs spuifoid",
+		Toast.makeText(GameActivity.this, getText(R.string.gamestart),
 				Toast.LENGTH_LONG).show();
 
 	}

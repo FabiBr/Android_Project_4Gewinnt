@@ -16,7 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/green"
-            android:text="Grod spuit da:" />
+            android:text="@string/actuellplayer" />
     </LinearLayout>
 
     <LinearLayout

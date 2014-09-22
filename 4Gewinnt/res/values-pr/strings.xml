@@ -11,7 +11,7 @@
     <string name="Login">Anmelden</string>
     <string name="Nickname">Nickname</string>
     <string name="Passwort">Passwort</string>
-    <string name="PWWH">Passwort noch einmal</string>
+    <string name="PWWH">Passwort nochmal</string>
     <string name="logcheckbutton">Bestätigen</string>
     <string name="title_activity_register">Neu anmelden</string>
     <string name="register">Bin neu hier</string>
@@ -31,4 +31,6 @@
     <string name="hansl2">Spieler Zwei</string>
     <string name="preus">Preussenversion</string>
     <string name="bavarian">Originalversion</string>
+    <string name="gamestart">Klicke auf ein Feld</string>
+        <string name="actuellplayer">Gerade spielt:</string>
 </resources>

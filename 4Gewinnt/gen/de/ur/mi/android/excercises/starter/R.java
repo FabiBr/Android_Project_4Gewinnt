@@ -140,11 +140,13 @@ public final class R {
         public static final int PWWH=0x7f06000a;
         public static final int Passwort=0x7f060009;
         public static final int action_settings=0x7f060002;
+        public static final int actuellplayer=0x7f06001f;
         public static final int alreadyplayed=0x7f060019;
         public static final int app_name=0x7f060000;
         public static final int bavarian=0x7f06001d;
         public static final int blank=0x7f06000e;
         public static final int currentplayers=0x7f060018;
+        public static final int gamestart=0x7f06001e;
         public static final int greetings=0x7f06000f;
         public static final int greetings2=0x7f060010;
         public static final int greetings3=0x7f060011;
