@@ -23,24 +23,47 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
-        android:orientation="horizontal">
-                <TextView
+        android:orientation="horizontal" >
+
+        <TextView
             android:id="@+id/currentPlayerIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:background="@drawable/bier"
-             android:scaleX="0.5"
-             android:scaleY="0.5"
-            android:gravity="center" />
+            android:background="@drawable/bier"
+            android:gravity="center"
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
 
         <TextView
             android:id="@+id/iscurrentlyplaying"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="@string/hansl1" />
 
+        <TextView
+            android:id="@+id/holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/weiss"
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
 
+        <TextView
+            android:id="@+id/currentextra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Aktuelles Extra:" />
+
+        <TextView
+            android:id="@+id/currentitem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/keinextra"
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
     </LinearLayout>
 
     <TableRow

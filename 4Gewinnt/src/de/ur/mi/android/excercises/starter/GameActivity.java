@@ -38,16 +38,13 @@ public class GameActivity extends Activity {
 	}
 
 	/*
-	 * Erstellt f�r jede Reihe einen Listener
+	 * Erstellt fuer jede Reihe einen Listener
 	 */
 	private void textviewrun() {
 		System.out.println("Listeners setzen");
 		myLayout = (TableLayout) findViewById(R.id.layout);
 		// playground = spielfeld
-		TableRow playground = (TableRow) findViewById(R.id.playground); // TODO:
-																	// enthardcoden
-		// TODO: Layout playground als eigenes Layout abspeichern und hier
-		// direkt aufrufen
+		TableRow playground = (TableRow) findViewById(R.id.playground);
 		for (int i = 0; i < playground.getChildCount(); i++) {
 			// row = jede Reihe im Spielfeld ( 7 St�ck )
 			final LinearLayout row = (LinearLayout) playground.getChildAt(i);
@@ -103,7 +100,7 @@ public class GameActivity extends Activity {
 	}
 
 	protected void clicklistener(LinearLayout row, int rownumber) {
-		// alle Daten von gamecontroller abrufen -> hier ausf�hren
+		// alle Daten von gamecontroller abrufen -> hier ausfuehren
 		int bottom = nextfree(rownumber);
 		if (bottom < 6) {
 			setstones(bottom, rownumber, row);
@@ -116,25 +113,29 @@ public class GameActivity extends Activity {
 		}
 	}
 
+	/*
+	 * Main Method - Setting of all fields
+	 */
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
 		if (playernumber == 1) {
-		
+
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
-			counter ++;
+			counter++;
 			drawcheck();
-			extrafunction();
+			extrafunction(rownumber, row);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
 
 		} else if (playernumber == 2) {
+			extracheck(rownumber);
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
 			playernumber = 1;
@@ -142,31 +143,35 @@ public class GameActivity extends Activity {
 			Field.setField(bottom, rownumber, 2);
 			counter++;
 			drawcheck();
-			extrafunction();
+			extrafunction(rownumber, row);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
-
 
 		} else {
 		}
 	}
 
-	private void drawcheck() {
-		if (counter == 42) {
-			playernumber = 0;
-			Button button = (Button) findViewById(R.id.Button);
-			button.setText("Unentschieden. Nochmal?");
-			button.setBackgroundColor(getResources()
-					.getColor(R.color.green));
+	private void extracheck(int rownumber) {
+		int extracheckfield = nextfree(rownumber);
+		/*if (field.getField(extracheckfield-1, rownumber) == 3) {
+			TextView currentitem = (TextView) findViewById(R.id.currentitem);
+			currentitem.setBackgroundResource(R.drawable.extra);
+		}*/
+	}
+
+	private void extrafunction(int rownumber, LinearLayout row) {
+		int bottom = nextfree(rownumber);
+		if (bottom < 6 && counter % 5 == 0) {
+			//Field.setField(bottom, rownumber, 3);
+			TextView bottomstone = (TextView) row.getChildAt(bottom);
+			bottomstone.setBackgroundResource(R.drawable.extra);
 		}
 	}
 
-	private void extrafunction() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	/*
+	 * Checker for Winning
+	 */
 	private boolean wincheck(int bottom, int rownumber) {
 		if (vcheck(bottom, rownumber) || hcheck() || dcheck())
 			return true;
@@ -229,6 +234,21 @@ public class GameActivity extends Activity {
 		return false;
 	}
 
+	/*
+	 * Checker for Drawing
+	 */
+	private void drawcheck() {
+		if (counter == 42) {
+			playernumber = 0;
+			Button button = (Button) findViewById(R.id.Button);
+			button.setText("Unentschieden. Nochmal?");
+			button.setBackgroundColor(getResources().getColor(R.color.green));
+		}
+	}
+
+	/*
+	 * Checker for next free Field in row
+	 */
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
