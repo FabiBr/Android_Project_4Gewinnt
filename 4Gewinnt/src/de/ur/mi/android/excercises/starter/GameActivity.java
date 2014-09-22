@@ -121,8 +121,8 @@ public class GameActivity extends Activity {
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
 		if (playernumber == 1) {
 		
-			bottomstone.setBackgroundResource(R.drawable.rot);
-			playericon.setBackgroundResource(R.drawable.blau);
+			bottomstone.setBackgroundResource(R.drawable.breze);
+			playericon.setBackgroundResource(R.drawable.bier);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
@@ -136,8 +136,8 @@ public class GameActivity extends Activity {
 			}
 
 		} else if (playernumber == 2) {
-			bottomstone.setBackgroundResource(R.drawable.blau);
-			playericon.setBackgroundResource(R.drawable.rot);
+			bottomstone.setBackgroundResource(R.drawable.bier);
+			playericon.setBackgroundResource(R.drawable.breze);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
