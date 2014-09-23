@@ -33,4 +33,7 @@
     <string name="bavarian">Originalversion</string>
     <string name="gamestart">Grabsch moi afs spuifoid</string>
     <string name="actuellplayer">Grod spuit da:</string>
+    <string name="search_hint">Freund suchen</string>
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+
 </resources>

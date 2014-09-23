@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.4"
         android:orientation="vertical" >
-
         
         <Button
             android:id="@+id/gamestart"
