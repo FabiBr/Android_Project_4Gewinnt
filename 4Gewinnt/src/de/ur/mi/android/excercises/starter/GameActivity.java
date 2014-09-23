@@ -124,12 +124,14 @@ public class GameActivity extends Activity {
 
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
+			System.out.println("bier auf  :"+bottom + " "+rownumber+""+Field.getField(bottom, rownumber)+" "+counter);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
+			extrafunction(bottom, rownumber, row);
 			counter++;
 			drawcheck();
-			extrafunction(rownumber, row);
+
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
@@ -138,12 +140,13 @@ public class GameActivity extends Activity {
 			extracheck(rownumber);
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
+			System.out.println("breze auf  :"+bottom + " "+rownumber+""+Field.getField(bottom, rownumber)+" "+counter);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
+			extrafunction(bottom, rownumber, row);
 			Field.setField(bottom, rownumber, 2);
 			counter++;
 			drawcheck();
-			extrafunction(rownumber, row);
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
 			}
@@ -160,11 +163,10 @@ public class GameActivity extends Activity {
 		}*/
 	}
 
-	private void extrafunction(int rownumber, LinearLayout row) {
-		int bottom = nextfree(rownumber);
-		if (bottom < 6 && counter % 5 == 0) {
-			//Field.setField(bottom, rownumber, 3);
-			TextView bottomstone = (TextView) row.getChildAt(bottom);
+	private void extrafunction(int bottom, int rownumber, LinearLayout row) {
+		if (counter % 5 == 0 && counter > 0 && bottom >0) {
+			//Field.setField(bottom-1, rownumber, 3);
+			TextView bottomstone = (TextView) row.getChildAt(bottom-1);
 			bottomstone.setBackgroundResource(R.drawable.extra);
 		}
 	}
