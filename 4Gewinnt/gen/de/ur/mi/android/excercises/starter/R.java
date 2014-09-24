@@ -40,7 +40,9 @@ public final class R {
         public static final int weiss=0x7f020007;
     }
     public static final class id {
+        public static final int AcceptButton=0x7f0a0051;
         public static final int Button=0x7f0a004d;
+        public static final int DeclineButton=0x7f0a0050;
         public static final int LoginButton=0x7f0a000b;
         public static final int Mainmenue=0x7f0a004e;
         public static final int RegButton=0x7f0a000c;
@@ -86,10 +88,10 @@ public final class R {
         public static final int TableRow74=0x7f0a004a;
         public static final int TableRow75=0x7f0a004b;
         public static final int TableRow76=0x7f0a004c;
-        public static final int action_search=0x7f0a0051;
-        public static final int action_settings=0x7f0a0052;
+        public static final int action_search=0x7f0a0054;
+        public static final int action_settings=0x7f0a0055;
         public static final int alreadyplayed=0x7f0a0011;
-        public static final int childview=0x7f0a004f;
+        public static final int childview=0x7f0a0052;
         public static final int container=0x7f0a0000;
         public static final int currentPlayerIcon=0x7f0a001d;
         public static final int currentPlayers=0x7f0a000f;
@@ -105,20 +107,21 @@ public final class R {
         public static final int iscurrentlyplaying=0x7f0a001e;
         public static final int language=0x7f0a000d;
         public static final int layout=0x7f0a001c;
-        public static final int listView1=0x7f0a0010;
         public static final int listView2=0x7f0a0012;
         public static final int logcheckbutton=0x7f0a0004;
         public static final int loghead=0x7f0a0001;
         public static final int logname=0x7f0a0005;
         public static final int logpw=0x7f0a0006;
         public static final int menu=0x7f0a0007;
-        public static final int parentview=0x7f0a0050;
+        public static final int parentview=0x7f0a0053;
         public static final int playground=0x7f0a0022;
         public static final int regcheckbutton=0x7f0a0017;
         public static final int reghead=0x7f0a0013;
         public static final int regname=0x7f0a0018;
         public static final int regpw1=0x7f0a0019;
         public static final int regpw2=0x7f0a001a;
+        public static final int searchResultList=0x7f0a0010;
+        public static final int startGameText=0x7f0a004f;
         public static final int textView0=0x7f0a0008;
         public static final int textView1=0x7f0a0009;
         public static final int textView2=0x7f0a000a;
@@ -131,8 +134,10 @@ public final class R {
         public static final int activity_register=0x7f030003;
         public static final int activity_search_results=0x7f030004;
         public static final int game=0x7f030005;
-        public static final int overview_child=0x7f030006;
-        public static final int overview_parent=0x7f030007;
+        public static final int my_dialog=0x7f030006;
+        public static final int overview_child=0x7f030007;
+        public static final int overview_parent=0x7f030008;
+        public static final int search_result_list_child=0x7f030009;
     }
     public static final class menu {
         public static final int activity_main_actions=0x7f090000;
