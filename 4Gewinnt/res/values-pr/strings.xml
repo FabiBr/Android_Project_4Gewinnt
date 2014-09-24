@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Vier Gewinnt - Baverian Edition</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="question_mark">""</string>
+    <string name="title_activity_menue">Hauptmenü</string>
+    <string name="title_activity_game">Vier Gewinnt - Baverian Edition</string>
+    <string name="title_activity_login">Anmelden</string>
+    <string name="Login">Anmelden</string>
+    <string name="Nickname">Nickname</string>
+    <string name="Passwort">Passwort</string>
+    <string name="PWWH">Passwort nochmal</string>
+    <string name="logcheckbutton">Bestätigen</string>
+    <string name="title_activity_register">Neu anmelden</string>
+    <string name="register">Bin neu hier</string>
+    <string name="blank"></string>
+    <string name="greetings">Das ist die Version für hoff-</string>
+    <string name="greetings2">nungslose Fälle, viel Spaß!</string>
+    <string name="greetings3">" wünscht das Entwickler-Team"</string>
+    <string name="restart">Neu beginnen</string>
+    <string name="title_activity_overview">Overview</string>
+    <string name="search">Freunde suchen</string>
+    <string name="outstandinggames">Offene Spiele:</string>
+    <string name="simplegame">"Spiel auf dem Telefon "</string>
+    <string name="mainmenuegamebutton">Startbildschirm</string>
+    <string name="currentplayers">Laufende Spiele</string>
+    <string name="alreadyplayed">Vergangene Gegner</string>
+    <string name="hansl1">Spieler Eins</string>
+    <string name="hansl2">Spieler Zwei</string>
+    <string name="preus">Preussenversion</string>
+    <string name="bavarian">Originalversion</string>
+    <string name="gamestart">Klicke auf ein Feld</string>
+        <string name="actuellplayer">Gerade spielt:</string>
+</resources>

@@ -2,18 +2,12 @@ package de.ur.mi.android.excercises.starter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -22,11 +16,11 @@ import android.widget.Toast;
 public class GameActivity extends Activity {
 	TableLayout myLayout;
 	SparseIntArray rowsIDs = new SparseIntArray();
-	// int[][] playfield = new int[6][7];
 	int[][] playfield;
 	Field Field = new Field();
 	int playernumber = 1;
 	Field field;
+	int counter = 0;
 
 	private GameDB db;
 
@@ -38,20 +32,19 @@ public class GameActivity extends Activity {
 			textviewrun();
 		} catch (Exception e) {
 		}
+		Toast.makeText(GameActivity.this, getText(R.string.gamestart),
+				Toast.LENGTH_LONG).show();
 
 	}
 
 	/*
-	 * Erstellt f�r jede Reihe einen Listener
+	 * Erstellt fuer jede Reihe einen Listener
 	 */
 	private void textviewrun() {
 		System.out.println("Listeners setzen");
 		myLayout = (TableLayout) findViewById(R.id.layout);
 		// playground = spielfeld
-		TableRow playground = (TableRow) myLayout.getChildAt(1); // TODO:
-																	// enthardcoden
-		// TODO: Layout playground als eigenes Layout abspeichern und hier
-		// direkt aufrufen
+		TableRow playground = (TableRow) findViewById(R.id.playground);
 		for (int i = 0; i < playground.getChildCount(); i++) {
 			// row = jede Reihe im Spielfeld ( 7 St�ck )
 			final LinearLayout row = (LinearLayout) playground.getChildAt(i);
@@ -107,7 +100,7 @@ public class GameActivity extends Activity {
 	}
 
 	protected void clicklistener(LinearLayout row, int rownumber) {
-		// alle Daten von gamecontroller abrufen -> hier ausf�hren
+		// alle Daten von gamecontroller abrufen -> hier ausfuehren
 		int bottom = nextfree(rownumber);
 		if (bottom < 6) {
 			setstones(bottom, rownumber, row);
@@ -120,55 +113,67 @@ public class GameActivity extends Activity {
 		}
 	}
 
+	/*
+	 * Main Method - Setting of all fields
+	 */
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
+		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
 		if (playernumber == 1) {
-			bottomstone.setBackgroundColor(Color.RED);
-			//bottomstone.setBackgroundResource(0);
-			//bottomstone.setBackground(getResources().getDrawable(
-             //       R.drawable.rot));
+
+			bottomstone.setBackgroundResource(R.drawable.breze);
+			playericon.setBackgroundResource(R.drawable.bier);
+			System.out.println("bier auf  :"+bottom + " "+rownumber+""+Field.getField(bottom, rownumber)+" "+counter);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
+			extrafunction(bottom, rownumber, row);
+			counter++;
+			drawcheck();
+
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
-			}
-			if (drawcheck()) {
-				playernumber = 0;
-				Toast.makeText(GameActivity.this, "Unentschieden !!!!!",
-						Toast.LENGTH_LONG).show();
 			}
 
 		} else if (playernumber == 2) {
-			bottomstone.setBackgroundColor(Color.BLUE);
-			// bottomstone.setBackgroundResource(R.drawable.blau);
+			extracheck(rownumber);
+			bottomstone.setBackgroundResource(R.drawable.bier);
+			playericon.setBackgroundResource(R.drawable.breze);
+			System.out.println("breze auf  :"+bottom + " "+rownumber+""+Field.getField(bottom, rownumber)+" "+counter);
 			playernumber = 1;
 			player.setText(R.string.hansl1);
+			extrafunction(bottom, rownumber, row);
 			Field.setField(bottom, rownumber, 2);
+			counter++;
+			drawcheck();
 			if (wincheck(bottom, rownumber)) {
 				playernumber = 0;
-			}
-			if (drawcheck()) {
-				playernumber = 0;
-				Toast.makeText(GameActivity.this, "Unentschieden !!!!!",
-						Toast.LENGTH_LONG).show();
 			}
 
 		} else {
 		}
 	}
 
-	private boolean drawcheck() {
-		for (int i = 0; i < 7; i++) {
-				if (nextfree(i) != -1)
-					return false;
-
-			
-		}
-		return true;
+	private void extracheck(int rownumber) {
+		int extracheckfield = nextfree(rownumber);
+		/*if (field.getField(extracheckfield-1, rownumber) == 3) {
+			TextView currentitem = (TextView) findViewById(R.id.currentitem);
+			currentitem.setBackgroundResource(R.drawable.extra);
+		}*/
 	}
 
+	private void extrafunction(int bottom, int rownumber, LinearLayout row) {
+		if (counter % 5 == 0 && counter > 0 && bottom >0) {
+			//Field.setField(bottom-1, rownumber, 3);
+			TextView bottomstone = (TextView) row.getChildAt(bottom-1);
+			bottomstone.setBackgroundResource(R.drawable.extra);
+		}
+	}
+
+	/*
+	 * Checker for Winning
+	 */
 	private boolean wincheck(int bottom, int rownumber) {
 		if (vcheck(bottom, rownumber) || hcheck() || dcheck())
 			return true;
@@ -231,6 +236,21 @@ public class GameActivity extends Activity {
 		return false;
 	}
 
+	/*
+	 * Checker for Drawing
+	 */
+	private void drawcheck() {
+		if (counter == 42) {
+			playernumber = 0;
+			Button button = (Button) findViewById(R.id.Button);
+			button.setText("Unentschieden. Nochmal?");
+			button.setBackgroundColor(getResources().getColor(R.color.green));
+		}
+	}
+
+	/*
+	 * Checker for next free Field in row
+	 */
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);

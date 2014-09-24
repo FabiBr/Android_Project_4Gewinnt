@@ -17,12 +17,18 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import java.util.Locale;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 public class MainActivity extends Activity {
 	private static final String SERVER_IP = "192.168.2.103";
@@ -31,6 +37,7 @@ public class MainActivity extends Activity {
 	
 
 
+	private boolean isbavarian = true;
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
 		super.onCreate(savedInstanceState);
@@ -64,6 +71,55 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
+		
+		//Lagnuage Button
+		Button lanbutton = (Button) findViewById(R.id.language);
+		lanbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					//startActivity(new Intent(MainActivity.this, MainActivity.class));
+					setlanguage();
+				} catch (Exception e) {
+				}
+			}
+
+			
+		});
+	}
+	private void setlanguage() {
+		
+		if(isbavarian)setgerman();
+		else setbavarian();
+			
+	}
+
+	private void setbavarian() {
+		isbavarian = true;
+		Locale mLocale = new Locale("");
+		Locale.setDefault(mLocale); 
+	    Configuration config = getBaseContext().getResources().getConfiguration(); 
+	    if (!config.locale.equals(mLocale)) 
+	    { 
+	        config.locale = mLocale; 
+	        getBaseContext().getResources().updateConfiguration(config, null); 
+	    }
+	    setContentView(R.layout.activity_main);
+	    textviewrun();
+	}
+
+	private void setgerman() {
+		isbavarian = false;
+		Locale mLocale = new Locale("pr");
+	    Locale.setDefault(mLocale); 
+	    Configuration config = getBaseContext().getResources().getConfiguration(); 
+	    if (!config.locale.equals(mLocale)) 
+	    { 
+	        config.locale = mLocale; 
+	        getBaseContext().getResources().updateConfiguration(config, null); 
+	    }
+	    setContentView(R.layout.activity_main);
+	    textviewrun();
 	}
 	
 	class ServerSynch extends AsyncTask<Void, Void, String> {

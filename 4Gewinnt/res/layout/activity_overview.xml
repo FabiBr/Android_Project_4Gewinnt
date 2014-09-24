@@ -15,19 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.4"
         android:orientation="vertical" >
-
-            <SearchView
-        android:id="@+id/searchView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search" />
-    </SearchView>
+        
         <Button
             android:id="@+id/gamestart"
             android:layout_width="fill_parent"
@@ -44,7 +32,7 @@
         </TextView>
 
         <ListView
-            android:id="@+id/listView1"
+            android:id="@+id/searchResultList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </ListView>

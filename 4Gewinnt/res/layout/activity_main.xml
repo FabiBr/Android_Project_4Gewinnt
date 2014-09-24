@@ -6,9 +6,12 @@
     android:orientation="vertical" >
 
     <TextView
+         android:id="@+id/textView0"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center"
         android:text="@string/greetings"
         android:textColor="@color/red" />
@@ -17,6 +20,8 @@
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:background="@color/black"
         android:textColor="@color/red"
         android:gravity="center"
@@ -26,6 +31,8 @@
         android:id="@+id/textView2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:textColor="@color/red"
         android:background="@color/black"
         android:gravity="center"
@@ -37,6 +44,7 @@
         android:layout_height="wrap_content"
         android:background="@color/green"
         android:gravity="center"
+        android:layout_margin="5dp"
         android:text="Login" />
 
     <Button
@@ -45,6 +53,16 @@
         android:layout_height="wrap_content"
         android:background="@color/green"
         android:gravity="center"
+        android:layout_margin="5dp"
         android:text="Registrieren" />
+
+    <Button
+        android:id="@+id/language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:background="@color/grey"
+        android:text="@string/preus" />
 
 </LinearLayout>

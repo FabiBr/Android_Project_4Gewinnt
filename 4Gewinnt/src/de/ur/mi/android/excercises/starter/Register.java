@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Register extends Activity {
@@ -36,7 +37,10 @@ public class Register extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_register);
 		DatabaseState state = ((DatabaseState) getApplicationContext());
 		db = state.getDb();
@@ -50,7 +54,7 @@ public class Register extends Activity {
 				try {
 					if (checkPassword()) {
 						sendData();
-						new CallbackHandler().execute(socket);
+						//new CallbackHandler().execute(socket);
 						startActivity(new Intent(Register.this, Overview.class));
 					} else
 						Toast.makeText(Register.this,
