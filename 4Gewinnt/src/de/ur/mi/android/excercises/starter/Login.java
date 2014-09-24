@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import de.ur.mi.android.excercises.starter.Register.ClientThread;
 
@@ -27,7 +28,7 @@ public class Login extends Activity {
 	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
 	private MyProtocol myP = new MyProtocol();
-	private String callback;
+	private String callback = "0";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +42,9 @@ public class Login extends Activity {
 			public void onClick(View v) {
 				try {
 					sendData();
-					new CallbackHandler().execute(socket);
-					if (checkUser()) {
-						startActivity(new Intent(Login.this, Overview.class));
-					} else
-						Toast.makeText(
-								Login.this,
-								"Falsche Zugangsdaten. Eventuell neu registrieren?",
-								Toast.LENGTH_LONG).show();
+					new CallbackHandler().execute(socket).get(1000, TimeUnit.MILLISECONDS);
 				} catch (Exception e) {
 				}
-
 			}
 		});
 
@@ -81,7 +74,7 @@ public class Login extends Activity {
 
 	private boolean checkUser() {
 		if (callback.equals("1")){
-			callback = null;
+			//callback = null;
 			return true;
 		}
 		return false;
@@ -108,6 +101,13 @@ public class Login extends Activity {
 		protected void onPostExecute(String result) {
 			callback = result;
 			super.onPostExecute(result);
+			if (checkUser()) {
+				startActivity(new Intent(Login.this, Overview.class));
+			} else
+				Toast.makeText(
+						Login.this,
+						"Falsche Zugangsdaten. Eventuell neu registrieren?",
+						Toast.LENGTH_LONG).show();
 		}
 	}
 

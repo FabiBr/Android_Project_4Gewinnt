@@ -1,19 +1,40 @@
 package de.ur.mi.android.excercises.starter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	private static final String SERVER_IP = "192.168.2.103";
+	private static final int SERVERPORT = 4444;
+	private MyProtocol myP = new MyProtocol();
+	
 
 
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
 		super.onCreate(savedInstanceState);
+		new ServerSynch().execute();
 		setContentView(R.layout.activity_main);
 		textviewrun();
 	}
@@ -43,5 +64,77 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	class ServerSynch extends AsyncTask<Void, Void, String> {
+		Socket socket = null;
+		String data = null;
+
+		@Override
+		protected String doInBackground(Void... params) {
+			try {
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+				sendRequest();
+				return data;
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			JSONArray userList;
+			try {
+				userList = new JSONArray(result);
+				processJsonArray(userList);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//state.setAllUsers(result);
+		}
+		private void processJsonArray(JSONArray userList) throws JSONException {
+			ArrayList<User> users = new ArrayList<User>();
+			for(int i = 0; i < userList.length();i++) {
+				String id = userList.getJSONArray(i).getString(1);
+				String username = userList.getJSONArray(i).getString(2);
+				String pw = userList.getJSONArray(i).getString(3);
+				String wins = userList.getJSONArray(i).getString(4);
+				String loses = userList.getJSONArray(i).getString(5);
+				String premium = userList.getJSONArray(i).getString(6);
+				User newUser = new User(Integer.parseInt(id), username, pw, Integer.parseInt(wins), Integer.parseInt(loses), Integer.parseInt(premium));
+				users.add(newUser);
+			}
+			DatabaseState state = ((DatabaseState) getApplicationContext());
+			state.setAllUsers(users);
+		}
+		
+		private void sendRequest() {
+			
+			try {
+				String output = myP.getAllUsers();
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				out.println(output);
+				out.flush();
+				BufferedReader input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				data = input.readLine();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

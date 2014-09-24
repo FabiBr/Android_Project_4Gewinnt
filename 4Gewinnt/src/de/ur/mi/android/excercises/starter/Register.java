@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,6 +40,7 @@ public class Register extends Activity {
 		setContentView(R.layout.activity_register);
 		DatabaseState state = ((DatabaseState) getApplicationContext());
 		db = state.getDb();
+		ArrayList<User> users = state.getAllUsers();
 		new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.regcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
@@ -106,13 +108,12 @@ public class Register extends Activity {
 	}
 
 	private class CallbackHandler extends AsyncTask<Socket, Void, String> {
-		private BufferedReader input;
 
 		@Override
 		protected String doInBackground(Socket... params) {
 			Socket socket = params[0];
 			try {
-				input = new BufferedReader(new InputStreamReader(
+				BufferedReader input = new BufferedReader(new InputStreamReader(
 						socket.getInputStream()));
 				String read = input.readLine();
 				return read;

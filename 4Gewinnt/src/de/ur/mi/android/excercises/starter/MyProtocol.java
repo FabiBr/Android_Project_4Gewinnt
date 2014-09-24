@@ -6,6 +6,8 @@ public class MyProtocol {
 	private static final String INSERT_GAME_KEY = "newGameInsert";
 	private static final String INCREMENT_USER_WIN_KEY = "userWins";
 	private static final String PASSWORD_CHECK_KEY = "checkPw";
+	private static final String GET_ALL_USERS_KEY = "allUsersGet";
+	
 	
 	public MyProtocol() {
 		
@@ -35,6 +37,9 @@ public class MyProtocol {
 		String protocolString = PASSWORD_CHECK_KEY + " " + username + " " + userPw;
 		return protocolString;
 		
+	}
+	public String getAllUsers() {
+		return GET_ALL_USERS_KEY;
 	}
 	
 }
