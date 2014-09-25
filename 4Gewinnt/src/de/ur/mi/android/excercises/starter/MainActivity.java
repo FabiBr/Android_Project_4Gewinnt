@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("App start");
 		super.onCreate(savedInstanceState);
-		new ServerSynch().execute();
+		//new ServerSynch().execute();
 		setContentView(R.layout.activity_main);
 		textviewrun();
 	}

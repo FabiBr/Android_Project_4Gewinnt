@@ -1,14 +1,26 @@
 package de.ur.mi.android.excercises.starter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,10 +34,17 @@ public class SearchResultsActivity extends Activity {
  
     private TextView txtQuery;
     private String[] userList;
- 
+    
+	private static final String SERVER_IP = "132.199.191.205";
+	private static final int SERVERPORT = 4444;
+	
+	private DatabaseState state = new DatabaseState();
+	
+    private MyProtocol myP = new MyProtocol();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
+    	new ServerSynch().execute();
         setContentView(R.layout.activity_search_results);
 
         
@@ -50,12 +69,13 @@ public class SearchResultsActivity extends Activity {
     }
     
     private void showListResult(String s){
-    	userList = new String[5];
-    	userList[0] = "paul";
-    	userList[1] = "Pauli";
-    	userList[2] = "mario";
-    	userList[3] = "marioo";
-    	userList[4] = "FaBi";
+    	
+    	ArrayList<User> users = state.getAllUsers();
+    	userList = new String[users.size()];
+    	for(int i = 0;i< userList.length;i++) {
+    		userList[i] = users.get(i).getUsername();
+    	}
+
     	
     	String[] foundUserList = search(s, userList);
     	
@@ -131,4 +151,81 @@ public class SearchResultsActivity extends Activity {
         }
  
     }
+    
+    class ServerSynch extends AsyncTask<Void, Void, String> {
+		Socket socket = null;
+		String data = null;
+
+		@Override
+		protected String doInBackground(Void... params) {
+			try {
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+				sendRequest();
+				JSONArray allUsers = new JSONArray(data);
+				processJsonArray(allUsers);
+				return data;
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			JSONArray userList;
+			try {
+				userList = new JSONArray(result);
+				processJsonArray(userList);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//state.setAllUsers(result);
+		}
+		private void processJsonArray(JSONArray userList) throws JSONException {
+			ArrayList<User> users = new ArrayList<User>();
+			for(int i = 0; i < userList.length();i++) {
+				String id = userList.getJSONArray(i).getString(1);
+				String username = userList.getJSONArray(i).getString(2);
+				String pw = userList.getJSONArray(i).getString(3);
+				String wins = userList.getJSONArray(i).getString(4);
+				String loses = userList.getJSONArray(i).getString(5);
+				String premium = userList.getJSONArray(i).getString(6);
+				User newUser = new User(Integer.parseInt(id), username, pw, Integer.parseInt(wins), Integer.parseInt(loses), Integer.parseInt(premium));
+				users.add(newUser);
+			}
+			state.setAllUsers(users);
+		}
+		
+		private void sendRequest() {
+			
+			try {
+				String output = myP.getAllUsers();
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				out.println(output);
+				out.flush();
+				BufferedReader input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				data = input.readLine();
+				System.out.println();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 }
