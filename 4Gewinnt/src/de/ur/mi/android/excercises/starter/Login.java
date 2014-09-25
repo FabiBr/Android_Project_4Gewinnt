@@ -11,7 +11,6 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 import de.ur.mi.android.excercises.starter.Register.ClientThread;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,8 +23,8 @@ import android.widget.Toast;
 
 public class Login extends Activity {
 
-	Socket socket = null;
-	private static final String SERVER_IP = "192.168.2.103";
+	//Socket socket = null;
+	private static final String SERVER_IP = "132.199.191.205";
 	private static final int SERVERPORT = 4444;
 	private MyProtocol myP = new MyProtocol();
 	private String callback = "0";
@@ -34,15 +33,14 @@ public class Login extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		new Thread(new ClientThread()).start();
+		//new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.logcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				try {
-					sendData();
-					new CallbackHandler().execute(socket).get(1000, TimeUnit.MILLISECONDS);
+					new CallbackHandler().execute().get(1000, TimeUnit.MILLISECONDS);
 				} catch (Exception e) {
 				}
 			}
@@ -50,27 +48,6 @@ public class Login extends Activity {
 
 	}
 	
-	private void sendData() {
-		try {
-			EditText username = (EditText) findViewById(R.id.editText4);
-			EditText password = (EditText) findViewById(R.id.editText5);
-			String name = username.getText().toString();
-			String pw = password.getText().toString();
-			String output = myP.loginPwCheck(name, pw);
-
-			PrintWriter out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream())), true);
-			out.println(output);
-			out.flush();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 
 	private boolean checkUser() {
 		if (callback.equals("1")){
@@ -80,21 +57,26 @@ public class Login extends Activity {
 		return false;
 	}
 	
-	private class CallbackHandler extends AsyncTask<Socket, Void, String> {
+	private class CallbackHandler extends AsyncTask<Void, Void, String> {
 		private BufferedReader input;
+		Socket socket = null;
 
 		@Override
-		protected String doInBackground(Socket... params) {
-			Socket socket = params[0];
+		protected String doInBackground(Void... arg0) {
+			
 			try {
-				input = new BufferedReader(new InputStreamReader(
-						socket.getInputStream()));
-				String read = input.readLine();
-				return read;
-			} catch (IOException e) {
-				e.printStackTrace();
+				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			return null;
+			String read = sendData();
+			return read;
 		}
 		
 		@Override
@@ -109,9 +91,36 @@ public class Login extends Activity {
 						"Falsche Zugangsdaten. Eventuell neu registrieren?",
 						Toast.LENGTH_LONG).show();
 		}
+		private String sendData() {
+			try {
+				EditText username = (EditText) findViewById(R.id.editText4);
+				EditText password = (EditText) findViewById(R.id.editText5);
+				String name = username.getText().toString();
+				String pw = password.getText().toString();
+				String output = myP.loginPwCheck(name, pw);
+
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				out.println(output);
+				out.flush();
+				String read = input.readLine();
+				return read;
+				
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "";
+
+		}
 	}
 
-	class ClientThread implements Runnable {
+	/*class ClientThread implements Runnable {
 
 
 		@Override
@@ -129,5 +138,5 @@ public class Login extends Activity {
 				e1.printStackTrace();
 			}
 		}
-	}
+	}*/
 }

@@ -27,10 +27,10 @@ public class Register extends Activity {
 	private GameDB db;
 
 	// zum Testen: Server Main() einfach in Eclipse laugen lassen. Beim debuggen
-	// mit echtem gerät bei Server IP die eignene IP eingeben console ->
+	// mit echtem gerï¿½t bei Server IP die eignene IP eingeben console ->
 	// ipconfig
 	// beim testen mit virtual device einfach localhost verwenden
-	private static final String SERVER_IP = "192.168.2.103";
+	private static final String SERVER_IP = "132.199.191.205";
 	private static final int SERVERPORT = 4444;
 
 	private MyProtocol myP = new MyProtocol();
