@@ -1,5 +1,6 @@
 package de.ur.mi.android.excercises.starter;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyDialog extends DialogFragment implements View.OnClickListener{
+	Communicator communicator;
 	Button yes;
 	Button no;
 	@Override
@@ -24,18 +26,32 @@ public class MyDialog extends DialogFragment implements View.OnClickListener{
 		setCancelable(false);
 		return view;
 	}
+	
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		communicator = (Communicator) activity;
+	}
+
+	interface Communicator
+	{
+		public void onDialogMessage(String message);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.getId()==R.id.AcceptButton){
 			dismiss();
-			Toast.makeText(getActivity(), "Spiel starten", Toast.LENGTH_SHORT).show();
+			communicator.onDialogMessage("Yes Button was clicked");
+			//Toast.makeText(getActivity(), "Spiel starten", Toast.LENGTH_SHORT).show();
 			//Intent zum Spielfeld
 			//Serveraufbau
 		}
 		else{
 			dismiss();
-			Toast.makeText(getActivity(), "Spiel abgelehnt", Toast.LENGTH_SHORT).show();
+			communicator.onDialogMessage("No Button was clicked");
+			//Toast.makeText(getActivity(), "Spiel abgelehnt", Toast.LENGTH_SHORT).show();
 		}
 	}
 

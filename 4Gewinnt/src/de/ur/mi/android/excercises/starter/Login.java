@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class Login extends Activity {
 
 	//Socket socket = null;
-	private static final String SERVER_IP = "132.199.191.205";
+	private static final String SERVER_IP = "132.199.206.59";
 	private static final int SERVERPORT = 4444;
 	private MyProtocol myP = new MyProtocol();
 	private String callback = "0";

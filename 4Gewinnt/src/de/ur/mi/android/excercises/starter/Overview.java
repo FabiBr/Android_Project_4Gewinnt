@@ -12,8 +12,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
-public class Overview extends Activity {
+public class Overview extends Activity implements MyDialog.Communicator{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,5 +64,12 @@ public class Overview extends Activity {
 	        	 return super.onOptionsItemSelected(item);
 	        }
 	    }
+
+		@Override
+		public void onDialogMessage(String message) {
+			// TODO Auto-generated method stub
+			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		}
+
 
 }

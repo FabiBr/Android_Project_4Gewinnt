@@ -30,7 +30,7 @@ public class Register extends Activity {
 	// mit echtem ger�t bei Server IP die eignene IP eingeben console ->
 	// ipconfig
 	// beim testen mit virtual device einfach localhost verwenden
-	private static final String SERVER_IP = "132.199.191.205";
+	private static final String SERVER_IP = "132.199.206.59";
 	private static final int SERVERPORT = 4444;
 
 	private MyProtocol myP = new MyProtocol();
