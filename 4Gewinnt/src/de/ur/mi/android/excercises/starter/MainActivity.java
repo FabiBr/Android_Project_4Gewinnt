@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 		System.out.println("App start");
 		super.onCreate(savedInstanceState);
 		//new ServerSynch().execute();
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.menu_2_bav);
 		textviewrun();
 	}
 
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 	        config.locale = mLocale; 
 	        getBaseContext().getResources().updateConfiguration(config, null); 
 	    }
-	    setContentView(R.layout.activity_main);
+	    setContentView(R.layout.menu_2_bav);
 	    textviewrun();
 	}
 
@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
 	        config.locale = mLocale; 
 	        getBaseContext().getResources().updateConfiguration(config, null); 
 	    }
-	    setContentView(R.layout.activity_main);
+	    setContentView(R.layout.menu_1_preus);
 	    textviewrun();
 	}
 	
