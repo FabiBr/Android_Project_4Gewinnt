@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
-import de.ur.mi.android.excercises.starter.Register.ClientThread;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,7 +23,7 @@ import android.widget.Toast;
 public class Login extends Activity {
 
 	//Socket socket = null;
-	private static final String SERVER_IP = "132.199.191.205";
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
 	private MyProtocol myP = new MyProtocol();
 	private String callback = "0";

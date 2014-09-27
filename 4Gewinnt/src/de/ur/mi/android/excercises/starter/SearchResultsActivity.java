@@ -35,12 +35,13 @@ public class SearchResultsActivity extends Activity {
     private TextView txtQuery;
     private String[] userList;
     
-	private static final String SERVER_IP = "132.199.191.205";
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
 	
-	private DatabaseState state = new DatabaseState();
 	
     private MyProtocol myP = new MyProtocol();
+    private ArrayList<User> users;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -49,8 +50,8 @@ public class SearchResultsActivity extends Activity {
 
         
         //
-        Intent intent = getIntent();
-        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
+        //Intent intent = getIntent();
+        /* if(Intent.ACTION_SEARCH.equals(intent.getAction())){
         	String query = intent.getStringExtra(SearchManager.QUERY);
         	showListResult(query);
         }
@@ -65,16 +66,12 @@ public class SearchResultsActivity extends Activity {
         txtQuery = (TextView) findViewById(R.id.txtQuery);
  
         handleIntent(getIntent());
-        registerClickCallback();
+        registerClickCallback();*/
     }
     
     private void showListResult(String s){
-
     	
-    	ArrayList<User> users = state.getAllUsers();
-    	userList = new String[users.size()];
-
-    	users = state.getAllUsers();//new ArrayList<User>();//
+    	//new ArrayList<User>();//
     	//User mario = new User(1,"mario","123",0,0,0);
     	//users.add(mario);
     	
@@ -106,13 +103,13 @@ public class SearchResultsActivity extends Activity {
 				TextView textView = (TextView) view;
 				String message = "Du hast " + textView.getText().toString() + " geklickt";
 				Toast.makeText(SearchResultsActivity.this, message, Toast.LENGTH_SHORT).show();
-				showDialog();//textView.getText().toString());
+				//showDialog();//textView.getText().toString());
 			}
 		});
     }
     
     public void showDialog(){//String spieler){
-    	FragmentManager manager= getFragmentManager();
+    	FragmentManager manager = getFragmentManager();
     	MyDialog dialog = new MyDialog();
     	dialog.show(manager,"dialog");
     }
@@ -193,6 +190,7 @@ public class SearchResultsActivity extends Activity {
 			try {
 				userList = new JSONArray(result);
 				processJsonArray(userList);
+				searchQuery();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -201,7 +199,7 @@ public class SearchResultsActivity extends Activity {
 			//state.setAllUsers(result);
 		}
 		private void processJsonArray(JSONArray userList) throws JSONException {
-			ArrayList<User> users = new ArrayList<User>();
+			ArrayList<User> allUsers = new ArrayList<User>();
 			for(int i = 0; i < userList.length();i++) {
 				String id = userList.getJSONArray(i).getString(1);
 				String username = userList.getJSONArray(i).getString(2);
@@ -210,9 +208,30 @@ public class SearchResultsActivity extends Activity {
 				String loses = userList.getJSONArray(i).getString(5);
 				String premium = userList.getJSONArray(i).getString(6);
 				User newUser = new User(Integer.parseInt(id), username, pw, Integer.parseInt(wins), Integer.parseInt(loses), Integer.parseInt(premium));
-				users.add(newUser);
+				allUsers.add(newUser);
 			}
-			state.setAllUsers(users);
+			users = allUsers;
+			System.out.println();
+		}
+		
+		private void searchQuery() {
+			Intent intent = getIntent();
+			if(Intent.ACTION_SEARCH.equals(intent.getAction())){
+	        	String query = intent.getStringExtra(SearchManager.QUERY);
+	        	showListResult(query);
+	        }
+	        //
+	 
+	        // get the action bar
+	        ActionBar actionBar = getActionBar();
+	 
+	        // Enabling Back navigation on Action Bar icon
+	        actionBar.setDisplayHomeAsUpEnabled(true);
+	 
+	        txtQuery = (TextView) findViewById(R.id.txtQuery);
+	 
+	        handleIntent(getIntent());
+	        registerClickCallback();
 		}
 		
 		private void sendRequest() {

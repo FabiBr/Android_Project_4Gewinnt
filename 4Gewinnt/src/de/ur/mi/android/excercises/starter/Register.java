@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Register extends Activity {
-	Socket socket = null;
+	
 	public String name;
 	private GameDB db;
 
@@ -30,7 +30,7 @@ public class Register extends Activity {
 	// mit echtem ger�t bei Server IP die eignene IP eingeben console ->
 	// ipconfig
 	// beim testen mit virtual device einfach localhost verwenden
-	private static final String SERVER_IP = "132.199.191.205";
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
 
 	private MyProtocol myP = new MyProtocol();
@@ -45,7 +45,7 @@ public class Register extends Activity {
 		DatabaseState state = ((DatabaseState) getApplicationContext());
 		db = state.getDb();
 		ArrayList<User> users = state.getAllUsers();
-		new Thread(new ClientThread()).start();
+		//new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.regcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
@@ -53,8 +53,7 @@ public class Register extends Activity {
 			public void onClick(View v) {
 				try {
 					if (checkPassword()) {
-						sendData();
-						//new CallbackHandler().execute(socket);
+						new CallbackHandler().execute();
 						startActivity(new Intent(Register.this, Overview.class));
 					} else
 						Toast.makeText(Register.this,
@@ -82,7 +81,7 @@ public class Register extends Activity {
 		return false;
 	}
 
-	private void sendData() {
+	/*private void sendData() {
 
 		try {
 			EditText username = (EditText) findViewById(R.id.editText1);
@@ -102,7 +101,7 @@ public class Register extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	private void safeDataLocal(String username, String pw) {
 		User me = new User(1, username, pw, 0, 0, 0);
@@ -111,21 +110,24 @@ public class Register extends Activity {
 		db.close();
 	}
 
-	private class CallbackHandler extends AsyncTask<Socket, Void, String> {
+	private class CallbackHandler extends AsyncTask<Void, Void, String> {
+		Socket socket = null;
 
 		@Override
-		protected String doInBackground(Socket... params) {
-			Socket socket = params[0];
+		protected String doInBackground(Void... params) {
 			try {
-				BufferedReader input = new BufferedReader(new InputStreamReader(
-						socket.getInputStream()));
-				String read = input.readLine();
-				return read;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			return null;
+			String read = sendData();
+			return read;
 		}
 		
 		@Override
@@ -135,9 +137,36 @@ public class Register extends Activity {
 					Toast.LENGTH_LONG).show();
 			super.onPostExecute(result);
 		}
+		
+		private String sendData() {
+
+			try {
+				EditText username = (EditText) findViewById(R.id.editText1);
+				EditText password = (EditText) findViewById(R.id.editText2);
+				String name = username.getText().toString();
+				String pw = password.getText().toString();
+				String output = myP.newUserDataOutput(name, pw);
+
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				BufferedReader input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				out.println(output);
+				out.flush();
+				String read = input.readLine();
+				return read;
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "User already exists, pick another username";
+		}
 	}
 
-	class ClientThread implements Runnable {
+	/*class ClientThread implements Runnable {
 
 		@Override
 		public void run() {
@@ -154,5 +183,5 @@ public class Register extends Activity {
 				e1.printStackTrace();
 			}
 		}
-	}
+	}*/
 }
