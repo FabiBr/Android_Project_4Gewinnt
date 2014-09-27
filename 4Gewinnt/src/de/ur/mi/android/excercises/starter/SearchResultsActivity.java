@@ -69,10 +69,19 @@ public class SearchResultsActivity extends Activity {
     }
     
     private void showListResult(String s){
+
     	
     	ArrayList<User> users = state.getAllUsers();
     	userList = new String[users.size()];
-    	for(int i = 0;i< userList.length;i++) {
+
+    	users = state.getAllUsers();//new ArrayList<User>();//
+    	//User mario = new User(1,"mario","123",0,0,0);
+    	//users.add(mario);
+    	
+    	
+    	
+    	userList = new String[users.size()];
+    	for(int i = 0; i < userList.length; i++){
     		userList[i] = users.get(i).getUsername();
     	}
 
@@ -108,12 +117,12 @@ public class SearchResultsActivity extends Activity {
     	dialog.show(manager,"dialog");
     }
     
-    private String[] search(String s, String[] users){
+    private String[] search(String s, String[] userList){
     	ArrayList<String> results = new ArrayList<String>();
     	
-    	for(int i = 0; i<users.length; i++){
-    		if(users[i].toLowerCase().contains(s.toLowerCase())){
-    			results.add(users[i]);
+    	for(int i = 0; i<userList.length; i++){
+    		if(userList[i].toLowerCase().contains(s.toLowerCase())){
+    			results.add(userList[i]);
     		}
     	}
     	
