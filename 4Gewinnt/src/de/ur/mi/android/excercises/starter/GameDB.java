@@ -128,7 +128,7 @@ public class GameDB {
 					int id = cursor.getInt(0);
 					String p1 = cursor.getString(2);
 					String p2 = cursor.getString(3);
-					Game newGame = new Game(id, "", p1, p2 ,0);
+					Game newGame = new Game(id, "", p1, p2,"");
 					myGames.add(newGame);
 				} while (cursor.moveToNext());
 			}
