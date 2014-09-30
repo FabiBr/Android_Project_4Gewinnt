@@ -3,34 +3,34 @@ package de.ur.mi.android.excercises.starter;
 public class Game {
 	
 	private int id;
-	private Field field;
-	private User player1;
-	private User player2;
-	private int lastPlayer;
+	private String field;
+	private String player1;
+	private String player2;
+	private String currentPlayer;
 	
 	
 	public Game() {
 		
 	}
 	
-	public Game(int id, Field field, User player1, User player2, int lastPlayer){
-		this.id = id; this.field = field; this.player1 = player1; this.player2 = player2; this.lastPlayer = lastPlayer;
+	public Game(int id, String field, String player1, String player2, String lastPlayer){
+		this.id = id; this.field = field; this.player1 = player1; this.player2 = player2; this.currentPlayer = lastPlayer;
 	}
 	
 	public int getGameId() {
 		return id;
 	}
-	public Field getField() {
+	public String getField() {
 		return field;
 	}
-	public User getP1() {
+	public String getP1() {
 		return player1;
 	}
-	public User getP2() {
+	public String getP2() {
 		return player2;
 	}
-	public int getLastPlayer() {
-		return lastPlayer;
+	public String getLastPlayer() {
+		return currentPlayer;
 	}
 
 }

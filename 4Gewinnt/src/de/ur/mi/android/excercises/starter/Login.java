@@ -11,9 +11,15 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Constants;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,7 +28,7 @@ import android.widget.Toast;
 
 public class Login extends Activity {
 
-	//Socket socket = null;
+	// Socket socket = null;
 	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 4444;
 	private MyProtocol myP = new MyProtocol();
@@ -32,37 +38,51 @@ public class Login extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		//new Thread(new ClientThread()).start();
+		// new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.logcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				try {
-					new CallbackHandler().execute().get(1000, TimeUnit.MILLISECONDS);
+					if(isOnline()) {
+						new CallbackHandler().execute();
+					}
 				} catch (Exception e) {
 				}
 			}
 		});
 
 	}
-	
+
+	public boolean isOnline() {
+		ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
+				.getSystemService(Login.this.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+		if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
+			Toast.makeText(Login.this, "No Internet connection!",
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
+	}
 
 	private boolean checkUser() {
-		if (callback.equals("1")){
-			//callback = null;
+		if (callback.equals("1")) {
+			// callback = null;
 			return true;
 		}
 		return false;
 	}
-	
+
 	private class CallbackHandler extends AsyncTask<Void, Void, String> {
 		private BufferedReader input;
 		Socket socket = null;
 
 		@Override
 		protected String doInBackground(Void... arg0) {
-			
+
 			try {
 				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 
@@ -70,14 +90,18 @@ public class Login extends Activity {
 				System.out.println("gr8 success very nice");
 
 			} catch (UnknownHostException e1) {
+				Toast.makeText(Login.this, "Keine Internetverbindung",
+						Toast.LENGTH_LONG).show();
 				e1.printStackTrace();
 			} catch (IOException e1) {
+				Toast.makeText(Login.this, "Keine Internetverbindung",
+						Toast.LENGTH_LONG).show();
 				e1.printStackTrace();
 			}
 			String read = sendData();
 			return read;
 		}
-		
+
 		@Override
 		protected void onPostExecute(String result) {
 			callback = result;
@@ -85,11 +109,11 @@ public class Login extends Activity {
 			if (checkUser()) {
 				startActivity(new Intent(Login.this, Overview.class));
 			} else
-				Toast.makeText(
-						Login.this,
+				Toast.makeText(Login.this,
 						"Falsche Zugangsdaten. Eventuell neu registrieren?",
 						Toast.LENGTH_LONG).show();
 		}
+
 		private String sendData() {
 			try {
 				EditText username = (EditText) findViewById(R.id.editText4);
@@ -106,7 +130,7 @@ public class Login extends Activity {
 				out.flush();
 				String read = input.readLine();
 				return read;
-				
+
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -119,23 +143,18 @@ public class Login extends Activity {
 		}
 	}
 
-	/*class ClientThread implements Runnable {
-
-
-		@Override
-		public void run() {
-
-			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
-				socket = new Socket(SERVER_IP, SERVERPORT);
-				System.out.println("gr8 success very nice");
-
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}*/
+	/*
+	 * class ClientThread implements Runnable {
+	 * 
+	 * 
+	 * @Override public void run() {
+	 * 
+	 * try { // InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+	 * 
+	 * socket = new Socket(SERVER_IP, SERVERPORT);
+	 * System.out.println("gr8 success very nice");
+	 * 
+	 * } catch (UnknownHostException e1) { e1.printStackTrace(); } catch
+	 * (IOException e1) { e1.printStackTrace(); } } }
+	 */
 }

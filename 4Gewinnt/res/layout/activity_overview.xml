@@ -8,14 +8,12 @@
     tools:context="de.ur.mi.android.excercises.starter.Overview"
     tools:ignore="MergeRootFrame" >
 
-
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.4"
         android:orientation="vertical" >
-        
+
         <Button
             android:id="@+id/gamestart"
             android:layout_width="fill_parent"
@@ -38,24 +36,25 @@
         </ListView>
     </LinearLayout>
 
-        <LinearLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.4"
         android:orientation="vertical" >
-    <TextView
-        android:id="@+id/alreadyplayed"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey"
-        android:text="@string/alreadyplayed" >
-    </TextView>
 
-    <ListView
-        android:id="@+id/listView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
-      </LinearLayout>
+        <TextView
+            android:id="@+id/alreadyplayed"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:text="@string/alreadyplayed" >
+        </TextView>
+
+        <ListView
+            android:id="@+id/listView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
 
 </LinearLayout>

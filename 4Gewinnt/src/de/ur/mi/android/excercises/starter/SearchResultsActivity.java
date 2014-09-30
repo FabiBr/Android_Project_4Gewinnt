@@ -158,6 +158,41 @@ public class SearchResultsActivity extends Activity {
  
     }
     
+    class contactOpponent extends AsyncTask<String, Void, String> {
+    	Socket socket = null;
+    	String data = null;
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+				sendRequest(params[0]);
+				return data;
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			return null;
+		}
+
+		private String sendRequest(String name) {
+			// TODO Auto-generated method stub
+			
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+		}
+    	
+    }
+    
     class ServerSynch extends AsyncTask<Void, Void, String> {
 		Socket socket = null;
 		String data = null;

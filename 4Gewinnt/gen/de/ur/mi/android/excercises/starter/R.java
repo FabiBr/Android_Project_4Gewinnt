@@ -138,13 +138,14 @@ public final class R {
         public static final int activity_overview=0x7f030002;
         public static final int activity_register=0x7f030003;
         public static final int activity_search_results=0x7f030004;
-        public static final int game=0x7f030005;
-        public static final int menu_1_preus=0x7f030006;
-        public static final int menu_2_bav=0x7f030007;
-        public static final int my_dialog=0x7f030008;
-        public static final int overview_child=0x7f030009;
-        public static final int overview_parent=0x7f03000a;
-        public static final int search_result_list_child=0x7f03000b;
+        public static final int alt_overview_child=0x7f030005;
+        public static final int game=0x7f030006;
+        public static final int menu_1_preus=0x7f030007;
+        public static final int menu_2_bav=0x7f030008;
+        public static final int my_dialog=0x7f030009;
+        public static final int overview_child=0x7f03000a;
+        public static final int overview_parent=0x7f03000b;
+        public static final int search_result_list_child=0x7f03000c;
     }
     public static final class menu {
         public static final int activity_main_actions=0x7f090000;
