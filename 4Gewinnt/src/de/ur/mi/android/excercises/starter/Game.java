@@ -17,6 +17,7 @@ public class Game {
 		this.id = id; this.field = field; this.player1 = player1; this.player2 = player2; this.currentPlayer = lastPlayer;
 	}
 	
+
 	public int getGameId() {
 		return id;
 	}
