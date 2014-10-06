@@ -33,11 +33,13 @@ public class Login extends Activity {
 	private static final int SERVERPORT = 4444;
 	private MyProtocol myP = new MyProtocol();
 	private String callback = "0";
+	private GameDB myDb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		myDb = new GameDB(this);
 		// new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.logcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
@@ -70,7 +72,11 @@ public class Login extends Activity {
 
 	private boolean checkUser() {
 		if (callback.equals("1")) {
-			// callback = null;
+			EditText username = (EditText) findViewById(R.id.editText4);
+			String name = username.getText().toString();
+			myDb.open();
+			myDb.updateMyCurrentData(name);
+			myDb.close();
 			return true;
 		}
 		return false;

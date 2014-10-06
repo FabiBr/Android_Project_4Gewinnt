@@ -39,7 +39,7 @@ public class MyProtocol {
 	
 	public String loginPwCheck(String username, String userPw) {
 		
-		String protocolString = PASSWORD_CHECK_KEY + " " + username + " " + userPw;
+		String protocolString = PASSWORD_CHECK_KEY + " " + username + " " + userPw + "";
 		return protocolString;
 		
 	}
@@ -53,17 +53,30 @@ public class MyProtocol {
 		return protocolString;
 	}
 	
-	public String addNewGame(String user1me, String user2) {
+	public String addNewGame(String user1me, String user2) throws ClassNotFoundException {
 		Field temp = new Field();
 		String emptyField = "";
 		try {
 			emptyField = Serializer.serialize(temp);
+			Field field = (Field)Serializer.deserialize(emptyField);
+			System.out.println();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String protocolString = INSERT_GAME_KEY + " "  + emptyField + " " + user1me + " " + user2 + " " + user1me;
-		return protocolString;
+		StringBuilder builder = new StringBuilder();
+		builder.append(INSERT_GAME_KEY);
+		builder.append(" ");
+		builder.append("fuck dat");
+		builder.append(" ");
+		builder.append(user1me);
+		builder.append(" ");
+		builder.append(user2);
+		builder.append(" ");
+		builder.append(user1me);
+		String protocolString = builder.toString();
+		String oneLine = protocolString.replaceAll("\n", "");
+		return oneLine;
 	}
 	
 }

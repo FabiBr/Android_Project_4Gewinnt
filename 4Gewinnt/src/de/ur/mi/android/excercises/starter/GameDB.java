@@ -46,6 +46,18 @@ public class GameDB {
 	private static final String GAMES_P1_KEY = "player1";
 	private static final String GAMES_P2_KEY = "player2";
 	private static final String GAMES_LASTPLAYER_KEY = "lastPlayer";
+	
+	private static final String MY_CURRENT_ACCOUNT = "myCurrentData";
+
+	private static final String MY_ID_KEY = "id";
+	private static final String MY_NAME_KEY = "name";
+	private static final String MY_PW_KEY = "pw";
+	private static final String MY_GWON_KEY = "gamesWon";
+	private static final String MY_GLOST_KEY = "gamesLost";
+	private static final String MY_PREMIUM_KEY = "premium";
+	
+	
+	
 
 
 	
@@ -84,13 +96,30 @@ public class GameDB {
 			db.insert(USER_TABLE, null, values);
 		}
 		
+		public void updateMyCurrentData(String username) {
+			String[] columns = { USER_ID_KEY, USER_NAME_KEY, USER_PW_KEY,
+					USER_GWON_KEY, USER_GLOST_KEY, USER_PREMIUM_KEY };
+			Cursor cursor = db.query(USER_TABLE, columns, USER_NAME_KEY + " = ?",
+					new String[] { username }, null, null, null);
+			
+			ContentValues values = new ContentValues();
+			cursor.moveToFirst();
+			
+			values.put(MY_NAME_KEY, cursor.getString(1));
+			values.put(MY_PW_KEY, cursor.getString(2));
+			values.put(MY_GWON_KEY, cursor.getString(3));
+			values.put(MY_GLOST_KEY, cursor.getString(4));
+			values.put(MY_PREMIUM_KEY, cursor.getString(5));
+			db.update(MY_CURRENT_ACCOUNT, values, "id" + "='1'", null);
+		}
+		
 		
 		// use id = 1
 		public User getMyData() {
 			int id = 1;
-			String[] columns = { USER_ID_KEY, USER_NAME_KEY, USER_PW_KEY,
-					USER_GWON_KEY, USER_GLOST_KEY, USER_PREMIUM_KEY };
-			Cursor cursor = db.query(USER_TABLE, columns, " id = ?",
+			String[] columns = { MY_ID_KEY, MY_NAME_KEY, MY_PW_KEY,
+					MY_GWON_KEY, MY_GLOST_KEY, MY_PREMIUM_KEY };
+			Cursor cursor = db.query(MY_CURRENT_ACCOUNT, columns, " id = ?",
 					new String[] { String.valueOf(id) }, null, null, null);
 
 			if (cursor != null)
@@ -110,6 +139,7 @@ public class GameDB {
 			db.insert(LAST_OPPONENTS_TABLE, null, values);
 		}
 		
+		/*
 		public ArrayList<Game> getCurrentGames() {
 			ArrayList<Game> myGames = new ArrayList<Game>();
 			String[] columns = {GAMES_ID_KEY, GAMES_P1_KEY, GAMES_P2_KEY};
@@ -134,6 +164,7 @@ public class GameDB {
 			return myGames;
 		}
 		
+		
 		public void addGame(Game game) throws IOException {
 			ContentValues values = new ContentValues();
 			values.put(GAMES_ID_KEY, game.getGameId());
@@ -150,7 +181,7 @@ public class GameDB {
 
 			db.delete(GAMES_TABLE, whereClause, null);
 		}
-		
+		*/
 		public ArrayList<String> getAllOpponents() {
 			ArrayList<String> names = new ArrayList<String>();
 			Cursor cursor = db.query(LAST_OPPONENTS_TABLE, new String[] { OPPONENTS_ID_KEY,
@@ -188,11 +219,26 @@ public class GameDB {
 					+ " INTEGER PRIMARY KEY , " + GAMES_FIELD_KEY
 					+ " TEXT, " + GAMES_P1_KEY + " TEXT, " + GAMES_P2_KEY
 					+ " TEXT, " + GAMES_LASTPLAYER_KEY + " INTEGER)";
-
+			
+			String CREATE_MY_CURRENT_ACCOUNT_TABLE = "create table " + MY_CURRENT_ACCOUNT + " ("
+					+ MY_ID_KEY + " integer primary key autoincrement, "
+					+ MY_NAME_KEY + " text, " + MY_PW_KEY + " text, "
+					+ MY_GWON_KEY + " integer, " + MY_GLOST_KEY
+					+ " integer, " + MY_PREMIUM_KEY + " integer)";
+			
 			db.execSQL(CREATE_USER_TABLE);
 			db.execSQL(CREATE_LAST_OPPONENTS_TABLE);
 			db.execSQL(CREATE_CURRENT_GAMES_TABLE);
+			db.execSQL(CREATE_MY_CURRENT_ACCOUNT_TABLE);
+			
+			ContentValues values = new ContentValues();
+			values.put(MY_ID_KEY, 1);
+			values.put(MY_PW_KEY, " ");
+			values.put(MY_GWON_KEY, " ");
+			values.put(MY_GLOST_KEY, " ");
+			values.put(MY_PREMIUM_KEY, " ");
 
+			db.insert(MY_CURRENT_ACCOUNT, null, values);
 		}
 
 		@Override

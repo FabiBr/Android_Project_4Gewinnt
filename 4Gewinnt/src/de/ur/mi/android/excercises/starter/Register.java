@@ -42,10 +42,7 @@ public class Register extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_register);
-		DatabaseState state = ((DatabaseState) getApplicationContext());
-		db = state.getDb();
-		ArrayList<User> users = state.getAllUsers();
-		//new Thread(new ClientThread()).start();
+		db = new GameDB(this);
 		Button logbutton = (Button) findViewById(R.id.regcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
@@ -60,6 +57,7 @@ public class Register extends Activity {
 								"Bitte zweimal das gleiche Passwort eingeben",
 								Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});
@@ -107,6 +105,7 @@ public class Register extends Activity {
 		User me = new User(1, username, pw, 0, 0, 0);
 		db.open();
 		db.addUser(me);
+		db.updateMyCurrentData(username);
 		db.close();
 	}
 

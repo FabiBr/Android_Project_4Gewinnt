@@ -46,10 +46,7 @@ public class Overview extends Activity implements MyDialog.Communicator{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
 		myDb = new GameDB(this);
-		myDb.open();
-		myCurrentGames = myDb.getCurrentGames();
-		myDb.close();
-		showCurrentGames();
+		new ServerSynch().execute();
 		Button spielbutton = (Button)findViewById(R.id.gamestart);
 		spielbutton.setOnClickListener(new OnClickListener(){
 
@@ -101,11 +98,18 @@ public class Overview extends Activity implements MyDialog.Communicator{
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 		}
 		private void showCurrentGames() {
-			String[] currentGames = {"asda","asdas","asdasd"};				//new String[myCurrentGames.size()];
+			String[] currentGames = new String[myCurrentGames.size()];
+			
+			for(int i = 0; i < currentGames.length;i++) {
+				Game game = myCurrentGames.get(i);
+				currentGames[i] = game.getGameId() + " | " + game.getP1() + " - " + game.getP2();
+			}
+			
+			
+			//new String[myCurrentGames.size()];
 			/*for(int i = 0;i<foundUserList.length;i++) {
 				foundUserList[i] = myCurrentGames.get(i).getP1() + "  --  " + myCurrentGames.get(i).getP2();
 			}*/
-			int i = R.layout.overview_child;
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.alt_overview_child, currentGames);
 			
 	    	
@@ -113,5 +117,83 @@ public class Overview extends Activity implements MyDialog.Communicator{
 	    	
 	    	userListView.setAdapter(adapter);
 		}
+		
+		class ServerSynch extends AsyncTask<Void, Void, String> {
+			Socket socket = null;
 
+			@Override
+			protected String doInBackground(Void... params) {
+				try {
+					socket = new Socket(SERVER_IP, SERVERPORT);
+					System.out.println("gr8 success very nice");
+					String gamesData = sendGamesRequest();
+					return gamesData;
+
+				} catch (UnknownHostException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				JSONArray gamesList;
+				try {
+					gamesList = new JSONArray(result);
+					processGamesJsonArray(gamesList);
+					showCurrentGames();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				// state.setAllUsers(result);
+			}
+			
+			private void processGamesJsonArray(JSONArray gamesList) throws JSONException {
+				ArrayList<Game> allGames = new ArrayList<Game>();
+				for (int i = 0; i < gamesList.length(); i++) {
+					
+					String id = gamesList.getJSONArray(i).getString(1);
+					String field = gamesList.getJSONArray(i).getString(2);
+					String user1 = gamesList.getJSONArray(i).getString(3);
+					String user2 = gamesList.getJSONArray(i).getString(4);
+					String currentUser = gamesList.getJSONArray(i).getString(5);
+					
+					Game newGame = new Game(Integer.parseInt(id), field, user1,
+							user2, currentUser);
+					allGames.add(newGame);
+				}
+				myCurrentGames = allGames;
+				System.out.println();
+			}
+
+			private String sendGamesRequest() {
+				
+				try {
+					myDb.open();
+					String myUsername = myDb.getMyData().getUsername();
+					String output = myP.getMyCurrentGames(myUsername);
+					myDb.close();
+					PrintWriter out = new PrintWriter(new BufferedWriter(
+							new OutputStreamWriter(socket.getOutputStream())), true);
+					out.println(output);
+					out.flush();
+					BufferedReader input = new BufferedReader(
+							new InputStreamReader(socket.getInputStream()));
+					String gameData = input.readLine();
+					System.out.println();
+					return gameData;
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		}
 }
