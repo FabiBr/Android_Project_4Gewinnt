@@ -67,7 +67,7 @@ public class MyProtocol {
 		StringBuilder builder = new StringBuilder();
 		builder.append(INSERT_GAME_KEY);
 		builder.append(" ");
-		builder.append("fuck dat");
+		builder.append(emptyField);
 		builder.append(" ");
 		builder.append(user1me);
 		builder.append(" ");
