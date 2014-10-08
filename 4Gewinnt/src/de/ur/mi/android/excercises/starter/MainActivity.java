@@ -31,8 +31,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
-	private static final String SERVER_IP = "192.168.2.103";
-	private static final int SERVERPORT = 4444;
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final int SERVERPORT = 1939;
 	private MyProtocol myP = new MyProtocol();
 	
 

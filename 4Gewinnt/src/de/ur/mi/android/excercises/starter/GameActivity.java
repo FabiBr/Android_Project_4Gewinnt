@@ -107,7 +107,7 @@ public class GameActivity extends Activity {
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
-			if (checknum ==0 || checknum == 3)return i;
+			if (checknum ==0)return i;
 		}
 		return -1;
 	}
@@ -154,7 +154,7 @@ public class GameActivity extends Activity {
 		}
 		counter++;
 		drawcheck();
-		//extras(bottom, rownumber, row);
+		extras(bottom, rownumber, row);
 		
 	}
 
