@@ -30,7 +30,7 @@ public final class R {
         public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
-        public static final int betterlogo=0x7f020000;
+        public static final int background=0x7f020000;
         public static final int bier=0x7f020001;
         public static final int blau=0x7f020002;
         public static final int breze=0x7f020003;
@@ -39,8 +39,9 @@ public final class R {
         public static final int keinextra=0x7f020006;
         public static final int logo=0x7f020007;
         public static final int logobayrisch=0x7f020008;
-        public static final int rot=0x7f020009;
-        public static final int weiss=0x7f02000a;
+        public static final int logopreus=0x7f020009;
+        public static final int rot=0x7f02000a;
+        public static final int weiss=0x7f02000b;
     }
     public static final class id {
         public static final int AcceptButton=0x7f0a0053;
@@ -110,7 +111,6 @@ public final class R {
         public static final int iscurrentlyplaying=0x7f0a001e;
         public static final int language=0x7f0a000d;
         public static final int layout=0x7f0a001c;
-        public static final int layout_bav=0x7f0a0050;
         public static final int layout_preus=0x7f0a004f;
         public static final int listView2=0x7f0a0012;
         public static final int logcheckbutton=0x7f0a0004;
@@ -118,6 +118,7 @@ public final class R {
         public static final int logname=0x7f0a0005;
         public static final int logpw=0x7f0a0006;
         public static final int menu=0x7f0a0007;
+        public static final int ondevice=0x7f0a0050;
         public static final int parentview=0x7f0a0055;
         public static final int playground=0x7f0a0022;
         public static final int regcheckbutton=0x7f0a0017;

@@ -72,6 +72,18 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		// Offline Button Click Listener
+		Button offbut = (Button) findViewById(R.id.ondevice);
+		offbut.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					startActivity(new Intent(MainActivity.this, GameActivity.class));
+				} catch (Exception e) {
+				}
+			}
+		});
+		
 		//Lagnuage Button
 		Button lanbutton = (Button) findViewById(R.id.language);
 		lanbutton.setOnClickListener(new OnClickListener() {
