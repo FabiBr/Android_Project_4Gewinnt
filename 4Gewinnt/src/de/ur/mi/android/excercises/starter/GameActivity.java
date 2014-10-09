@@ -95,11 +95,9 @@ public class GameActivity extends Activity {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
 			if (checknum == 3) {
-				Field.setField(i, rownumber, 0);
-				;
-				// wenn an der gesetzten stelle 3 gesetzt ist
 				TextView currentitem = (TextView) findViewById(R.id.currentitem);
 				currentitem.setBackgroundResource(R.drawable.extra);
+				return i;
 			}
 			if (checknum == 0)
 				return i;
