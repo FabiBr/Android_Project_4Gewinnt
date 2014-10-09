@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="Aktuelles Extra:" />
+            android:text="Blocker aktiv?:" />
 
         <TextView
             android:id="@+id/currentitem"

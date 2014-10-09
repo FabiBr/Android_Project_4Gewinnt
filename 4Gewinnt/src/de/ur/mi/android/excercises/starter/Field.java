@@ -16,14 +16,34 @@ public class Field implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int[][] field;
 	private int turns;
+	private boolean extrasplayer1 = false;
+	private boolean extrasplayer2 = false;
 
 	public Field() {
 		field = new int[6][7];
 		turns = 0;
 	}
 
+	public boolean getExtrasOfPlayer(int playernumber){
+		if(playernumber == 1){
+			return extrasplayer1;
+		}
+		else{
+			return extrasplayer2;
+		}
+	}
+	
+	public void setExtrasOfPlayer(int playernumber, boolean value){
+		if(playernumber == 1){
+			extrasplayer1 = value;
+		}
+		else{
+			extrasplayer2 = value;
+		}
+	}
+	
 	public void setField(int x, int y, int p) {
-		if (field[x][y] == 0 || field[x][y]== 3) {
+		if (field[x][y] == 0 || field[x][y]== 3 || field[x][y] <0) {
 			field[x][y] = p;
 			turns++;
 		}

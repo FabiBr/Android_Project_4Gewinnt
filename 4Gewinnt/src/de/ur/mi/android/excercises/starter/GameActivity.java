@@ -18,6 +18,7 @@ public class GameActivity extends Activity {
 	Field Field;
 	int playernumber = 1;
 	int counter = 0;
+	boolean extrasettable = false;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,6 +87,20 @@ public class GameActivity extends Activity {
 						}
 					}
 				});
+		((TextView) findViewById(R.id.currentitem))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						try {
+							if (Field.getExtrasOfPlayer(playernumber)) {
+								Toast.makeText(GameActivity.this,
+										"Setze den Blocker in eine Reihe.",
+										Toast.LENGTH_LONG).show();
+								extrasettable = true;
+							}
+						} catch (Exception e) {
+						}
+					}
+				});
 	}
 
 	/*
@@ -95,10 +110,17 @@ public class GameActivity extends Activity {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
 			if (checknum == 3) {
-				TextView currentitem = (TextView) findViewById(R.id.currentitem);
-				currentitem.setBackgroundResource(R.drawable.extra);
+				Field.setExtrasOfPlayer(playernumber, true);
 				return i;
 			}
+			if (checknum < 0) {
+				return 6;
+			}
+			/*		for (int i = 0; i < 7; i++){
+			if(nextfree(i)<0){
+				Field.setField(nextfree(i), i,Field.getField(nextfree(i), i));
+			}
+		}*/
 			if (checknum == 0)
 				return i;
 
@@ -109,8 +131,17 @@ public class GameActivity extends Activity {
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausfuehren
 		int bottom = nextfree(rownumber);
-		if (bottom < 6) {
+		if (bottom < 6 && extrasettable && bottom > 0) {
+			// do stuff
+			TextView stone = (TextView) row.getChildAt(0);
+			stone.setBackgroundResource(R.drawable.ic_launcher);
+			Field.setField(bottom, rownumber, -2);
+			extrasettable = false;
+		} else if (bottom < 6) {
 			setstones(bottom, rownumber, row);
+		} else {
+			Toast.makeText(GameActivity.this, "Bist ebba dodal deppad woan",
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -125,21 +156,33 @@ public class GameActivity extends Activity {
 		if (playernumber == 1) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
-			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
-			System.out.println(Field.getField(bottom, rownumber));
 			playchecks(bottom, rownumber, row);
+			playernumber = 2;
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
-			playernumber = 1;
+
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
-			System.out.println(Field.getField(bottom, rownumber));
 			playchecks(bottom, rownumber, row);
+			playernumber = 1;
 
+		}
+		for (int i = 0; i < 7; i++){
+			if(nextfree(i)<0){
+				Field.setField(nextfree(i), i,nextfree(i)+1);
+			}
+		}
+		if (Field.getExtrasOfPlayer(playernumber)) {
+			TextView currentitem = (TextView) findViewById(R.id.currentitem);
+			currentitem.setBackgroundResource(R.drawable.extra);
+		}
+		else{
+			TextView currentitem = (TextView) findViewById(R.id.currentitem);
+			currentitem.setBackgroundResource(R.drawable.keinextra);
 		}
 		if (playernumber == 0) {
 			Button button = (Button) findViewById(R.id.Button);
@@ -161,7 +204,7 @@ public class GameActivity extends Activity {
 		if (counter % 4 == 0 && counter > 0 && bottom > 0) {
 			TextView bottomstone = (TextView) row.getChildAt(bottom - 1);
 			bottomstone.setBackgroundResource(R.drawable.extra);
-			Field.setField(bottom -1, rownumber, 3);
+			Field.setField(bottom - 1, rownumber, 3);
 
 		}
 	}
