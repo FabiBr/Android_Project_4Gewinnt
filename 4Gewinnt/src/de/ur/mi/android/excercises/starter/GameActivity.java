@@ -24,6 +24,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game);
 		Field = new Field();
+		updateField();
 		try {
 			textviewrun();
 		} catch (Exception e) {
@@ -103,6 +104,41 @@ public class GameActivity extends Activity {
 				});
 	}
 
+	private boolean isBlocked(int rownumber){
+		if(Field.getField(0, rownumber) < 0){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	private void updateField(){
+		TableRow playground = (TableRow) findViewById(R.id.playground);
+		LinearLayout row;
+		TextView stone;
+			
+		for(int i = 0; i< 7;i++){
+			row = (LinearLayout) playground.getChildAt(i);
+			for(int j = 0; j <6; j++){
+				stone = (TextView) row.getChildAt(j);
+				if(Field.getField(j, i)== 0){
+					stone.setBackgroundResource(R.drawable.weiss);
+				}
+				if(Field.getField(j, i)== 1){
+					stone.setBackgroundResource(R.drawable.breze);
+				}
+				if(Field.getField(j, i)== 2){
+					stone.setBackgroundResource(R.drawable.bier);
+				}
+				if(Field.getField(j, i)== 3){
+					stone.setBackgroundResource(R.drawable.extra);
+				}
+				if(Field.getField(j, i) < 0){
+					stone.setBackgroundResource(R.drawable.ic_launcher);
+				}
+			}
+		}
+	}
 	/*
 	 * Checker for next free Field in row
 	 */
@@ -116,11 +152,6 @@ public class GameActivity extends Activity {
 			if (checknum < 0) {
 				return 6;
 			}
-			/*		for (int i = 0; i < 7; i++){
-			if(nextfree(i)<0){
-				Field.setField(nextfree(i), i,Field.getField(nextfree(i), i));
-			}
-		}*/
 			if (checknum == 0)
 				return i;
 
@@ -132,17 +163,24 @@ public class GameActivity extends Activity {
 		// alle Daten von gamecontroller abrufen -> hier ausfuehren
 		int bottom = nextfree(rownumber);
 		if (bottom < 6 && extrasettable && bottom > 0) {
-			// do stuff
+			// extra setzen 
 			TextView stone = (TextView) row.getChildAt(0);
 			stone.setBackgroundResource(R.drawable.ic_launcher);
-			Field.setField(bottom, rownumber, -2);
+			Field.setField(0, rownumber, -3);
 			extrasettable = false;
-		} else if (bottom < 6) {
+		} else if (bottom < 6 && !isBlocked(rownumber)) {
+			// stein setzen
 			setstones(bottom, rownumber, row);
+			for(int i = 0; i < 7; i++){
+				if(isBlocked(i)){
+					Field.setField(0, i, Field.getField(0, i)+1);
+				}
+			}
 		} else {
 			Toast.makeText(GameActivity.this, "Bist ebba dodal deppad woan",
 					Toast.LENGTH_LONG).show();
 		}
+
 	}
 
 	/*
@@ -153,29 +191,36 @@ public class GameActivity extends Activity {
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
 
+		
 		if (playernumber == 1) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
+			playernumber = 2;
+			updateField();
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
 			playchecks(bottom, rownumber, row);
-			playernumber = 2;
+			
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
-
+			playernumber = 1;
+			updateField();
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
 			playchecks(bottom, rownumber, row);
-			playernumber = 1;
+
 
 		}
+		
 		for (int i = 0; i < 7; i++){
 			if(nextfree(i)<0){
 				Field.setField(nextfree(i), i,nextfree(i)+1);
 			}
 		}
+		updateField();
+		
 		if (Field.getExtrasOfPlayer(playernumber)) {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
 			currentitem.setBackgroundResource(R.drawable.extra);
@@ -184,12 +229,22 @@ public class GameActivity extends Activity {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
 			currentitem.setBackgroundResource(R.drawable.keinextra);
 		}
+		
 		if (playernumber == 0) {
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText("Gwunna! Nummol?");
 			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
+		updateField();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
 		if (wincheck())
@@ -197,6 +252,7 @@ public class GameActivity extends Activity {
 		counter++;
 		drawcheck();
 		extras(bottom, rownumber, row);
+
 	}
 
 	private void extras(int bottom, int rownumber, LinearLayout row) {
