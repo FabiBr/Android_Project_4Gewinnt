@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameActivity extends Activity {
-	//Main Game
+	// Main Game
 	TableLayout myLayout;
 	Field Field;
 	int playernumber = 1;
@@ -94,11 +94,20 @@ public class GameActivity extends Activity {
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
-			if (checknum ==0)return i;
+			if (checknum == 3) {
+				Field.setField(i, rownumber, 0);
+				;
+				// wenn an der gesetzten stelle 3 gesetzt ist
+				TextView currentitem = (TextView) findViewById(R.id.currentitem);
+				currentitem.setBackgroundResource(R.drawable.extra);
+			}
+			if (checknum == 0)
+				return i;
+
 		}
 		return -1;
 	}
-	
+
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausfuehren
 		int bottom = nextfree(rownumber);
@@ -107,8 +116,6 @@ public class GameActivity extends Activity {
 		}
 	}
 
-
-	
 	/*
 	 * Main Method - Setting of all fields
 	 */
@@ -116,21 +123,15 @@ public class GameActivity extends Activity {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
-		/*
-		//wenn an der gesetzten stelle 3 gesetzt ist
-		if (field.getField(bottom, rownumber) == 3) {
-			TextView currentitem = (TextView) findViewById(R.id.currentitem);
-			currentitem.setBackgroundResource(R.drawable.keinextra);}
-*/
+
 		if (playernumber == 1) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
 			playernumber = 2;
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
+			System.out.println(Field.getField(bottom, rownumber));
 			playchecks(bottom, rownumber, row);
-
-
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
@@ -138,35 +139,34 @@ public class GameActivity extends Activity {
 			playernumber = 1;
 			player.setText(R.string.hansl1);
 			Field.setField(bottom, rownumber, 2);
+			System.out.println(Field.getField(bottom, rownumber));
 			playchecks(bottom, rownumber, row);
 
-
-		} 
-		if(playernumber ==0){
-				Button button = (Button) findViewById(R.id.Button);
-				button.setText("Gwunna! Nummol?");
-				button.setBackgroundColor(getResources()
-						.getColor(R.color.green));
+		}
+		if (playernumber == 0) {
+			Button button = (Button) findViewById(R.id.Button);
+			button.setText("Gwunna! Nummol?");
+			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
 	}
 
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
-		if (wincheck()) playernumber = 0;
+		if (wincheck())
+			playernumber = 0;
 		counter++;
 		drawcheck();
-		//extras(bottom, rownumber, row);
+		extras(bottom, rownumber, row);
 	}
 
 	private void extras(int bottom, int rownumber, LinearLayout row) {
-		//jedes 4. mal			wenn spiel begonnen		wenn max vorletzter stein gesetzt
+		// jedes 4. mal wenn spiel begonnen wenn max vorletzter stein gesetzt
 		if (counter % 4 == 0 && counter > 0 && bottom > 0) {
-			TextView bottomstone = (TextView) row.getChildAt(bottom-1);
+			TextView bottomstone = (TextView) row.getChildAt(bottom - 1);
 			bottomstone.setBackgroundResource(R.drawable.extra);
-			Field.setField(bottom - 1, rownumber, 3);
+			Field.setField(bottom -1, rownumber, 3);
+
 		}
 	}
-
-	
 
 	/*
 	 * Checker for Drawing
@@ -233,13 +233,13 @@ public class GameActivity extends Activity {
 	}
 
 	private boolean vcheck() {
-		//vertical check
+		// vertical check
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j+1, i)
-						&& Field.getField(j, i) == Field.getField(j+2, i)
-						&& Field.getField(j, i) == Field.getField(j+3, i))
+						&& Field.getField(j, i) == Field.getField(j + 1, i)
+						&& Field.getField(j, i) == Field.getField(j + 2, i)
+						&& Field.getField(j, i) == Field.getField(j + 3, i))
 					return true;
 
 			}

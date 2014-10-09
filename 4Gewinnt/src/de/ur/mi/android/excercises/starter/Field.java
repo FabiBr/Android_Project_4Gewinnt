@@ -23,7 +23,7 @@ public class Field implements Serializable {
 	}
 
 	public void setField(int x, int y, int p) {
-		if (field[x][y] == 0) {
+		if (field[x][y] == 0 || field[x][y]== 3) {
 			field[x][y] = p;
 			turns++;
 		}
