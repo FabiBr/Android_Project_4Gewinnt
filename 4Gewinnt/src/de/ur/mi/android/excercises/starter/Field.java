@@ -45,7 +45,6 @@ public class Field implements Serializable {
 	public void setField(int x, int y, int p) {
 		if (field[x][y] != 1 && field [x][y] != 2) {
 			field[x][y] = p;
-			turns++;
 		}
 	}
 
@@ -59,6 +58,10 @@ public class Field implements Serializable {
 
 	public int getTurns() {
 		return turns;
+	}
+	
+	public void setTurns(int turns){
+		this.turns = turns;
 	}
 
 	public String getSerialisedFieldString() throws IOException {

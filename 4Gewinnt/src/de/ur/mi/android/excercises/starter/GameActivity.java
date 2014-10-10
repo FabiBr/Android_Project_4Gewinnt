@@ -8,9 +8,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -20,11 +17,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +27,7 @@ public class GameActivity extends Activity {
 	// Main Game
 	private Field Field;
 	private int playernumber = 1;
-	private int counter = 0;
+	//private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
 
@@ -123,7 +117,7 @@ public class GameActivity extends Activity {
 								Field = new Field();
 								win = new GameWinCheck(Field);
 								playernumber = 1;
-								counter = 0;
+								Field.setTurns(0);
 								updateField();
 							} catch (Exception e) {
 							}
@@ -275,6 +269,7 @@ public class GameActivity extends Activity {
 			player.setText(R.string.hansl2);
 			playernumber = 2;
 			Field.setField(bottom, rownumber, 1);
+			Field.setTurns(Field.getTurns()+1);
 			playchecks(bottom, rownumber, row);
 
 		} else if (playernumber == 2) {
@@ -283,6 +278,7 @@ public class GameActivity extends Activity {
 			player.setText(R.string.hansl1);
 			playernumber = 1;
 			Field.setField(bottom, rownumber, 2);
+			Field.setTurns(Field.getTurns()+1);
 			playchecks(bottom, rownumber, row);
 
 		}
@@ -292,6 +288,7 @@ public class GameActivity extends Activity {
 			button.setText("Gwunna! Nummol?");
 			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
+		drawcheck();
 	}
 
 	/*
@@ -300,8 +297,6 @@ public class GameActivity extends Activity {
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
 		if (win.wincheck())
 			playernumber = 0;
-		counter++;
-		drawcheck();
 		extras(bottom, rownumber, row);
 	}
 
@@ -310,6 +305,7 @@ public class GameActivity extends Activity {
 	 */
 	private void extras(int bottom, int rownumber, LinearLayout row) {
 		// jedes 5. mal wenn spiel begonnen wenn max vorletzter stein gesetzt
+		int counter = Field.getTurns();
 		if (counter % 5 == 0 && counter > 0 && bottom > 0) {
 			TextView bottomstone = (TextView) row.getChildAt(bottom - 1);
 			bottomstone.setBackgroundResource(R.drawable.extra);
@@ -322,7 +318,7 @@ public class GameActivity extends Activity {
 	 * Checker for Drawing
 	 */
 	private void drawcheck() {
-		if (counter == 42) {
+		if (Field.getTurns() == 42) {
 			playernumber = 0;
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText("Unentschieden. Nochmal?");
