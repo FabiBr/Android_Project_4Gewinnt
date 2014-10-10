@@ -164,7 +164,10 @@ public final class R {
         public static final int app_name=0x7f070000;
         public static final int bavarian=0x7f07001d;
         public static final int blank=0x7f07000e;
+        public static final int blockedrow=0x7f070027;
+        public static final int blocker=0x7f070023;
         public static final int currentplayers=0x7f070018;
+        public static final int drawstring=0x7f070025;
         public static final int gamestart=0x7f07001e;
         public static final int greetings=0x7f07000f;
         public static final int greetings2=0x7f070010;
@@ -181,6 +184,7 @@ public final class R {
         public static final int restart=0x7f070012;
         public static final int search=0x7f070014;
         public static final int search_hint=0x7f070020;
+        public static final int setblock=0x7f070026;
         public static final int simplegame=0x7f070016;
         public static final int suchtext=0x7f070022;
         public static final int title_activity_game=0x7f070005;
@@ -189,6 +193,7 @@ public final class R {
         public static final int title_activity_overview=0x7f070013;
         public static final int title_activity_register=0x7f07000c;
         public static final int title_activity_search_results=0x7f070021;
+        public static final int winstring=0x7f070024;
     }
     public static final class style {
         /** 

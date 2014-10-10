@@ -35,5 +35,9 @@
     <string name="actuellplayer">Gerade spielt:</string>
     <string name="search_hint">Freund suchen</string>
     <string name="suchtext">Du suchst: </string>
+    <string name="winstring">Gewonnen! Nochmal?</string>
+    <string name="drawstring">Unentschieden! Nochmal?</string>
+    <string name="setblock">Setze den Blocker in eine Reihe</string>
+    <string name="blockedrow">Leider ist diese Reihe blockiert</string>
         
 </resources>

@@ -148,7 +148,7 @@ public class GameActivity extends Activity {
 							if (Field.getExtrasOfPlayer(playernumber)) {
 								ExtraCanBeSet = true;
 								Toast.makeText(GameActivity.this,
-										"Setze den Blocker in eine Reihe.",
+										getText(R.string.setblock),
 										Toast.LENGTH_LONG).show();
 							}
 						} catch (Exception e) {
@@ -197,7 +197,7 @@ public class GameActivity extends Activity {
 		} else {
 
 			// wenn in blockierte Reihe gesetzt werden will
-			Toast.makeText(GameActivity.this, "Bist ebba dodal deppad woan",
+			Toast.makeText(GameActivity.this, getText(R.string.blockedrow),
 					Toast.LENGTH_LONG).show();
 		}
 
@@ -285,7 +285,7 @@ public class GameActivity extends Activity {
 		updateField();
 		if (playernumber == 0) {
 			Button button = (Button) findViewById(R.id.Button);
-			button.setText("Gwunna! Nummol?");
+			button.setText(R.string.winstring);
 			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
 		drawcheck();
@@ -321,7 +321,7 @@ public class GameActivity extends Activity {
 		if (Field.getTurns() == 42) {
 			playernumber = 0;
 			Button button = (Button) findViewById(R.id.Button);
-			button.setText("Unentschieden. Nochmal?");
+			button.setText(R.string.drawstring);
 			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
 	}

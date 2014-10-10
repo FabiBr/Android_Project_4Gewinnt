@@ -36,5 +36,12 @@
     <string name="search_hint">Freind suacha</string>
     <string name="title_activity_search_results">Suche</string>
     <string name="suchtext">Du suachst an: </string>
+    <string name="blocker">Blocker aktiv?</string>
+    <string name="winstring">Gwunna! Nummol?</string>
+    <string name="drawstring">Es wards gleich guad! Nummol?</string>
+    <string name="setblock">Setz an Blogga in a Rei</string>
+    <string name="blockedrow">Bist ebba dodal deppad woan</string>
+    
+    
 
 </resources>
