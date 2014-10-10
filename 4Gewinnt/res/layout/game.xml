@@ -29,10 +29,10 @@
             android:id="@+id/currentPlayerIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bier"
+            android:background="@drawable/breze"
             android:gravity="center"
-            android:scaleX="0.5"
-            android:scaleY="0.5" />
+            android:scaleX="1"
+            android:scaleY="1" />
 
         <TextView
             android:id="@+id/iscurrentlyplaying"
@@ -46,8 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@drawable/weiss"
-            android:scaleX="0.5"
-            android:scaleY="0.5" />
+            android:visibility="invisible"
+            android:scaleX="1"
+            android:scaleY="1" />
 
         <TextView
             android:id="@+id/currentextra"
@@ -62,8 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@drawable/keinextra"
-            android:scaleX="0.5"
-            android:scaleY="0.5" />
+            android:scaleX="1"
+            android:scaleY="1" />
     </LinearLayout>
 
     <TableRow

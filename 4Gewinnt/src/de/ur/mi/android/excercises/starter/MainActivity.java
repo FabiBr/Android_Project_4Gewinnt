@@ -18,28 +18,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import java.util.Locale;
-
-import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP = new MyProtocol();
-	
-
-
 	private boolean isbavarian = true;
+	
+	
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("App start");
 		super.onCreate(savedInstanceState);
 		//new ServerSynch().execute();
 		setContentView(R.layout.menu_2_bav);
