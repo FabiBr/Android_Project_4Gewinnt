@@ -31,37 +31,35 @@ import android.widget.Toast;
 
 public class GameActivity extends Activity {
 	// Main Game
-	TableLayout myLayout;
-	Field Field;
-	int playernumber = 1;
-	int counter = 0;
-	GameWinCheck win;
-	
+	private TableLayout myLayout;
+	private Field Field;
+	private int playernumber = 1;
+	private int counter = 0;
+	private GameWinCheck win;
+
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
-	
 	private MyProtocol myP;
 
+	/*
+	 * Start Method
+	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		/*
-		myP = new MyProtocol();
-		Bundle bundle = getIntent().getExtras();
-		String gameId = bundle.getString("gameId");
-		//new ServerSynch().execute(gameId);
-*/
+		 * myP = new MyProtocol(); Bundle bundle = getIntent().getExtras();
+		 * String gameId = bundle.getString("gameId"); //new
+		 * ServerSynch().execute(gameId);
+		 */
 		setContentView(R.layout.game);
-		
-		
 
 		setContentView(R.layout.game);
 		Field = new Field();
 		win = new GameWinCheck(Field);
 
-
 		updateField();
 		try {
-			textviewrun();
+			listenerCreate();
 		} catch (Exception e) {
 		}
 		Toast.makeText(GameActivity.this, getText(R.string.gamestart),
@@ -70,9 +68,40 @@ public class GameActivity extends Activity {
 	}
 
 	/*
+	 * Update Methode
+	 */
+	private void updateField() {
+		TableRow playground = (TableRow) findViewById(R.id.playground);
+		LinearLayout row;
+		TextView stone;
+
+		for (int i = 0; i < 7; i++) {
+			row = (LinearLayout) playground.getChildAt(i);
+			for (int j = 0; j < 6; j++) {
+				stone = (TextView) row.getChildAt(j);
+				if (Field.getField(j, i) == 0) {
+					stone.setBackgroundResource(R.drawable.weiss);
+				}
+				if (Field.getField(j, i) == 1) {
+					stone.setBackgroundResource(R.drawable.breze);
+				}
+				if (Field.getField(j, i) == 2) {
+					stone.setBackgroundResource(R.drawable.bier);
+				}
+				if (Field.getField(j, i) == 3) {
+					stone.setBackgroundResource(R.drawable.extra);
+				}
+				if (Field.getField(j, i) < 0) {
+					stone.setBackgroundResource(R.drawable.ic_launcher);
+				}
+			}
+		}
+	}
+
+	/*
 	 * Erstellt fuer jede Reihe einen Listener
 	 */
-	private void textviewrun() {
+	private void listenerCreate() {
 		myLayout = (TableLayout) findViewById(R.id.layout);
 		TableRow playground = (TableRow) findViewById(R.id.playground);
 		for (int i = 0; i < playground.getChildCount(); i++) {
@@ -82,33 +111,31 @@ public class GameActivity extends Activity {
 				row.getChildAt(j).setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						try {
-							clicklistener(row, rownumber);
+							decisionMaker(row, rownumber);
 						} catch (Exception e) {
 						}
 					}
 				});
 			}
 		}
-
-		// Button Click Listener
 		((Button) findViewById(R.id.Button))
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						try {
 							setContentView(R.layout.game);
 							try {
-								textviewrun();
 								Field = new Field();
 								playernumber = 1;
 								counter = 0;
-
+								updateField();
+								listenerCreate();
 							} catch (Exception e) {
 							}
 						} catch (Exception e) {
 						}
 					}
 				});
-		
+
 		((Button) findViewById(R.id.Mainmenue))
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
@@ -139,85 +166,60 @@ public class GameActivity extends Activity {
 				});
 	}
 
-	private boolean isBlocked(int rownumber){
-		if(Field.getField(0, rownumber) < 0){
+	/*
+	 * Ab hier Logik
+	 */
+
+	private boolean isBlocked(int rownumber) {
+		if (Field.getField(0, rownumber) < 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	
-	private void updateField(){
-		TableRow playground = (TableRow) findViewById(R.id.playground);
-		LinearLayout row;
-		TextView stone;
-			
-		for(int i = 0; i< 7;i++){
-			row = (LinearLayout) playground.getChildAt(i);
-			for(int j = 0; j <6; j++){
-				stone = (TextView) row.getChildAt(j);
-				if(Field.getField(j, i)== 0){
-					stone.setBackgroundResource(R.drawable.weiss);
-				}
-				if(Field.getField(j, i)== 1){
-					stone.setBackgroundResource(R.drawable.breze);
-				}
-				if(Field.getField(j, i)== 2){
-					stone.setBackgroundResource(R.drawable.bier);
-				}
-				if(Field.getField(j, i)== 3){
-					stone.setBackgroundResource(R.drawable.extra);
-				}
-				if(Field.getField(j, i) < 0){
-					stone.setBackgroundResource(R.drawable.ic_launcher);
-				}
-			}
-		}
-	}
+
 	/*
 	 * Checker for next free Field in row
 	 */
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
-			if (checknum == 3) {
-				return i;
-			}
 			if (checknum < 0) {
 				return 6;
 			}
-			if (checknum == 0)
+			if (checknum == 0 || checknum == 3)
 				return i;
 
 		}
 		return -1;
 	}
 
-	protected void clicklistener(LinearLayout row, int rownumber) {
-		// alle Daten von gamecontroller abrufen -> hier ausfuehren
+	protected void decisionMaker(LinearLayout row, int rownumber) {
 		int bottom = nextfree(rownumber);
 		if (bottom < 6 && Field.getExtrasOfPlayer(playernumber) && bottom > 0) {
-			// extra setzen 
+
+			// extra setzen
 			TextView stone = (TextView) row.getChildAt(0);
 			stone.setBackgroundResource(R.drawable.ic_launcher);
 			Field.setField(0, rownumber, -2);
 			Field.setExtrasOfPlayer(playernumber, false);
 		} else if (bottom < 6 && !isBlocked(rownumber)) {
+
 			// stein setzen
-			
-			for(int i = 0; i < 7; i++){
-				if(isBlocked(i)){
-					int var =Field.getField(0, i)+1;
+			for (int i = 0; i < 7; i++) {
+				if (isBlocked(i)) {
+					int var = Field.getField(0, i) + 1;
 					Field.setField(0, i, var);
-					if ( Field.getField(0,i)==0){
+					if (Field.getField(0, i) == 0) {
 						TextView stone = (TextView) row.getChildAt(0);
 						stone.setBackgroundResource(R.drawable.weiss);
 					}
-						
+
 				}
 			}
 			setstones(bottom, rownumber, row);
 		} else {
+
+			// wenn in blockierte Reihe gesetzt werden will
 			Toast.makeText(GameActivity.this, "Bist ebba dodal deppad woan",
 					Toast.LENGTH_LONG).show();
 		}
@@ -231,10 +233,46 @@ public class GameActivity extends Activity {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
+
+		//wenn auf dem Feld ein ? bekommt Player ein Extra
+		if (Field.getField(bottom, rownumber) == 3)
+			Field.setExtrasOfPlayer(playernumber, true);
+
+		//Eigentliches setzen
+		actualTurn(player, bottomstone, playericon, bottom, rownumber, row);
+
+		//setze jeden Blocker +1
+		for (int i = 0; i < 7; i++) {
+			if (nextfree(i) < 0) {
+				Field.setField(nextfree(i), i, nextfree(i) + 1);
+			}
+		}
 		
-		if(Field.getField(bottom,rownumber)==3)Field.setExtrasOfPlayer(playernumber, true);
+		//Setze die Symbole ob Extra oder nicht
+		setPlayerExtras();
 
 		
+		//Update komplettes Spielfeld
+		updateField();
+	}
+
+	
+	private void setPlayerExtras() {
+		if (Field.getExtrasOfPlayer(playernumber)) {
+			TextView currentitem = (TextView) findViewById(R.id.currentitem);
+			currentitem.setBackgroundResource(R.drawable.extra);
+		} else {
+			TextView currentitem = (TextView) findViewById(R.id.currentitem);
+			currentitem.setBackgroundResource(R.drawable.keinextra);
+		}
+	}
+
+	
+	/*
+	 * Eigentliches Setzen
+	 */
+	private void actualTurn(TextView player, TextView bottomstone,
+			TextView playericon, int bottom, int rownumber, LinearLayout row) {
 		if (playernumber == 1) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
@@ -243,7 +281,6 @@ public class GameActivity extends Activity {
 			player.setText(R.string.hansl2);
 			Field.setField(bottom, rownumber, 1);
 			playchecks(bottom, rownumber, row);
-			
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
@@ -254,41 +291,17 @@ public class GameActivity extends Activity {
 			Field.setField(bottom, rownumber, 2);
 			playchecks(bottom, rownumber, row);
 
-
 		}
-		
-		for (int i = 0; i < 7; i++){
-			if(nextfree(i)<0){
-				Field.setField(nextfree(i), i,nextfree(i)+1);
-			}
-		}
-		updateField();
-		
-		if (Field.getExtrasOfPlayer(playernumber)) {
-			TextView currentitem = (TextView) findViewById(R.id.currentitem);
-			currentitem.setBackgroundResource(R.drawable.extra);
-		}
-		else{
-			TextView currentitem = (TextView) findViewById(R.id.currentitem);
-			currentitem.setBackgroundResource(R.drawable.keinextra);
-		}
-		
 		if (playernumber == 0) {
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText("Gwunna! Nummol?");
 			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
-		updateField();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
+	/*
+	 * Default checks
+	 */
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
 		if (win.wincheck())
 			playernumber = 0;
@@ -297,7 +310,10 @@ public class GameActivity extends Activity {
 		extras(bottom, rownumber, row);
 
 	}
-
+	
+	/*
+	 * Extraset
+	 */
 	private void extras(int bottom, int rownumber, LinearLayout row) {
 		// jedes 5. mal wenn spiel begonnen wenn max vorletzter stein gesetzt
 		if (counter % 5 == 0 && counter > 0 && bottom > 0) {
@@ -320,7 +336,9 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	
+	/*
+	 * Serveranbindung
+	 */
 	class ServerSynch extends AsyncTask<String, Void, String> {
 		Socket socket = null;
 
@@ -346,18 +364,18 @@ public class GameActivity extends Activity {
 			JSONArray gamesList;
 			try {
 				gamesList = new JSONArray(result);
-				
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
 			// state.setAllUsers(result);
 		}
-		
+
 		private String sendRequest(String gameId) {
-			
+
 			try {
-				
+
 				String output = myP.getGameById(gameId);
 				PrintWriter out = new PrintWriter(new BufferedWriter(
 						new OutputStreamWriter(socket.getOutputStream())), true);

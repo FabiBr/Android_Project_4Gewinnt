@@ -1,7 +1,5 @@
 package de.ur.mi.android.excercises.starter;
 
-import android.widget.Button;
-
 public class GameWinCheck {
 	Field Field;
 	
@@ -10,11 +8,6 @@ public class GameWinCheck {
 	}
 	
 
-
-
-	/*
-	 * Checker for Winning
-	 */
 	public boolean wincheck() {
 		if (vcheck() || hcheck() || dcheck())
 			return true;
