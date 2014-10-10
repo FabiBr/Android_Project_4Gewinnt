@@ -44,7 +44,6 @@
     <string name="loginheader">Anmelden</string>
     <string name="registerheader">Registrieren</string>
     <string name="overviewheader">Übersicht</string>
-    
-    
+    <string name="title_activity_gameoffline">Gameoffline</string>
 
 </resources>

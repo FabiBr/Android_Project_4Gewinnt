@@ -1,19 +1,7 @@
 package de.ur.mi.android.excercises.starter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +11,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameActivity extends Activity {
+public class Gameoffline extends Activity {
 	// Main Game
 	private Field Field;
 	private int playernumber = 1;
@@ -31,28 +19,19 @@ public class GameActivity extends Activity {
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
 
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
-	private static final int SERVERPORT = 1939;
-	private MyProtocol myP;
-
 	/*
 	 * Start Method
 	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*
-		 * myP = new MyProtocol(); Bundle bundle = getIntent().getExtras();
-		 * String gameId = bundle.getString("gameId"); //new
-		 * ServerSynch().execute(gameId);
-		 */
-		setContentView(R.layout.game);
+		setContentView(R.layout.activity_gameoffline);
 		Field = new Field();
 		win = new GameWinCheck(Field);
 		try {
 			listenerCreate();
 		} catch (Exception e) {
 		}
-		Toast.makeText(GameActivity.this, getText(R.string.gamestart),
+		Toast.makeText(Gameoffline.this, getText(R.string.gamestart),
 				Toast.LENGTH_LONG).show();
 
 	}
@@ -107,6 +86,24 @@ public class GameActivity extends Activity {
 				});
 			}
 		}
+		((Button) findViewById(R.id.Button))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						try {
+							setContentView(R.layout.activity_gameoffline);
+							try {
+								listenerCreate();
+								Field = new Field();
+								win = new GameWinCheck(Field);
+								playernumber = 1;
+								Field.setTurns(0);
+								updateField();
+							} catch (Exception e) {
+							}
+						} catch (Exception e) {
+						}
+					}
+				});
 
 		((Button) findViewById(R.id.Mainmenue))
 				.setOnClickListener(new OnClickListener() {
@@ -114,7 +111,7 @@ public class GameActivity extends Activity {
 						try {
 							setContentView(R.layout.game);
 							try {
-								startActivity(new Intent(GameActivity.this,
+								startActivity(new Intent(Gameoffline.this,
 										MainActivity.class));
 
 							} catch (Exception e) {
@@ -129,7 +126,7 @@ public class GameActivity extends Activity {
 						try {
 							if (Field.getExtrasOfPlayer(playernumber)) {
 								ExtraCanBeSet = true;
-								Toast.makeText(GameActivity.this,
+								Toast.makeText(Gameoffline.this,
 										getText(R.string.setblock),
 										Toast.LENGTH_LONG).show();
 							}
@@ -179,7 +176,7 @@ public class GameActivity extends Activity {
 		} else {
 
 			// wenn in blockierte Reihe gesetzt werden will
-			Toast.makeText(GameActivity.this, getText(R.string.blockedrow),
+			Toast.makeText(Gameoffline.this, getText(R.string.blockedrow),
 					Toast.LENGTH_LONG).show();
 		}
 
@@ -305,67 +302,6 @@ public class GameActivity extends Activity {
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText(R.string.drawstring);
 			button.setBackgroundColor(getResources().getColor(R.color.green));
-		}
-	}
-
-	/*
-	 * Serveranbindung
-	 */
-	class ServerSynch extends AsyncTask<String, Void, String> {
-		Socket socket = null;
-
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-				socket = new Socket(SERVER_IP, SERVERPORT);
-				System.out.println("gr8 success very nice");
-				String gamesData = sendRequest(params[0]);
-				return gamesData;
-
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			JSONArray gamesList;
-			try {
-				gamesList = new JSONArray(result);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
-			// state.setAllUsers(result);
-		}
-
-		private String sendRequest(String gameId) {
-
-			try {
-
-				String output = myP.getGameById(gameId);
-				PrintWriter out = new PrintWriter(new BufferedWriter(
-						new OutputStreamWriter(socket.getOutputStream())), true);
-				out.println(output);
-				out.flush();
-				BufferedReader input = new BufferedReader(
-						new InputStreamReader(socket.getInputStream()));
-				String gameData = input.readLine();
-				System.out.println();
-				return gameData;
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
 		}
 	}
 }

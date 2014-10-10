@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(MainActivity.this, GameActivity.class));
+					startActivity(new Intent(MainActivity.this, Gameoffline.class));
 				} catch (Exception e) {
 				}
 			}
