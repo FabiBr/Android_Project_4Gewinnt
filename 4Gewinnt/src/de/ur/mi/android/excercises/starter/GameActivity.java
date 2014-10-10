@@ -31,11 +31,11 @@ import android.widget.Toast;
 
 public class GameActivity extends Activity {
 	// Main Game
-	private TableLayout myLayout;
 	private Field Field;
 	private int playernumber = 1;
 	private int counter = 0;
 	private GameWinCheck win;
+	private boolean ExtraCanBeSet = false;
 
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
@@ -98,7 +98,6 @@ public class GameActivity extends Activity {
 	 * Erstellt fuer jede Reihe und Button einen Listener
 	 */
 	private void listenerCreate() {
-		myLayout = (TableLayout) findViewById(R.id.layout);
 		TableRow playground = (TableRow) findViewById(R.id.playground);
 		for (int i = 0; i < playground.getChildCount(); i++) {
 			final LinearLayout row = (LinearLayout) playground.getChildAt(i);
@@ -153,6 +152,7 @@ public class GameActivity extends Activity {
 					public void onClick(View v) {
 						try {
 							if (Field.getExtrasOfPlayer(playernumber)) {
+								ExtraCanBeSet = true;
 								Toast.makeText(GameActivity.this,
 										"Setze den Blocker in eine Reihe.",
 										Toast.LENGTH_LONG).show();
@@ -191,11 +191,12 @@ public class GameActivity extends Activity {
 		int bottom = nextfree(rownumber);
 		
 		//extra setzen
-		if (!isBlocked(rownumber) && Field.getExtrasOfPlayer(playernumber)) {
+		if (!isBlocked(rownumber) && ExtraCanBeSet && Field.getExtrasOfPlayer(playernumber)) {
 			TextView stone = (TextView) row.getChildAt(0);
 			stone.setBackgroundResource(R.drawable.ic_launcher);
 			Field.setField(0, rownumber, -2);//2 wegen verzoegerung
 			Field.setExtrasOfPlayer(playernumber, false);
+			ExtraCanBeSet = false;
 		// stein setzen
 		} else if (!isBlocked(rownumber)) {
 			setstones(bottom, rownumber, row);
@@ -214,8 +215,6 @@ public class GameActivity extends Activity {
 	 * Main Method - Setting of all fields
 	 */
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
-
-
 		// lass zuerst evtl Blocker verschwinden
 		hideblocker(row);
 		
@@ -273,20 +272,20 @@ public class GameActivity extends Activity {
 		if (playernumber == 1) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
-			playernumber = 2;
-			updateField();
 			player.setText(R.string.hansl2);
+			playernumber = 2;
 			Field.setField(bottom, rownumber, 1);
 			playchecks(bottom, rownumber, row);
+			
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
-			playernumber = 1;
-			updateField();
 			player.setText(R.string.hansl1);
+			playernumber = 1;
 			Field.setField(bottom, rownumber, 2);
 			playchecks(bottom, rownumber, row);
+			
 
 		}
 		if (playernumber == 0) {
@@ -305,7 +304,6 @@ public class GameActivity extends Activity {
 		counter++;
 		drawcheck();
 		extras(bottom, rownumber, row);
-
 	}
 
 	/*
