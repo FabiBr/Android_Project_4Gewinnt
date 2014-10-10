@@ -214,9 +214,7 @@ public class GameActivity extends Activity {
 	 * Main Method - Setting of all fields
 	 */
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
-		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
-		TextView bottomstone = (TextView) row.getChildAt(bottom);
-		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
+
 
 		// lass zuerst evtl Blocker verschwinden
 		hideblocker(row);
@@ -226,7 +224,7 @@ public class GameActivity extends Activity {
 			Field.setExtrasOfPlayer(playernumber, true);
 
 		// Eigentliches setzen
-		actualTurn(player, bottomstone, playericon, bottom, rownumber, row);
+		actualTurn(bottom, rownumber, row);
 
 		// setze jeden Blocker +1
 		for (int i = 0; i < 7; i++) {
@@ -268,8 +266,10 @@ public class GameActivity extends Activity {
 	/*
 	 * Eigentliches Setzen
 	 */
-	private void actualTurn(TextView player, TextView bottomstone,
-			TextView playericon, int bottom, int rownumber, LinearLayout row) {
+	private void actualTurn(int bottom, int rownumber, LinearLayout row) {
+		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
+		TextView bottomstone = (TextView) row.getChildAt(bottom);
+		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
 		if (playernumber == 1) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
