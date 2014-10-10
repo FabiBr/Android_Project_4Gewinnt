@@ -8,53 +8,41 @@
     tools:context="de.ur.mi.android.excercises.starter.Overview"
     tools:ignore="MergeRootFrame" >
 
-    <LinearLayout
+    <Button
+        android:id="@+id/gamestart"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.4"
-        android:orientation="vertical" >
+        android:background="@color/blue"
+        android:text="@string/simplegame" />
 
-        <Button
-            android:id="@+id/gamestart"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:text="@string/simplegame" />
-
-        <TextView
-            android:id="@+id/currentPlayers"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grey"
-            android:text="@string/currentplayers" >
-        </TextView>
-
-        <ListView
-            android:id="@+id/searchResultList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/currentPlayers"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.4"
-        android:orientation="vertical" >
+        android:background="@color/grey"
+        android:text="@string/currentplayers" >
+    </TextView>
 
-        <TextView
-            android:id="@+id/alreadyplayed"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grey"
-            android:text="@string/alreadyplayed" >
-        </TextView>
+    <ListView
+        android:id="@+id/searchResultList"
+                android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
 
-        <ListView
-            android:id="@+id/listView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/alreadyplayed"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        android:text="@string/alreadyplayed" >
+    </TextView>
+
+    <ListView
+        android:id="@+id/listView2"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
 
 </LinearLayout>
