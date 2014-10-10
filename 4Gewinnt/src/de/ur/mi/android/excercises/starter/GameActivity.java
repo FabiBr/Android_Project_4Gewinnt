@@ -1,12 +1,29 @@
 package de.ur.mi.android.excercises.starter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,12 +35,29 @@ public class GameActivity extends Activity {
 	Field Field;
 	int playernumber = 1;
 	int counter = 0;
-	boolean extrasettable = false;
+	GameWinCheck win;
+	
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final int SERVERPORT = 1939;
+	
+	private MyProtocol myP;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myP = new MyProtocol();
+		Bundle bundle = getIntent().getExtras();
+		String gameId = bundle.getString("gameId");
+		//new ServerSynch().execute(gameId);
+
+		setContentView(R.layout.game);
+		
+		
+
 		setContentView(R.layout.game);
 		Field = new Field();
+		win = new GameWinCheck(Field);
+
+
 		updateField();
 		try {
 			textviewrun();
@@ -73,6 +107,7 @@ public class GameActivity extends Activity {
 						}
 					}
 				});
+		
 		((Button) findViewById(R.id.Mainmenue))
 				.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
@@ -96,7 +131,6 @@ public class GameActivity extends Activity {
 								Toast.makeText(GameActivity.this,
 										"Setze den Blocker in eine Reihe.",
 										Toast.LENGTH_LONG).show();
-								extrasettable = true;
 							}
 						} catch (Exception e) {
 						}
@@ -146,7 +180,6 @@ public class GameActivity extends Activity {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
 			if (checknum == 3) {
-				Field.setExtrasOfPlayer(playernumber, true);
 				return i;
 			}
 			if (checknum < 0) {
@@ -162,20 +195,27 @@ public class GameActivity extends Activity {
 	protected void clicklistener(LinearLayout row, int rownumber) {
 		// alle Daten von gamecontroller abrufen -> hier ausfuehren
 		int bottom = nextfree(rownumber);
-		if (bottom < 6 && extrasettable && bottom > 0) {
+		if (bottom < 6 && Field.getExtrasOfPlayer(playernumber) && bottom > 0) {
 			// extra setzen 
 			TextView stone = (TextView) row.getChildAt(0);
 			stone.setBackgroundResource(R.drawable.ic_launcher);
-			Field.setField(0, rownumber, -3);
-			extrasettable = false;
+			Field.setField(0, rownumber, -2);
+			Field.setExtrasOfPlayer(playernumber, false);
 		} else if (bottom < 6 && !isBlocked(rownumber)) {
 			// stein setzen
-			setstones(bottom, rownumber, row);
+			
 			for(int i = 0; i < 7; i++){
 				if(isBlocked(i)){
-					Field.setField(0, i, Field.getField(0, i)+1);
+					int var =Field.getField(0, i)+1;
+					Field.setField(0, i, var);
+					if ( Field.getField(0,i)==0){
+						TextView stone = (TextView) row.getChildAt(0);
+						stone.setBackgroundResource(R.drawable.weiss);
+					}
+						
 				}
 			}
+			setstones(bottom, rownumber, row);
 		} else {
 			Toast.makeText(GameActivity.this, "Bist ebba dodal deppad woan",
 					Toast.LENGTH_LONG).show();
@@ -190,6 +230,8 @@ public class GameActivity extends Activity {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
+		
+		if(Field.getField(bottom,rownumber)==3)Field.setExtrasOfPlayer(playernumber, true);
 
 		
 		if (playernumber == 1) {
@@ -247,7 +289,7 @@ public class GameActivity extends Activity {
 	
 
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
-		if (wincheck())
+		if (win.wincheck())
 			playernumber = 0;
 		counter++;
 		drawcheck();
@@ -256,8 +298,8 @@ public class GameActivity extends Activity {
 	}
 
 	private void extras(int bottom, int rownumber, LinearLayout row) {
-		// jedes 4. mal wenn spiel begonnen wenn max vorletzter stein gesetzt
-		if (counter % 4 == 0 && counter > 0 && bottom > 0) {
+		// jedes 5. mal wenn spiel begonnen wenn max vorletzter stein gesetzt
+		if (counter % 5 == 0 && counter > 0 && bottom > 0) {
 			TextView bottomstone = (TextView) row.getChildAt(bottom - 1);
 			bottomstone.setBackgroundResource(R.drawable.extra);
 			Field.setField(bottom - 1, rownumber, 3);
@@ -277,70 +319,62 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	/*
-	 * Checker for Winning
-	 */
-	private boolean wincheck() {
-		if (vcheck() || hcheck() || dcheck())
-			return true;
-		return false;
+	
+	class ServerSynch extends AsyncTask<String, Void, String> {
+		Socket socket = null;
 
-	}
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+				String gamesData = sendRequest(params[0]);
+				return gamesData;
 
-	private boolean dcheck() {
-		// diagonal check
-		// down up
-		for (int i = 0; i <= 3; i++) {
-			for (int j = 5; j >= 3; j--) {
-				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j - 1, i + 1)
-						&& Field.getField(j, i) == Field.getField(j - 2, i + 2)
-						&& Field.getField(j, i) == Field.getField(j - 3, i + 3))
-					return true;
-
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-		}
-		// up down
-		for (int i = 0; i <= 3; i++) {
-			for (int j = 0; j <= 2; j++) {
-				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j + 1, i + 1)
-						&& Field.getField(j, i) == Field.getField(j + 2, i + 2)
-						&& Field.getField(j, i) == Field.getField(j + 3, i + 3))
-					return true;
 
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			JSONArray gamesList;
+			try {
+				gamesList = new JSONArray(result);
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
+
+			// state.setAllUsers(result);
 		}
-		return false;
-	}
-
-	private boolean hcheck() {
-		// horizontal check
-		for (int i = 0; i <= 3; i++) {
-			for (int j = 0; j < 6; j++) {
-				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j, i + 1)
-						&& Field.getField(j, i) == Field.getField(j, i + 2)
-						&& Field.getField(j, i) == Field.getField(j, i + 3))
-					return true;
-
+		
+		private String sendRequest(String gameId) {
+			
+			try {
+				
+				String output = myP.getGameById(gameId);
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				out.println(output);
+				out.flush();
+				BufferedReader input = new BufferedReader(
+						new InputStreamReader(socket.getInputStream()));
+				String gameData = input.readLine();
+				System.out.println();
+				return gameData;
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			return null;
 		}
-		return false;
-	}
-
-	private boolean vcheck() {
-		// vertical check
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (Field.getField(j, i) != 0
-						&& Field.getField(j, i) == Field.getField(j + 1, i)
-						&& Field.getField(j, i) == Field.getField(j + 2, i)
-						&& Field.getField(j, i) == Field.getField(j + 3, i))
-					return true;
-
-			}
-		}
-		return false;
 	}
 }

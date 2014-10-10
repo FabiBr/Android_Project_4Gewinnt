@@ -10,6 +10,7 @@ public class MyProtocol {
 	private static final String PASSWORD_CHECK_KEY = "checkPw";
 	private static final String GET_ALL_USERS_KEY = "allUsersGet";
 	private static final String GET_GAMES_KEY = "myGamesGet";
+	private static final String GET_GAME_BY_ID_KEY = "gameById";
 	
 
 	
@@ -77,6 +78,11 @@ public class MyProtocol {
 		String protocolString = builder.toString();
 		String oneLine = protocolString.replaceAll("\n", "");
 		return oneLine;
+	}
+
+	public String getGameById(String gameId) {
+		String protocolString = GET_GAME_BY_ID_KEY + " " +  gameId;
+		return protocolString;
 	}
 	
 }

@@ -9,9 +9,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import de.ur.mi.android.excercises.starter.SearchResultsActivity.contactOpponent;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -145,11 +149,36 @@ public class Overview extends Activity implements MyDialog.Communicator{
 					gamesList = new JSONArray(result);
 					processGamesJsonArray(gamesList);
 					showCurrentGames();
+					registerClickCallback();
+					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 
 				// state.setAllUsers(result);
+			}
+			
+			private void registerClickCallback() {
+				ListView userListView = (ListView) findViewById(R.id.searchResultList);
+				userListView
+						.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+							@Override
+							public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id) {
+								TextView textView = (TextView) view;
+								String info = textView.getText().toString();
+								StringTokenizer tk = new StringTokenizer(info);
+								String gameId = tk.nextToken();
+								Bundle bundle = new Bundle();
+								bundle.putString("gameId", gameId);
+								Intent i = new Intent(Overview.this, GameActivity.class);
+								i.putExtras(bundle);
+								startActivity(i);
+								Toast.makeText(Overview.this, gameId,
+										Toast.LENGTH_SHORT).show();
+							}
+						});
 			}
 			
 			private void processGamesJsonArray(JSONArray gamesList) throws JSONException {

@@ -187,6 +187,7 @@ public final class R {
         public static final int search=0x7f070014;
         public static final int search_hint=0x7f070020;
         public static final int simplegame=0x7f070016;
+        public static final int suchtext=0x7f070022;
         public static final int title_activity_game=0x7f070005;
         public static final int title_activity_login=0x7f070006;
         public static final int title_activity_menue=0x7f070004;

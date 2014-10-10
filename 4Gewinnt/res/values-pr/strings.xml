@@ -32,5 +32,8 @@
     <string name="preus">Originalversion</string>
     <string name="bavarian">Originalversion</string>
     <string name="gamestart">Klicke auf ein Feld</string>
-        <string name="actuellplayer">Gerade spielt:</string>
+    <string name="actuellplayer">Gerade spielt:</string>
+    <string name="search_hint">Freund suchen</string>
+    <string name="suchtext">Du suchst: </string>
+        
 </resources>

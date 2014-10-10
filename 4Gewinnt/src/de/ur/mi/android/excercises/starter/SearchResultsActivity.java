@@ -100,7 +100,7 @@ public class SearchResultsActivity extends Activity {
 							int position, long id) {
 						TextView textView = (TextView) view;
 						String message = "Du hast "
-								+ textView.getText().toString() + " geklickt";
+								+ textView.getText().toString() + " herausgefordert";
 						Toast.makeText(SearchResultsActivity.this, message,
 								Toast.LENGTH_SHORT).show();
 						new contactOpponent().execute(textView.getText()
@@ -150,8 +150,7 @@ public class SearchResultsActivity extends Activity {
 			 * from SQLite and showing in listview 2. Making webrequest and
 			 * displaying the data For now we just display the query only
 			 */
-
-			txtQuery.setText("Du suchst an " + query);
+			txtQuery.setText(getResources().getString(R.string.suchtext) +" " + query);
 
 		}
 
@@ -206,6 +205,7 @@ public class SearchResultsActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			
+			startActivity(new Intent(SearchResultsActivity.this, Overview.class));
 		}
 
 	}
