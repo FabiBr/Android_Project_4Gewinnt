@@ -37,15 +37,15 @@
         </activity>
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/loginheader" >
         </activity>
         <activity
             android:name=".Register"
-            android:label="@string/title_activity_register" >
+            android:label="@string/registerheader" >
         </activity>
         <activity
             android:name=".Overview"
-            android:label="@string/title_activity_overview" >
+            android:label="@string/overviewheader" >
         </activity>
         <activity
             android:name=".SearchResultsActivity"

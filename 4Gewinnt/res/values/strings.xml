@@ -41,6 +41,9 @@
     <string name="drawstring">Es wards gleich guad! Nummol?</string>
     <string name="setblock">Setz an Blogga in a Rei</string>
     <string name="blockedrow">Bist ebba dodal deppad woan</string>
+    <string name="loginheader">Anmelden</string>
+    <string name="registerheader">Registrieren</string>
+    <string name="overviewheader">Übersicht</string>
     
     
 

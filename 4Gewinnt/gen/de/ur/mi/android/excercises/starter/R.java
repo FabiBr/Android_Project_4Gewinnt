@@ -176,11 +176,14 @@ public final class R {
         public static final int hansl2=0x7f07001b;
         public static final int hello_world=0x7f070001;
         public static final int logcheckbutton=0x7f07000b;
+        public static final int loginheader=0x7f070028;
         public static final int mainmenuegamebutton=0x7f070017;
         public static final int outstandinggames=0x7f070015;
+        public static final int overviewheader=0x7f07002a;
         public static final int preus=0x7f07001c;
         public static final int question_mark=0x7f070003;
         public static final int register=0x7f07000d;
+        public static final int registerheader=0x7f070029;
         public static final int restart=0x7f070012;
         public static final int search=0x7f070014;
         public static final int search_hint=0x7f070020;
