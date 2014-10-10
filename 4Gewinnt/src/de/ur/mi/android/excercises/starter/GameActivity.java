@@ -276,7 +276,6 @@ public class GameActivity extends Activity {
 			playernumber = 2;
 			Field.setField(bottom, rownumber, 1);
 			playchecks(bottom, rownumber, row);
-			
 
 		} else if (playernumber == 2) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
@@ -285,9 +284,9 @@ public class GameActivity extends Activity {
 			playernumber = 1;
 			Field.setField(bottom, rownumber, 2);
 			playchecks(bottom, rownumber, row);
-			
 
 		}
+		updateField();
 		if (playernumber == 0) {
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText("Gwunna! Nummol?");
