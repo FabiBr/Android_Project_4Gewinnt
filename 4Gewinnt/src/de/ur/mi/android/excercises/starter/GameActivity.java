@@ -44,11 +44,12 @@ public class GameActivity extends Activity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		/*
 		myP = new MyProtocol();
 		Bundle bundle = getIntent().getExtras();
 		String gameId = bundle.getString("gameId");
 		//new ServerSynch().execute(gameId);
-
+*/
 		setContentView(R.layout.game);
 		
 		
