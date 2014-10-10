@@ -52,12 +52,8 @@ public class GameActivity extends Activity {
 		 * ServerSynch().execute(gameId);
 		 */
 		setContentView(R.layout.game);
-
-		setContentView(R.layout.game);
 		Field = new Field();
 		win = new GameWinCheck(Field);
-
-		updateField();
 		try {
 			listenerCreate();
 		} catch (Exception e) {
@@ -124,11 +120,12 @@ public class GameActivity extends Activity {
 						try {
 							setContentView(R.layout.game);
 							try {
+								listenerCreate();
 								Field = new Field();
+								win = new GameWinCheck(Field);
 								playernumber = 1;
 								counter = 0;
 								updateField();
-								listenerCreate();
 							} catch (Exception e) {
 							}
 						} catch (Exception e) {
