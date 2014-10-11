@@ -1,7 +1,5 @@
 package de.ur.mi.android.excercises.starter;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -21,7 +19,6 @@ public class Gameoffline extends Activity {
 	// Main Game
 	private Field Field;
 	private int playernumber = 1;
-	// private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
 	private MediaPlayer mp;
@@ -46,6 +43,7 @@ public class Gameoffline extends Activity {
 
 	}
 
+	//makes music
 	private void makemusik() {
 		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
 		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
@@ -245,6 +243,7 @@ public class Gameoffline extends Activity {
 		updateField();
 	}
 
+	// lasst blocker verschwinden
 	private void hideblocker(LinearLayout row) {
 		for (int i = 0; i < 7; i++) {
 			if (isBlocked(i)) {
@@ -259,6 +258,7 @@ public class Gameoffline extends Activity {
 		}
 	}
 
+	// set player extra attitude
 	private void setPlayerExtras() {
 		if (Field.getExtrasOfPlayer(playernumber)) {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
