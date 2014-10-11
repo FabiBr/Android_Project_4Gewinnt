@@ -40,13 +40,12 @@ public class GameActivity extends Activity {
 	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*
-		 * myP = new MyProtocol(); Bundle bundle = getIntent().getExtras();
-		 * String gameId = bundle.getString("gameId"); //new
-		 * ServerSynch().execute(gameId);
-		 */
+		
+		 myP = new MyProtocol(); Bundle bundle = getIntent().getExtras();
+		 String gameId = bundle.getString("gameId");
+		 new ServerSynch().execute(gameId);
+		 
 		setContentView(R.layout.game);
-		Field = new Field();
 		win = new GameWinCheck(Field);
 		try {
 			listenerCreate();
@@ -354,12 +353,30 @@ public class GameActivity extends Activity {
 			JSONArray gamesList;
 			try {
 				gamesList = new JSONArray(result);
+				Game thisGame = processGameJsonArray(gamesList);
+				setField(thisGame);
+				updateField();
 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
 			// state.setAllUsers(result);
+		}
+
+		private void setField(Game thisGame) {
+			String field = thisGame.getField();
+			try {
+				Field currentField = (Field) Serializer.deserialize(field);
+				Field = currentField;
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 		private String sendRequest(String gameId) {
@@ -384,6 +401,21 @@ public class GameActivity extends Activity {
 				e.printStackTrace();
 			}
 			return null;
+		}
+
+		private Game processGameJsonArray(JSONArray gamesData)
+				throws JSONException {
+			Game game;
+
+			String id = gamesData.getString(0);
+			String field = gamesData.getString(1);
+			String user1 = gamesData.getString(2);
+			String user2 = gamesData.getString(3);
+			String currentUser = gamesData.getString(4);
+
+			game = new Game(Integer.parseInt(id), field, user1, user2,
+					currentUser);
+			return game;
 		}
 	}
 }
