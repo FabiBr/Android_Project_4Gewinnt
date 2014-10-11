@@ -15,11 +15,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+
 import java.util.Locale;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,6 +44,43 @@ public class MainActivity extends Activity {
 		//new ServerSynch().execute();
 		setContentView(R.layout.menu_2_bav);
 		textviewrun();
+	}
+	
+	// Creates a Menu
+	public boolean onCreateOptionsMenu(Menu newMenu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, newMenu);
+		return true;
+	}
+
+	// Creates a info button listener
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.info){
+			infobox();
+		}
+		else{}
+		return true;
+	}
+
+	private void infobox() {
+		// prepare the alert box                  
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+         
+        // set the message to display
+        alertbox.setMessage("Dies ist ein normales Vier gewinnt Spiel, bei dem man auch"
+        		+ " Blocker erhalten kann, indem man auf die erscheinenden ? setzt."
+        		+ " Diese Blocker sind sozusagen Rechnungen, die die für eine Tischreihe"
+        		+ " bedienende Bedienung beschäftigen soll.");
+         
+        // add a neutral button to the alert box and assign a click listener
+        alertbox.setNegativeButton("Ok", new android.content.DialogInterface.OnClickListener() {
+            // click listener on the alert box
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+			}
+        });
+        // show it
+        alertbox.show();
 	}
 
 	private void textviewrun() {
@@ -71,7 +115,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(MainActivity.this, GameActivity.class));
+					startActivity(new Intent(MainActivity.this, Gameoffline.class));
 				} catch (Exception e) {
 				}
 			}

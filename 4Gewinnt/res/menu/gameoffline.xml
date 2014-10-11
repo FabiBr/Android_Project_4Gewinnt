@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="de.ur.mi.android.excercises.starter.GameActivity" >
+    tools:context="de.ur.mi.android.excercises.starter.Gameoffline" >
 
-    <item android:id="@+id/music"
+   <item android:id="@+id/music"
         android:title="@string/musicname"
           android:icon="@drawable/music"
           android:showAsAction="ifRoom"/>

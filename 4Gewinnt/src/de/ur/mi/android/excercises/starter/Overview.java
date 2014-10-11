@@ -56,7 +56,7 @@ public class Overview extends Activity implements MyDialog.Communicator{
 
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(Overview.this, GameActivity.class));
+				startActivity(new Intent(Overview.this, Gameoffline.class));
 				
 			}
 			
