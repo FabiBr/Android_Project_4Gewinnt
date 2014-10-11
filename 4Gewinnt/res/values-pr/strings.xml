@@ -16,9 +16,6 @@
     <string name="title_activity_register">Neu anmelden</string>
     <string name="register">Bin neu hier</string>
     <string name="blank"></string>
-    <string name="greetings">Das ist die Version für hoff-</string>
-    <string name="greetings2">nungslose Fälle, viel Spaß!</string>
-    <string name="greetings3">" wünscht das Entwickler-Team"</string>
     <string name="restart">Neu beginnen</string>
     <string name="title_activity_overview">Overview</string>
     <string name="search">Freunde suchen</string>
@@ -31,13 +28,13 @@
     <string name="hansl2">Spieler Zwei</string>
     <string name="preus">Originalversion</string>
     <string name="bavarian">Originalversion</string>
-    <string name="gamestart">Klicke auf ein Feld</string>
+    <string name="gamestart">Gib eine Bestellung für einen Tisch auf</string>
     <string name="actuellplayer">Gerade spielt:</string>
     <string name="search_hint">Freund suchen</string>
     <string name="suchtext">Du suchst: </string>
     <string name="winstring">Gewonnen! Nochmal?</string>
     <string name="drawstring">Unentschieden! Nochmal?</string>
-    <string name="setblock">Setze den Blocker in eine Reihe</string>
-    <string name="blockedrow">Leider ist diese Reihe blockiert</string>
+    <string name="setblock">Tischreihe durch zahlen blockieren</string>
+    <string name="blockedrow">Bedienung kassiert gerade</string>
         
 </resources>

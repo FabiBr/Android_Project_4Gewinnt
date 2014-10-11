@@ -1,7 +1,10 @@
 package de.ur.mi.android.excercises.starter;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +21,8 @@ public class Gameoffline extends Activity {
 	//private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
+	private MediaPlayer mp;
+	private MediaPlayer mp2;
 
 	/*
 	 * Start Method
@@ -27,6 +32,7 @@ public class Gameoffline extends Activity {
 		setContentView(R.layout.activity_gameoffline);
 		Field = new Field();
 		win = new GameWinCheck(Field);
+		makemusik();
 		try {
 			listenerCreate();
 		} catch (Exception e) {
@@ -34,6 +40,13 @@ public class Gameoffline extends Activity {
 		Toast.makeText(Gameoffline.this, getText(R.string.gamestart),
 				Toast.LENGTH_LONG).show();
 
+	}
+
+	private void makemusik() {
+		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
+		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
+		if(mp.isPlaying())mp.stop();
+		mp.start();
 	}
 
 	/*
@@ -61,7 +74,7 @@ public class Gameoffline extends Activity {
 					stone.setBackgroundResource(R.drawable.extra);
 				}
 				if (Field.getField(j, i) < 0) {
-					stone.setBackgroundResource(R.drawable.ic_launcher);
+					stone.setBackgroundResource(R.drawable.euro);
 				}
 			}
 		}
@@ -92,12 +105,15 @@ public class Gameoffline extends Activity {
 						try {
 							setContentView(R.layout.activity_gameoffline);
 							try {
+								mp2.stop();
+								mp.stop();
 								listenerCreate();
 								Field = new Field();
 								win = new GameWinCheck(Field);
 								playernumber = 1;
 								Field.setTurns(0);
 								updateField();
+								mp.start();
 							} catch (Exception e) {
 							}
 						} catch (Exception e) {
@@ -111,9 +127,10 @@ public class Gameoffline extends Activity {
 						try {
 							setContentView(R.layout.game);
 							try {
+								mp.stop();
+								mp2.stop();
 								startActivity(new Intent(Gameoffline.this,
 										MainActivity.class));
-
 							} catch (Exception e) {
 							}
 						} catch (Exception e) {
@@ -166,7 +183,7 @@ public class Gameoffline extends Activity {
 		//extra setzen
 		if (!isBlocked(rownumber) && ExtraCanBeSet && Field.getExtrasOfPlayer(playernumber)) {
 			TextView stone = (TextView) row.getChildAt(0);
-			stone.setBackgroundResource(R.drawable.ic_launcher);
+			stone.setBackgroundResource(R.drawable.euro);
 			Field.setField(0, rownumber, -2);//2 wegen verzoegerung
 			Field.setExtrasOfPlayer(playernumber, false);
 			ExtraCanBeSet = false;
@@ -228,7 +245,7 @@ public class Gameoffline extends Activity {
 	private void setPlayerExtras() {
 		if (Field.getExtrasOfPlayer(playernumber)) {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
-			currentitem.setBackgroundResource(R.drawable.extra);
+			currentitem.setBackgroundResource(R.drawable.euro);
 		} else {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
 			currentitem.setBackgroundResource(R.drawable.keinextra);
@@ -274,8 +291,11 @@ public class Gameoffline extends Activity {
 	 * Default checks
 	 */
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
-		if (win.wincheck())
+		if (win.wincheck()){
 			playernumber = 0;
+			mp.stop();
+			mp2.start();
+		}
 		extras(bottom, rownumber, row);
 	}
 
@@ -298,6 +318,8 @@ public class Gameoffline extends Activity {
 	 */
 	private void drawcheck() {
 		if (Field.getTurns() == 42) {
+			mp.stop();
+			mp2.start();
 			playernumber = 0;
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText(R.string.drawstring);

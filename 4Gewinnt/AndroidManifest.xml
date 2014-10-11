@@ -24,7 +24,8 @@
 
         <activity
             android:name="de.ur.mi.android.excercises.starter.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,24 +34,29 @@
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.GameActivity"
-            android:label="@string/title_activity_game" >
+            android:label="@string/title_activity_game"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.Login"
-            android:label="@string/loginheader" >
+            android:label="@string/loginheader" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.Register"
-            android:label="@string/registerheader" >
+            android:label="@string/registerheader"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.Overview"
-            android:label="@string/overviewheader" >
+            android:label="@string/overviewheader" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.SearchResultsActivity"
             android:label="@string/title_activity_search_results"
-            android:parentActivityName="de.ur.mi.android.excercises.starter.Overview" >
+            android:parentActivityName="de.ur.mi.android.excercises.starter.Overview" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -61,7 +67,8 @@
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.Gameoffline"
-            android:label="@string/title_activity_gameoffline" >
+            android:label="@string/title_activity_gameoffline"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

@@ -8,11 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +32,8 @@ public class GameActivity extends Activity {
 	//private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
+	private MediaPlayer mp;
+	private MediaPlayer mp2;
 
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
@@ -48,6 +52,7 @@ public class GameActivity extends Activity {
 		setContentView(R.layout.game);
 		Field = new Field();
 		win = new GameWinCheck(Field);
+		makemusik();
 		try {
 			listenerCreate();
 		} catch (Exception e) {
@@ -55,6 +60,12 @@ public class GameActivity extends Activity {
 		Toast.makeText(GameActivity.this, getText(R.string.gamestart),
 				Toast.LENGTH_LONG).show();
 
+	}
+	
+	private void makemusik() {
+		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
+		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
+		mp.start();
 	}
 
 	/*
@@ -82,7 +93,7 @@ public class GameActivity extends Activity {
 					stone.setBackgroundResource(R.drawable.extra);
 				}
 				if (Field.getField(j, i) < 0) {
-					stone.setBackgroundResource(R.drawable.ic_launcher);
+					stone.setBackgroundResource(R.drawable.euro);
 				}
 			}
 		}
@@ -116,6 +127,8 @@ public class GameActivity extends Activity {
 							try {
 								startActivity(new Intent(GameActivity.this,
 										MainActivity.class));
+								mp.stop();
+								mp2.stop();
 
 							} catch (Exception e) {
 							}
@@ -169,7 +182,7 @@ public class GameActivity extends Activity {
 		//extra setzen
 		if (!isBlocked(rownumber) && ExtraCanBeSet && Field.getExtrasOfPlayer(playernumber)) {
 			TextView stone = (TextView) row.getChildAt(0);
-			stone.setBackgroundResource(R.drawable.ic_launcher);
+			stone.setBackgroundResource(R.drawable.euro);
 			Field.setField(0, rownumber, -2);//2 wegen verzoegerung
 			Field.setExtrasOfPlayer(playernumber, false);
 			ExtraCanBeSet = false;
@@ -231,7 +244,7 @@ public class GameActivity extends Activity {
 	private void setPlayerExtras() {
 		if (Field.getExtrasOfPlayer(playernumber)) {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
-			currentitem.setBackgroundResource(R.drawable.extra);
+			currentitem.setBackgroundResource(R.drawable.euro);
 		} else {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
 			currentitem.setBackgroundResource(R.drawable.keinextra);
@@ -277,8 +290,10 @@ public class GameActivity extends Activity {
 	 * Default checks
 	 */
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
-		if (win.wincheck())
+		if (win.wincheck()){
 			playernumber = 0;
+			mp.stop();
+			mp2.start();}
 		extras(bottom, rownumber, row);
 	}
 
@@ -301,6 +316,8 @@ public class GameActivity extends Activity {
 	 */
 	private void drawcheck() {
 		if (Field.getTurns() == 42) {
+			mp.stop();
+			mp2.start();
 			playernumber = 0;
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText(R.string.drawstring);

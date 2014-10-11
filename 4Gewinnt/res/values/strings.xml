@@ -31,19 +31,19 @@
     <string name="hansl2">Hansl Zwoa</string>
     <string name="preus">Preussenversion</string>
     <string name="bavarian">Originalversion</string>
-    <string name="gamestart">Grabsch moi afs spuifoid</string>
+    <string name="gamestart">Gib a Bestellung fia an Diesch af</string>
     <string name="actuellplayer">Grod spuit da:</string>
     <string name="search_hint">Freind suacha</string>
     <string name="title_activity_search_results">Suche</string>
     <string name="suchtext">Du suachst an: </string>
-    <string name="blocker">Blocker aktiv?</string>
+    <string name="blocker">Rechnung verfügbar?</string>
     <string name="winstring">Gwunna! Nummol?</string>
     <string name="drawstring">Es wards gleich guad! Nummol?</string>
-    <string name="setblock">Setz an Blogga in a Rei</string>
-    <string name="blockedrow">Bist ebba dodal deppad woan</string>
+    <string name="setblock">Oa Rei duachs zoin blokian</string>
+    <string name="blockedrow">De Bedienung kassiad grod</string>
     <string name="loginheader">Anmelden</string>
     <string name="registerheader">Registrieren</string>
     <string name="overviewheader">Übersicht</string>
-    <string name="title_activity_gameoffline">Gameoffline</string>
+    <string name="title_activity_gameoffline">Offline Spiel</string>
 
 </resources>
