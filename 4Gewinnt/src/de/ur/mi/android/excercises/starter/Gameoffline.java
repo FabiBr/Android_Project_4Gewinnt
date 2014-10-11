@@ -18,7 +18,7 @@ public class Gameoffline extends Activity {
 	// Main Game
 	private Field Field;
 	private int playernumber = 1;
-	//private int counter = 0;
+	// private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
 	private MediaPlayer mp;
@@ -32,8 +32,8 @@ public class Gameoffline extends Activity {
 		setContentView(R.layout.activity_gameoffline);
 		Field = new Field();
 		win = new GameWinCheck(Field);
-		makemusik();
 		try {
+			makemusik();
 			listenerCreate();
 		} catch (Exception e) {
 		}
@@ -45,7 +45,6 @@ public class Gameoffline extends Activity {
 	private void makemusik() {
 		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
 		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
-		if(mp.isPlaying())mp.stop();
 		mp.start();
 	}
 
@@ -104,18 +103,14 @@ public class Gameoffline extends Activity {
 					public void onClick(View v) {
 						try {
 							setContentView(R.layout.activity_gameoffline);
-							try {
-								mp2.stop();
-								mp.stop();
-								listenerCreate();
-								Field = new Field();
-								win = new GameWinCheck(Field);
-								playernumber = 1;
-								Field.setTurns(0);
-								updateField();
-								mp.start();
-							} catch (Exception e) {
-							}
+							mp2.stop();
+							mp.stop();
+							makemusik();
+							listenerCreate();
+							Field = new Field();
+							win = new GameWinCheck(Field);
+							playernumber = 1;
+							Field.setTurns(0);
 						} catch (Exception e) {
 						}
 					}
@@ -169,7 +164,7 @@ public class Gameoffline extends Activity {
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
-			if (checknum < 0) 
+			if (checknum < 0)
 				return 10;
 			if (checknum == 0 || checknum == 3)
 				return i;
@@ -179,15 +174,16 @@ public class Gameoffline extends Activity {
 
 	protected void decisionMaker(LinearLayout row, int rownumber) {
 		int bottom = nextfree(rownumber);
-		
-		//extra setzen
-		if (!isBlocked(rownumber) && ExtraCanBeSet && Field.getExtrasOfPlayer(playernumber)) {
+
+		// extra setzen
+		if (!isBlocked(rownumber) && ExtraCanBeSet
+				&& Field.getExtrasOfPlayer(playernumber)) {
 			TextView stone = (TextView) row.getChildAt(0);
 			stone.setBackgroundResource(R.drawable.euro);
-			Field.setField(0, rownumber, -2);//2 wegen verzoegerung
+			Field.setField(0, rownumber, -2);// 2 wegen verzoegerung
 			Field.setExtrasOfPlayer(playernumber, false);
 			ExtraCanBeSet = false;
-		// stein setzen
+			// stein setzen
 		} else if (!isBlocked(rownumber)) {
 			setstones(bottom, rownumber, row);
 		} else {
@@ -199,15 +195,13 @@ public class Gameoffline extends Activity {
 
 	}
 
-
-
 	/*
 	 * Main Method - Setting of all fields
 	 */
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
 		// lass zuerst evtl Blocker verschwinden
 		hideblocker(row);
-		
+
 		// wenn auf dem Feld ein ? bekommt Player ein Extra
 		if (Field.getField(bottom, rownumber) == 3)
 			Field.setExtrasOfPlayer(playernumber, true);
@@ -242,6 +236,7 @@ public class Gameoffline extends Activity {
 			}
 		}
 	}
+
 	private void setPlayerExtras() {
 		if (Field.getExtrasOfPlayer(playernumber)) {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
@@ -265,7 +260,7 @@ public class Gameoffline extends Activity {
 			player.setText(R.string.hansl2);
 			playernumber = 2;
 			Field.setField(bottom, rownumber, 1);
-			Field.setTurns(Field.getTurns()+1);
+			Field.setTurns(Field.getTurns() + 1);
 			playchecks(bottom, rownumber, row);
 
 		} else if (playernumber == 2) {
@@ -274,7 +269,7 @@ public class Gameoffline extends Activity {
 			player.setText(R.string.hansl1);
 			playernumber = 1;
 			Field.setField(bottom, rownumber, 2);
-			Field.setTurns(Field.getTurns()+1);
+			Field.setTurns(Field.getTurns() + 1);
 			playchecks(bottom, rownumber, row);
 
 		}
@@ -291,7 +286,7 @@ public class Gameoffline extends Activity {
 	 * Default checks
 	 */
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
-		if (win.wincheck()){
+		if (win.wincheck()) {
 			playernumber = 0;
 			mp.stop();
 			mp2.start();

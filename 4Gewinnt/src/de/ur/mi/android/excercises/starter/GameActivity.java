@@ -52,8 +52,8 @@ public class GameActivity extends Activity {
 		setContentView(R.layout.game);
 		Field = new Field();
 		win = new GameWinCheck(Field);
-		makemusik();
 		try {
+			makemusik();
 			listenerCreate();
 		} catch (Exception e) {
 		}
