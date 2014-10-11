@@ -6,6 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +26,7 @@ public class Gameoffline extends Activity {
 	private boolean ExtraCanBeSet = false;
 	private MediaPlayer mp;
 	private MediaPlayer mp2;
+	private boolean muted = false;
 
 	/*
 	 * Start Method
@@ -45,9 +49,27 @@ public class Gameoffline extends Activity {
 	private void makemusik() {
 		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
 		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
-		mp.start();
+		if(!muted)mp.start();
 	}
 
+	// Creates a Menu
+	public boolean onCreateOptionsMenu(Menu newMenu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.gameoffline, newMenu);
+		return true;
+	}
+
+	// Creates a info button listener
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==R.id.music){
+			if(mp.isPlaying()){mp.stop();
+			muted = true;}
+			else {makemusik();;muted = false;}
+		}
+		else{}
+		return true;
+	}
+	
 	/*
 	 * Update Methode
 	 */
@@ -105,7 +127,7 @@ public class Gameoffline extends Activity {
 							setContentView(R.layout.activity_gameoffline);
 							mp2.stop();
 							mp.stop();
-							makemusik();
+							if(!muted)makemusik();
 							listenerCreate();
 							Field = new Field();
 							win = new GameWinCheck(Field);
@@ -289,7 +311,7 @@ public class Gameoffline extends Activity {
 		if (win.wincheck()) {
 			playernumber = 0;
 			mp.stop();
-			mp2.start();
+			if(!muted)mp2.start();
 		}
 		extras(bottom, rownumber, row);
 	}
@@ -314,7 +336,7 @@ public class Gameoffline extends Activity {
 	private void drawcheck() {
 		if (Field.getTurns() == 42) {
 			mp.stop();
-			mp2.start();
+			if(!muted)mp2.start();
 			playernumber = 0;
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText(R.string.drawstring);

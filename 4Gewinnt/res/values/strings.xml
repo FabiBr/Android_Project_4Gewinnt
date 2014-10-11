@@ -45,5 +45,7 @@
     <string name="registerheader">Registrieren</string>
     <string name="overviewheader">Übersicht</string>
     <string name="title_activity_gameoffline">Offline Spiel</string>
+    <string name="musicname">musicname</string>
+    <string name="infoname">infoname</string>
 
 </resources>

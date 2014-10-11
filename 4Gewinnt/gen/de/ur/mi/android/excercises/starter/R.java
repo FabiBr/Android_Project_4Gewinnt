@@ -36,10 +36,12 @@ public final class R {
         public static final int euro=0x7f020003;
         public static final int extra=0x7f020004;
         public static final int ic_launcher=0x7f020005;
-        public static final int keinextra=0x7f020006;
-        public static final int logobayrisch=0x7f020007;
-        public static final int logopreus=0x7f020008;
-        public static final int weiss=0x7f020009;
+        public static final int info=0x7f020006;
+        public static final int keinextra=0x7f020007;
+        public static final int logobayrisch=0x7f020008;
+        public static final int logopreus=0x7f020009;
+        public static final int music=0x7f02000a;
+        public static final int weiss=0x7f02000b;
     }
     public static final class id {
         public static final int AcceptButton=0x7f0b004f;
@@ -91,7 +93,7 @@ public final class R {
         public static final int TableRow75=0x7f0b002f;
         public static final int TableRow76=0x7f0b0030;
         public static final int action_search=0x7f0b0052;
-        public static final int action_settings=0x7f0b0053;
+        public static final int action_settings=0x7f0b0054;
         public static final int alreadyplayed=0x7f0b003d;
         public static final int childview=0x7f0b0050;
         public static final int container=0x7f0b0033;
@@ -106,6 +108,7 @@ public final class R {
         public static final int editText5=0x7f0b0036;
         public static final int gamestart=0x7f0b003a;
         public static final int holder=0x7f0b0003;
+        public static final int info=0x7f0b0055;
         public static final int iscurrentlyplaying=0x7f0b0002;
         public static final int language=0x7f0b004c;
         public static final int layout=0x7f0b0000;
@@ -115,6 +118,7 @@ public final class R {
         public static final int loghead=0x7f0b0034;
         public static final int logname=0x7f0b0038;
         public static final int logpw=0x7f0b0039;
+        public static final int music=0x7f0b0053;
         public static final int ondevice=0x7f0b004b;
         public static final int parentview=0x7f0b0051;
         public static final int playground=0x7f0b0006;
@@ -179,9 +183,11 @@ public final class R {
         public static final int hansl1=0x7f08001a;
         public static final int hansl2=0x7f08001b;
         public static final int hello_world=0x7f080001;
+        public static final int infoname=0x7f08002d;
         public static final int logcheckbutton=0x7f08000b;
         public static final int loginheader=0x7f080028;
         public static final int mainmenuegamebutton=0x7f080017;
+        public static final int musicname=0x7f08002c;
         public static final int outstandinggames=0x7f080015;
         public static final int overviewheader=0x7f08002a;
         public static final int preus=0x7f08001c;
