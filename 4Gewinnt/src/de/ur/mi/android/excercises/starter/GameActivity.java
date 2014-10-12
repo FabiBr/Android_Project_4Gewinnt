@@ -39,7 +39,6 @@ public class GameActivity extends Activity {
 	// private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
-	private MediaPlayer mp;
 	private MediaPlayer mp2;
 	private boolean muted = false;
 	private Game thisGame;
@@ -77,10 +76,7 @@ public class GameActivity extends Activity {
 	}
 
 	private void makemusik() {
-		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
 		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
-		if (!muted)
-			mp.start();
 	}
 
 	// Creates a Menu
@@ -93,14 +89,8 @@ public class GameActivity extends Activity {
 	// Creates a info button listener
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.music) {
-			if (mp.isPlaying()) {
-				mp.stop();
-				muted = true;
-			} else {
 				makemusik();
-				;
 				muted = false;
-			}
 		} else {
 		}
 		return true;
@@ -174,7 +164,6 @@ public class GameActivity extends Activity {
 							try {
 								startActivity(new Intent(GameActivity.this,
 										Overview.class));
-								mp.stop();
 								mp2.stop();
 
 							} catch (Exception e) {
@@ -339,7 +328,6 @@ public class GameActivity extends Activity {
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
 		if (win.wincheck()) {
 			playernumber = 0;
-			mp.stop();
 			if (!muted)
 				mp2.start();
 		}
@@ -365,7 +353,6 @@ public class GameActivity extends Activity {
 	 */
 	private void drawcheck() {
 		if (Field.getTurns() == 42) {
-			mp.stop();
 			if (!muted)
 				mp2.start();
 			playernumber = 0;
