@@ -69,10 +69,10 @@ public class MainActivity extends Activity {
         // set the message to display
         alertbox.setMessage("Dies ist ein normales Vier gewinnt Spiel, bei dem man auch"
         		+ " Blocker erhalten kann, indem man auf die erscheinenden ? setzt."
-        		+ " Diese Blocker werden durch €-Zeichen dargestellt, und sollen metaphorisch"
-        		+ " dafür stehen das man bei einer Bedienung (welche ja eine Tischreihe mit"
+        		+ " Diese Blocker werden durch Euro-Zeichen dargestellt, und sollen metaphorisch"
+        		+ " dafuer stehen das man bei einer Bedienung (welche ja eine Tischreihe mit"
         		+ " Brezen und Bier bedient) zahlt und diese Tischreihe somit blockiert."
-        		+ " Viel Spaß wünscht das Entwickler-Team!");
+        		+ " Viel Spass wuenscht das Entwickler-Team!");
          
         // add a neutral button to the alert box and assign a click listener
         alertbox.setNegativeButton("Ok", new android.content.DialogInterface.OnClickListener() {
