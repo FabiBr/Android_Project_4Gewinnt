@@ -173,7 +173,7 @@ public class GameActivity extends Activity {
 							setContentView(R.layout.game);
 							try {
 								startActivity(new Intent(GameActivity.this,
-										MainActivity.class));
+										Overview.class));
 								mp.stop();
 								mp2.stop();
 
