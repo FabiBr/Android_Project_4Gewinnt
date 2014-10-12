@@ -163,7 +163,7 @@ public class GameActivity extends Activity {
 							setContentView(R.layout.game);
 							try {
 								startActivity(new Intent(GameActivity.this,
-										Overview.class));
+										OverviewActivity.class));
 								mp2.stop();
 
 							} catch (Exception e) {

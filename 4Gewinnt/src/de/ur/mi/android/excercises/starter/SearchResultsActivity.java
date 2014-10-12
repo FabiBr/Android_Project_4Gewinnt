@@ -201,7 +201,7 @@ public class SearchResultsActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			
-			startActivity(new Intent(SearchResultsActivity.this, Overview.class));
+			startActivity(new Intent(SearchResultsActivity.this, OverviewActivity.class));
 		}
 
 	}

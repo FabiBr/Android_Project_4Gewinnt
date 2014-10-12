@@ -38,24 +38,24 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="de.ur.mi.android.excercises.starter.Login"
+            android:name="de.ur.mi.android.excercises.starter.LoginActivity"
             android:label="@string/loginheader" 
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="de.ur.mi.android.excercises.starter.Register"
+            android:name="de.ur.mi.android.excercises.starter.RegisterActivity"
             android:label="@string/registerheader"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="de.ur.mi.android.excercises.starter.Overview"
+            android:name="de.ur.mi.android.excercises.starter.OverviewActivity"
             android:label="@string/overviewheader" 
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="de.ur.mi.android.excercises.starter.SearchResultsActivity"
             android:label="@string/title_activity_search_results"
-            android:parentActivityName="de.ur.mi.android.excercises.starter.Overview" 
+            android:parentActivityName="de.ur.mi.android.excercises.starter.OverviewActivity" 
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

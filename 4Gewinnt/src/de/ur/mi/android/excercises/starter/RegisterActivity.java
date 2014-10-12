@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register extends Activity {
+public class RegisterActivity extends Activity {
 	
 	public String name;
 	private GameDB db;
@@ -51,9 +51,9 @@ public class Register extends Activity {
 				try {
 					if (checkPassword()) {
 						new CallbackHandler().execute();
-						startActivity(new Intent(Register.this, Overview.class));
+						startActivity(new Intent(RegisterActivity.this, OverviewActivity.class));
 					} else
-						Toast.makeText(Register.this,
+						Toast.makeText(RegisterActivity.this,
 								"Bitte zweimal das gleiche Passwort eingeben",
 								Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
@@ -131,7 +131,7 @@ public class Register extends Activity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-			Toast.makeText(Register.this,
+			Toast.makeText(RegisterActivity.this,
 					result,
 					Toast.LENGTH_LONG).show();
 			super.onPostExecute(result);

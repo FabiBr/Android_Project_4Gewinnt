@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(MainActivity.this, Login.class));
+					startActivity(new Intent(MainActivity.this, LoginActivity.class));
 				} catch (Exception e) {
 				}
 			}
@@ -105,7 +105,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(MainActivity.this, Register.class));
+					startActivity(new Intent(MainActivity.this, RegisterActivity.class));
 				} catch (Exception e) {
 				}
 			}

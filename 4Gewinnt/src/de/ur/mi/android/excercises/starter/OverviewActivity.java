@@ -36,7 +36,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Overview extends Activity implements MyDialog.Communicator{
+public class OverviewActivity extends Activity implements MyDialog.Communicator{
 	
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
@@ -56,7 +56,7 @@ public class Overview extends Activity implements MyDialog.Communicator{
 
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(Overview.this, Gameoffline.class));
+				startActivity(new Intent(OverviewActivity.this, Gameoffline.class));
 				
 			}
 			
@@ -172,10 +172,10 @@ public class Overview extends Activity implements MyDialog.Communicator{
 								String gameId = tk.nextToken();
 								Bundle bundle = new Bundle();
 								bundle.putString("gameId", gameId);
-								Intent i = new Intent(Overview.this, GameActivity.class);
+								Intent i = new Intent(OverviewActivity.this, GameActivity.class);
 								i.putExtras(bundle);
 								startActivity(i);
-								Toast.makeText(Overview.this, gameId,
+								Toast.makeText(OverviewActivity.this, gameId,
 										Toast.LENGTH_SHORT).show();
 							}
 						});

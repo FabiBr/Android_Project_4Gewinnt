@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Login extends Activity {
+public class LoginActivity extends Activity {
 
 	// Socket socket = null;
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
@@ -59,11 +59,11 @@ public class Login extends Activity {
 
 	public boolean isOnline() {
 		ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
-				.getSystemService(Login.this.CONNECTIVITY_SERVICE);
+				.getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
 		if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
-			Toast.makeText(Login.this, "No Internet connection!",
+			Toast.makeText(LoginActivity.this, "No Internet connection!",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -96,11 +96,11 @@ public class Login extends Activity {
 				System.out.println("gr8 success very nice");
 
 			} catch (UnknownHostException e1) {
-				Toast.makeText(Login.this, "Keine Internetverbindung",
+				Toast.makeText(LoginActivity.this, "Keine Internetverbindung",
 						Toast.LENGTH_LONG).show();
 				e1.printStackTrace();
 			} catch (IOException e1) {
-				Toast.makeText(Login.this, "Keine Internetverbindung",
+				Toast.makeText(LoginActivity.this, "Keine Internetverbindung",
 						Toast.LENGTH_LONG).show();
 				e1.printStackTrace();
 			}
@@ -113,9 +113,9 @@ public class Login extends Activity {
 			callback = result;
 			super.onPostExecute(result);
 			if (checkUser()) {
-				startActivity(new Intent(Login.this, Overview.class));
+				startActivity(new Intent(LoginActivity.this, OverviewActivity.class));
 			} else
-				Toast.makeText(Login.this,
+				Toast.makeText(LoginActivity.this,
 						"Falsche Zugangsdaten. Eventuell neu registrieren?",
 						Toast.LENGTH_LONG).show();
 		}
