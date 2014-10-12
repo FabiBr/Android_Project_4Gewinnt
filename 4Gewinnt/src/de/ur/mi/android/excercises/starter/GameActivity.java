@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,10 +39,14 @@ public class GameActivity extends Activity {
 	private MediaPlayer mp;
 	private MediaPlayer mp2;
 	private boolean muted = false;
+	private Game thisGame;
 
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP;
+	private GameDB myDb;
+	private String gameId;
+	private User me;
 
 	/*
 	 * Start Method
@@ -50,18 +55,13 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		 myP = new MyProtocol(); Bundle bundle = getIntent().getExtras();
-		 String gameId = bundle.getString("gameId");
+		 gameId = bundle.getString("gameId");
+		 myDb = new GameDB(this);
+		 myDb.open();
+		 me = myDb.getMyData();
+		 myDb.close();
 		 new ServerSynch().execute(gameId);
 		 
-		setContentView(R.layout.game);
-		win = new GameWinCheck(Field);
-		try {
-			makemusik();
-			listenerCreate();
-		} catch (Exception e) {
-		}
-		Toast.makeText(GameActivity.this, getText(R.string.gamestart),
-				Toast.LENGTH_LONG).show();
 
 	}
 	
@@ -132,7 +132,16 @@ public class GameActivity extends Activity {
 				row.getChildAt(j).setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						try {
-							decisionMaker(row, rownumber);
+							String currentPlayer = thisGame.getLastPlayer();
+							if(currentPlayer.equals(me.getUsername())) {
+								decisionMaker(row, rownumber);
+								new sendTurn().execute();
+								//new ServerSynch().execute(gameId);
+							} else {
+								Toast.makeText(GameActivity.this,
+										"Du bist ned dro!",
+										Toast.LENGTH_LONG).show();
+							}
 						} catch (Exception e) {
 						}
 					}
@@ -279,7 +288,7 @@ public class GameActivity extends Activity {
 		TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
 		TextView bottomstone = (TextView) row.getChildAt(bottom);
 		TextView playericon = ((TextView) findViewById(R.id.currentPlayerIcon));
-		if (playernumber == 1) {
+		if (thisGame.getLastPlayer().equals(thisGame.getP1())) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
 			player.setText(R.string.hansl2);
@@ -288,7 +297,7 @@ public class GameActivity extends Activity {
 			Field.setTurns(Field.getTurns()+1);
 			playchecks(bottom, rownumber, row);
 
-		} else if (playernumber == 2) {
+		} else if (thisGame.getLastPlayer().equals(thisGame.getP2())) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
 			player.setText(R.string.hansl1);
@@ -349,6 +358,153 @@ public class GameActivity extends Activity {
 	/*
 	 * Serveranbindung
 	 */
+	
+	class repeatedUpdate extends AsyncTask<String, Void, String> {
+		Socket socket = null;
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+				String gamesData = sendRequest(params[0]);
+				return gamesData;
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			JSONArray gamesList;
+			try {
+				gamesList = new JSONArray(result);
+				thisGame = processGameJsonArray(gamesList);
+				setField(thisGame);
+				updateField();
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			// state.setAllUsers(result);
+		}
+
+		private void setField(Game thisGame) {
+			String field = thisGame.getField();
+			try {
+				Field currentField = (Field) Serializer.deserialize(field);
+				Field = currentField;
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+
+		private String sendRequest(String gameId) {
+
+			try {
+
+				String output = myP.getGameById(gameId);
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				out.println(output);
+				out.flush();
+				BufferedReader input = new BufferedReader(
+						new InputStreamReader(socket.getInputStream()));
+				String gameData = input.readLine();
+				System.out.println();
+				return gameData;
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		private Game processGameJsonArray(JSONArray gamesData)
+				throws JSONException {
+			Game game;
+
+			String id = gamesData.getString(0);
+			String field = gamesData.getString(1);
+			String user1 = gamesData.getString(2);
+			String user2 = gamesData.getString(3);
+			String currentUser = gamesData.getString(4);
+
+			game = new Game(Integer.parseInt(id), field, user1, user2,
+					currentUser);
+			return game;
+		}
+		
+		
+		
+		
+	}
+	
+	class sendTurn extends AsyncTask<Void, Void, String> {
+		Socket socket = null;
+
+		@Override
+		protected String doInBackground(Void... params) {
+			try {
+				socket = new Socket(SERVER_IP, SERVERPORT);
+				System.out.println("gr8 success very nice");
+				sendRequest();
+				return null;
+
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			
+			
+			
+		}
+		private void sendRequest() {
+			try {
+				String id = String.valueOf(thisGame.getGameId());
+				String field = Serializer.serialize(Field);
+				String output = myP.makeTurn(id, field);
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				BufferedReader input = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				out.println(output);
+				out.flush();
+				String data = input.readLine();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+
+		
+	}
+	
 	class ServerSynch extends AsyncTask<String, Void, String> {
 		Socket socket = null;
 
@@ -374,8 +530,9 @@ public class GameActivity extends Activity {
 			JSONArray gamesList;
 			try {
 				gamesList = new JSONArray(result);
-				Game thisGame = processGameJsonArray(gamesList);
+				thisGame = processGameJsonArray(gamesList);
 				setField(thisGame);
+				createUI();
 				updateField();
 
 			} catch (JSONException e) {
@@ -383,6 +540,17 @@ public class GameActivity extends Activity {
 			}
 
 			// state.setAllUsers(result);
+		}
+		private void createUI() {
+			setContentView(R.layout.game);
+			win = new GameWinCheck(Field);
+			try {
+				makemusik();
+				listenerCreate();
+			} catch (Exception e) {
+			}
+			Toast.makeText(GameActivity.this, getText(R.string.gamestart),
+					Toast.LENGTH_LONG).show();
 		}
 
 		private void setField(Game thisGame) {

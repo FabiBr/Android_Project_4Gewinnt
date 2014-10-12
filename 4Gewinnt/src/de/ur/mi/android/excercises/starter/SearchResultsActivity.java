@@ -37,7 +37,7 @@ public class SearchResultsActivity extends Activity {
 	private String[] userList;
 	private GameDB myDb;
 
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final String SERVER_IP = "192.168.2.103";
 	private static final int SERVERPORT = 1939;
 
 	private MyProtocol myP = new MyProtocol();

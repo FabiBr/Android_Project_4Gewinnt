@@ -11,12 +11,19 @@ public class MyProtocol {
 	private static final String GET_ALL_USERS_KEY = "allUsersGet";
 	private static final String GET_GAMES_KEY = "myGamesGet";
 	private static final String GET_GAME_BY_ID_KEY = "gameById";
+	private static final String MAKE_TURN_KEY = "fieldUpdate";
 	
 
 	
 	
 	public MyProtocol() {
 
+	}
+	
+	public String makeTurn(String id, String field) {
+		String protocolString = MAKE_TURN_KEY + " " + id + " " + field;
+		String oneLine = protocolString.replaceAll("\n", "");
+		return oneLine;
 	}
 
 	public String newUserDataOutput(String username, String userPw) {
