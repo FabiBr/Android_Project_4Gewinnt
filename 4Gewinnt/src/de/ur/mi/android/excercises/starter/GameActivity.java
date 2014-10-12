@@ -44,7 +44,7 @@ public class GameActivity extends Activity {
 	private boolean muted = false;
 	private Game thisGame;
 
-	private static final String SERVER_IP = "192.168.2.103";
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP;
 	private GameDB myDb;
