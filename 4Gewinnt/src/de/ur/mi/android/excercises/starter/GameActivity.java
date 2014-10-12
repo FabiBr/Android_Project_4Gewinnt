@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +19,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +36,7 @@ public class GameActivity extends Activity {
 	// Main Game
 	private Field Field;
 	private int playernumber = 1;
-	//private int counter = 0;
+	// private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
 	private MediaPlayer mp;
@@ -47,30 +50,39 @@ public class GameActivity extends Activity {
 	private GameDB myDb;
 	private String gameId;
 	private User me;
+	private Handler myHandler;
 
 	/*
 	 * Start Method
 	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		 myP = new MyProtocol(); Bundle bundle = getIntent().getExtras();
-		 gameId = bundle.getString("gameId");
-		 myDb = new GameDB(this);
-		 myDb.open();
-		 me = myDb.getMyData();
-		 myDb.close();
-		 new ServerSynch().execute(gameId);
-		 
+
+		myP = new MyProtocol();
+		Bundle bundle = getIntent().getExtras();
+		gameId = bundle.getString("gameId");
+		myDb = new GameDB(this);
+		myDb.open();
+		me = myDb.getMyData();
+		myDb.close();
+		myHandler = new Handler();
+		new ServerSynch().execute(gameId);
 
 	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		stopRepeatingUpdate();
+	}
+
 	private void makemusik() {
 		mp = MediaPlayer.create(getApplicationContext(), R.raw.baydef);
 		mp2 = MediaPlayer.create(getApplicationContext(), R.raw.prosit);
-		if(!muted)mp.start();
+		if (!muted)
+			mp.start();
 	}
-	
+
 	// Creates a Menu
 	public boolean onCreateOptionsMenu(Menu newMenu) {
 		MenuInflater inflater = getMenuInflater();
@@ -80,12 +92,17 @@ public class GameActivity extends Activity {
 
 	// Creates a info button listener
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId()==R.id.music){
-			if(mp.isPlaying()){mp.stop();
-			muted = true;}
-			else {makemusik();;muted = false;}
+		if (item.getItemId() == R.id.music) {
+			if (mp.isPlaying()) {
+				mp.stop();
+				muted = true;
+			} else {
+				makemusik();
+				;
+				muted = false;
+			}
+		} else {
 		}
-		else{}
 		return true;
 	}
 
@@ -133,16 +150,16 @@ public class GameActivity extends Activity {
 					public void onClick(View v) {
 						try {
 							String currentPlayer = thisGame.getLastPlayer();
-							if(currentPlayer.equals(me.getUsername())) {
+							if (currentPlayer.equals(me.getUsername())) {
 								decisionMaker(row, rownumber);
 								new sendTurn().execute();
-								//new ServerSynch().execute(gameId);
 							} else {
 								Toast.makeText(GameActivity.this,
-										"Du bist ned dro!",
-										Toast.LENGTH_LONG).show();
+										"Du bist ned dro!", Toast.LENGTH_LONG)
+										.show();
 							}
 						} catch (Exception e) {
+							e.printStackTrace();
 						}
 					}
 				});
@@ -198,7 +215,7 @@ public class GameActivity extends Activity {
 	private int nextfree(int rownumber) {
 		for (int i = 5; i >= 0; i--) {
 			int checknum = Field.getField(i, rownumber);
-			if (checknum < 0) 
+			if (checknum < 0)
 				return 10;
 			if (checknum == 0 || checknum == 3)
 				return i;
@@ -208,15 +225,16 @@ public class GameActivity extends Activity {
 
 	protected void decisionMaker(LinearLayout row, int rownumber) {
 		int bottom = nextfree(rownumber);
-		
-		//extra setzen
-		if (!isBlocked(rownumber) && ExtraCanBeSet && Field.getExtrasOfPlayer(playernumber)) {
+
+		// extra setzen
+		if (!isBlocked(rownumber) && ExtraCanBeSet
+				&& Field.getExtrasOfPlayer(playernumber)) {
 			TextView stone = (TextView) row.getChildAt(0);
 			stone.setBackgroundResource(R.drawable.euro);
-			Field.setField(0, rownumber, -2);//2 wegen verzoegerung
+			Field.setField(0, rownumber, -2);// 2 wegen verzoegerung
 			Field.setExtrasOfPlayer(playernumber, false);
 			ExtraCanBeSet = false;
-		// stein setzen
+			// stein setzen
 		} else if (!isBlocked(rownumber)) {
 			setstones(bottom, rownumber, row);
 		} else {
@@ -228,15 +246,13 @@ public class GameActivity extends Activity {
 
 	}
 
-
-
 	/*
 	 * Main Method - Setting of all fields
 	 */
 	private void setstones(int bottom, int rownumber, LinearLayout row) {
 		// lass zuerst evtl Blocker verschwinden
 		hideblocker(row);
-		
+
 		// wenn auf dem Feld ein ? bekommt Player ein Extra
 		if (Field.getField(bottom, rownumber) == 3)
 			Field.setExtrasOfPlayer(playernumber, true);
@@ -271,6 +287,7 @@ public class GameActivity extends Activity {
 			}
 		}
 	}
+
 	private void setPlayerExtras() {
 		if (Field.getExtrasOfPlayer(playernumber)) {
 			TextView currentitem = (TextView) findViewById(R.id.currentitem);
@@ -294,7 +311,7 @@ public class GameActivity extends Activity {
 			player.setText(R.string.hansl2);
 			playernumber = 2;
 			Field.setField(bottom, rownumber, 1);
-			Field.setTurns(Field.getTurns()+1);
+			Field.setTurns(Field.getTurns() + 1);
 			playchecks(bottom, rownumber, row);
 
 		} else if (thisGame.getLastPlayer().equals(thisGame.getP2())) {
@@ -303,7 +320,7 @@ public class GameActivity extends Activity {
 			player.setText(R.string.hansl1);
 			playernumber = 1;
 			Field.setField(bottom, rownumber, 2);
-			Field.setTurns(Field.getTurns()+1);
+			Field.setTurns(Field.getTurns() + 1);
 			playchecks(bottom, rownumber, row);
 
 		}
@@ -320,10 +337,12 @@ public class GameActivity extends Activity {
 	 * Default checks
 	 */
 	private void playchecks(int bottom, int rownumber, LinearLayout row) {
-		if (win.wincheck()){
+		if (win.wincheck()) {
 			playernumber = 0;
 			mp.stop();
-			if(!muted)mp2.start();}
+			if (!muted)
+				mp2.start();
+		}
 		extras(bottom, rownumber, row);
 	}
 
@@ -347,7 +366,8 @@ public class GameActivity extends Activity {
 	private void drawcheck() {
 		if (Field.getTurns() == 42) {
 			mp.stop();
-			if(!muted)mp2.start();
+			if (!muted)
+				mp2.start();
 			playernumber = 0;
 			Button button = (Button) findViewById(R.id.Button);
 			button.setText(R.string.drawstring);
@@ -358,8 +378,34 @@ public class GameActivity extends Activity {
 	/*
 	 * Serveranbindung
 	 */
+
+
+	Runnable myUpdater = new Runnable() {
+
+		@Override
+		public void run() {
+			try {
+				
+				new RepeatedUpdate().execute(String.valueOf(thisGame.getGameId()));
+				Toast.makeText(GameActivity.this, "shit works",
+						Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			myHandler.postDelayed(myUpdater, 3000);
+
+		}
+	};
 	
-	class repeatedUpdate extends AsyncTask<String, Void, String> {
+	private void startRepeatingUpdate() {
+		myUpdater.run();
+	}
+	
+	private void stopRepeatingUpdate() {
+		myHandler.removeCallbacks(myUpdater);
+	}
+
+	class RepeatedUpdate extends AsyncTask<String, Void, String> {
 		Socket socket = null;
 
 		@Override
@@ -387,6 +433,9 @@ public class GameActivity extends Activity {
 				thisGame = processGameJsonArray(gamesList);
 				setField(thisGame);
 				updateField();
+				if(me.getUsername().equals(thisGame.getLastPlayer())) {
+					stopRepeatingUpdate();
+				}
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -407,7 +456,7 @@ public class GameActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		private String sendRequest(String gameId) {
@@ -448,12 +497,9 @@ public class GameActivity extends Activity {
 					currentUser);
 			return game;
 		}
-		
-		
-		
-		
+
 	}
-	
+
 	class sendTurn extends AsyncTask<Void, Void, String> {
 		Socket socket = null;
 
@@ -472,13 +518,12 @@ public class GameActivity extends Activity {
 			}
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(String result) {
-			
-			
-			
+			startRepeatingUpdate();
 		}
+
 		private void sendRequest() {
 			try {
 				String id = String.valueOf(thisGame.getGameId());
@@ -486,11 +531,8 @@ public class GameActivity extends Activity {
 				String output = myP.makeTurn(id, field);
 				PrintWriter out = new PrintWriter(new BufferedWriter(
 						new OutputStreamWriter(socket.getOutputStream())), true);
-				BufferedReader input = new BufferedReader(new InputStreamReader(
-						socket.getInputStream()));
 				out.println(output);
 				out.flush();
-				String data = input.readLine();
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -499,12 +541,9 @@ public class GameActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-		
-		
 
-		
 	}
-	
+
 	class ServerSynch extends AsyncTask<String, Void, String> {
 		Socket socket = null;
 
@@ -541,6 +580,7 @@ public class GameActivity extends Activity {
 
 			// state.setAllUsers(result);
 		}
+
 		private void createUI() {
 			setContentView(R.layout.game);
 			win = new GameWinCheck(Field);
@@ -565,7 +605,7 @@ public class GameActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		private String sendRequest(String gameId) {

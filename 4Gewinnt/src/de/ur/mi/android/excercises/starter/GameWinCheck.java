@@ -45,7 +45,7 @@ public class GameWinCheck {
 	private boolean hcheck() {
 		// horizontal check
 		for (int i = 0; i <= 3; i++) {
-			for (int j = 0; j < 6; j++) {
+			for (int j = 0; j < 5; j++) {
 				if (Field.getField(j, i) != 0
 						&& Field.getField(j, i) == Field.getField(j, i + 1)
 						&& Field.getField(j, i) == Field.getField(j, i + 2)
@@ -59,7 +59,7 @@ public class GameWinCheck {
 
 	private boolean vcheck() {
 		// vertical check
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (Field.getField(j, i) != 0
 						&& Field.getField(j, i) == Field.getField(j + 1, i)
