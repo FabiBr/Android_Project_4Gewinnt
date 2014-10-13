@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//new ServerSynch().execute();
 		setContentView(R.layout.menu_2_bav);
 		textviewrun();
 	}
@@ -93,7 +92,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(MainActivity.this, Login.class));
+					startActivity(new Intent(MainActivity.this, LoginActivity.class));
 				} catch (Exception e) {
 				}
 			}
@@ -105,7 +104,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(MainActivity.this, Register.class));
+					startActivity(new Intent(MainActivity.this, RegisterActivity.class));
 				} catch (Exception e) {
 				}
 			}
@@ -129,7 +128,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					//startActivity(new Intent(MainActivity.this, MainActivity.class));
 					setlanguage();
 				} catch (Exception e) {
 				}
@@ -204,9 +202,7 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			//state.setAllUsers(result);
-		}
+					}
 		private void processJsonArray(JSONArray userList) throws JSONException {
 			ArrayList<User> users = new ArrayList<User>();
 			for(int i = 0; i < userList.length();i++) {

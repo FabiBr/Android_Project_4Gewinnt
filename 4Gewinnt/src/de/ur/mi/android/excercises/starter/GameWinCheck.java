@@ -7,6 +7,10 @@ public class GameWinCheck {
 		this.Field = field;
 	}
 	
+	public void setField(Field newField) {
+		this.Field = newField;
+	}
+	
 
 	public boolean wincheck() {
 		if (vcheck() || hcheck() || dcheck())
@@ -45,7 +49,7 @@ public class GameWinCheck {
 	private boolean hcheck() {
 		// horizontal check
 		for (int i = 0; i <= 3; i++) {
-			for (int j = 0; j < 5; j++) {
+			for (int j = 0; j < 6; j++) {
 				if (Field.getField(j, i) != 0
 						&& Field.getField(j, i) == Field.getField(j, i + 1)
 						&& Field.getField(j, i) == Field.getField(j, i + 2)
@@ -59,8 +63,8 @@ public class GameWinCheck {
 
 	private boolean vcheck() {
 		// vertical check
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 3; j++) {
 				if (Field.getField(j, i) != 0
 						&& Field.getField(j, i) == Field.getField(j + 1, i)
 						&& Field.getField(j, i) == Field.getField(j + 2, i)

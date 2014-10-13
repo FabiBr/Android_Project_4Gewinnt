@@ -3,6 +3,7 @@
 
     <string name="app_name">Vier Gwinnt - Bavarian Edition</string>
     <string name="hello_world">Hello world!</string>
+    <string name="endTheGame">Ende</string>
     <string name="action_settings">Settings</string>
     <string name="question_mark">""</string>
     <string name="title_activity_menue">Hauptmenü</string>

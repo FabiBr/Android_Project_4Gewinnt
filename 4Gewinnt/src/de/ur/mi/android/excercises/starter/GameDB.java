@@ -96,20 +96,15 @@ public class GameDB {
 			db.insert(USER_TABLE, null, values);
 		}
 		
-		public void updateMyCurrentData(String username) {
-			String[] columns = { USER_ID_KEY, USER_NAME_KEY, USER_PW_KEY,
-					USER_GWON_KEY, USER_GLOST_KEY, USER_PREMIUM_KEY };
-			Cursor cursor = db.query(USER_TABLE, columns, USER_NAME_KEY + " = ?",
-					new String[] { username }, null, null, null);
+		public void updateMyCurrentData(User me) {
 			
 			ContentValues values = new ContentValues();
-			cursor.moveToFirst();
 			
-			values.put(MY_NAME_KEY, cursor.getString(1));
-			values.put(MY_PW_KEY, cursor.getString(2));
-			values.put(MY_GWON_KEY, cursor.getString(3));
-			values.put(MY_GLOST_KEY, cursor.getString(4));
-			values.put(MY_PREMIUM_KEY, cursor.getString(5));
+			values.put(MY_NAME_KEY, me.getUsername());
+			values.put(MY_PW_KEY, me.getPW());
+			values.put(MY_GWON_KEY, Integer.valueOf(me.getWon()));
+			values.put(MY_GLOST_KEY, Integer.valueOf(me.getLost()));
+			values.put(MY_PREMIUM_KEY, Integer.valueOf(me.getPremiumStatus()));
 			db.update(MY_CURRENT_ACCOUNT, values, "id" + "='1'", null);
 		}
 		
@@ -138,50 +133,7 @@ public class GameDB {
 			values.put(USER_NAME_KEY, name);
 			db.insert(LAST_OPPONENTS_TABLE, null, values);
 		}
-		
-		/*
-		public ArrayList<Game> getCurrentGames() {
-			ArrayList<Game> myGames = new ArrayList<Game>();
-			String[] columns = {GAMES_ID_KEY, GAMES_P1_KEY, GAMES_P2_KEY};
-			Cursor cursor = null;
-			try {
-				String sql = "SELECT * FROM " + GAMES_TABLE;
-				cursor = db.rawQuery(sql, null);
-				//cursor = db.query(GAMES_TABLE, columns, null, null, null, null, null);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			
-			if (cursor.moveToFirst()) {
-				do {
-					int id = cursor.getInt(0);
-					String p1 = cursor.getString(2);
-					String p2 = cursor.getString(3);
-					//TODO
-				} while (cursor.moveToNext());
-			}
-			return myGames;
-		}
-		
-		
-		public void addGame(Game game) throws IOException {
-			ContentValues values = new ContentValues();
-			values.put(GAMES_ID_KEY, game.getGameId());
-			values.put(GAMES_FIELD_KEY, game.getField());
-			values.put(GAMES_P1_KEY, game.getP1());
-			values.put(GAMES_P2_KEY, game.getP2());
-			values.put(GAMES_LASTPLAYER_KEY, game.getLastPlayer());
 
-			db.insert(GAMES_TABLE, null, values);
-		}
-		
-		public void deleteGame(int id) {
-			String whereClause = GAMES_ID_KEY+ " = '" + String.valueOf(id) + "'";
-
-			db.delete(GAMES_TABLE, whereClause, null);
-		}
-		*/
 		public ArrayList<String> getAllOpponents() {
 			ArrayList<String> names = new ArrayList<String>();
 			Cursor cursor = db.query(LAST_OPPONENTS_TABLE, new String[] { OPPONENTS_ID_KEY,

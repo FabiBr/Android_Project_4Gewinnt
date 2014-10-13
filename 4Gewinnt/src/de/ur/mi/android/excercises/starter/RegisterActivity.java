@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -21,15 +23,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register extends Activity {
+public class RegisterActivity extends Activity {
 	
 	public String name;
 	private GameDB db;
 
-	// zum Testen: Server Main() einfach in Eclipse laugen lassen. Beim debuggen
-	// mit echtem ger�t bei Server IP die eignene IP eingeben console ->
-	// ipconfig
-	// beim testen mit virtual device einfach localhost verwenden
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 
@@ -49,11 +47,10 @@ public class Register extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					if (checkPassword()) {
+					if (checkPassword() && isOnline()) {
 						new CallbackHandler().execute();
-						startActivity(new Intent(Register.this, Overview.class));
 					} else
-						Toast.makeText(Register.this,
+						Toast.makeText(RegisterActivity.this,
 								"Bitte zweimal das gleiche Passwort eingeben",
 								Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
@@ -61,6 +58,19 @@ public class Register extends Activity {
 				}
 			}
 		});
+	}
+	
+	public boolean isOnline() {
+		ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
+				.getSystemService(RegisterActivity.this.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+		if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
+			Toast.makeText(RegisterActivity.this, "No Internet connection!",
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
 	}
 
 	private boolean checkPassword() {
@@ -79,33 +89,11 @@ public class Register extends Activity {
 		return false;
 	}
 
-	/*private void sendData() {
-
-		try {
-			EditText username = (EditText) findViewById(R.id.editText1);
-			EditText password = (EditText) findViewById(R.id.editText2);
-			String name = username.getText().toString();
-			String pw = password.getText().toString();
-			String output = myP.newUserDataOutput(name, pw);
-
-			PrintWriter out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream())), true);
-			out.println(output);
-			out.flush();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	private void safeDataLocal(String username, String pw) {
+private void safeDataLocal(String username, String pw) {
 		User me = new User(1, username, pw, 0, 0, 0);
 		db.open();
 		db.addUser(me);
-		db.updateMyCurrentData(username);
+		db.updateMyCurrentData(me);
 		db.close();
 	}
 
@@ -115,8 +103,6 @@ public class Register extends Activity {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
 				socket = new Socket(SERVER_IP, SERVERPORT);
 				System.out.println("gr8 success very nice");
 
@@ -131,9 +117,10 @@ public class Register extends Activity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-			Toast.makeText(Register.this,
+			Toast.makeText(RegisterActivity.this,
 					result,
 					Toast.LENGTH_LONG).show();
+			startActivity(new Intent(RegisterActivity.this, OverviewActivity.class));
 			super.onPostExecute(result);
 		}
 		
@@ -164,23 +151,4 @@ public class Register extends Activity {
 			return "User already exists, pick another username";
 		}
 	}
-
-	/*class ClientThread implements Runnable {
-
-		@Override
-		public void run() {
-
-			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
-				socket = new Socket(SERVER_IP, SERVERPORT);
-				System.out.println("gr8 success very nice");
-
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}*/
 }

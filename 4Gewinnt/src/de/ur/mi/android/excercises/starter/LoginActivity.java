@@ -10,6 +10,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,9 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Login extends Activity {
+public class LoginActivity extends Activity {
 
-	// Socket socket = null;
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP = new MyProtocol();
@@ -40,7 +42,6 @@ public class Login extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		myDb = new GameDB(this);
-		// new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.logcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
@@ -59,11 +60,11 @@ public class Login extends Activity {
 
 	public boolean isOnline() {
 		ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
-				.getSystemService(Login.this.CONNECTIVITY_SERVICE);
+				.getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
 		if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
-			Toast.makeText(Login.this, "No Internet connection!",
+			Toast.makeText(LoginActivity.this, "No Internet connection!",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -71,11 +72,21 @@ public class Login extends Activity {
 	}
 
 	private boolean checkUser() {
-		if (callback.equals("1")) {
+		if (!callback.equals("0")) {
 			EditText username = (EditText) findViewById(R.id.editText4);
 			String name = username.getText().toString();
+			JSONArray userData;
+			User me = null;
+			try {
+				userData = new JSONArray(callback);
+				me = new User(userData.getInt(0), userData.getString(1), userData.getString(2), userData.getInt(3), userData.getInt(4), userData.getInt(5));
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			myDb.open();
-			myDb.updateMyCurrentData(name);
+			myDb.updateMyCurrentData(me);
 			myDb.close();
 			return true;
 		}
@@ -90,17 +101,15 @@ public class Login extends Activity {
 		protected String doInBackground(Void... arg0) {
 
 			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
 				socket = new Socket(SERVER_IP, SERVERPORT);
 				System.out.println("gr8 success very nice");
 
 			} catch (UnknownHostException e1) {
-				Toast.makeText(Login.this, "Keine Internetverbindung",
+				Toast.makeText(LoginActivity.this, "Keine Internetverbindung",
 						Toast.LENGTH_LONG).show();
 				e1.printStackTrace();
 			} catch (IOException e1) {
-				Toast.makeText(Login.this, "Keine Internetverbindung",
+				Toast.makeText(LoginActivity.this, "Keine Internetverbindung",
 						Toast.LENGTH_LONG).show();
 				e1.printStackTrace();
 			}
@@ -113,9 +122,9 @@ public class Login extends Activity {
 			callback = result;
 			super.onPostExecute(result);
 			if (checkUser()) {
-				startActivity(new Intent(Login.this, Overview.class));
+				startActivity(new Intent(LoginActivity.this, OverviewActivity.class));
 			} else
-				Toast.makeText(Login.this,
+				Toast.makeText(LoginActivity.this,
 						"Falsche Zugangsdaten. Eventuell neu registrieren?",
 						Toast.LENGTH_LONG).show();
 		}
@@ -148,19 +157,4 @@ public class Login extends Activity {
 
 		}
 	}
-
-	/*
-	 * class ClientThread implements Runnable {
-	 * 
-	 * 
-	 * @Override public void run() {
-	 * 
-	 * try { // InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-	 * 
-	 * socket = new Socket(SERVER_IP, SERVERPORT);
-	 * System.out.println("gr8 success very nice");
-	 * 
-	 * } catch (UnknownHostException e1) { e1.printStackTrace(); } catch
-	 * (IOException e1) { e1.printStackTrace(); } } }
-	 */
 }

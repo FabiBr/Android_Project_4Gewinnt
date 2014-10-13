@@ -44,14 +44,12 @@ public class MyDialog extends DialogFragment implements View.OnClickListener{
 		if (v.getId()==R.id.AcceptButton){
 			dismiss();
 			communicator.onDialogMessage("Yes Button was clicked");
-			//Toast.makeText(getActivity(), "Spiel starten", Toast.LENGTH_SHORT).show();
 			//Intent zum Spielfeld
 			//Serveraufbau
 		}
 		else{
 			dismiss();
 			communicator.onDialogMessage("No Button was clicked");
-			//Toast.makeText(getActivity(), "Spiel abgelehnt", Toast.LENGTH_SHORT).show();
 		}
 	}
 

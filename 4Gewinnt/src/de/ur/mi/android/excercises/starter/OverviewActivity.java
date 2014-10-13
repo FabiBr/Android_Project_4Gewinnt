@@ -36,7 +36,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Overview extends Activity implements MyDialog.Communicator{
+public class OverviewActivity extends Activity implements MyDialog.Communicator{
 	
 	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
@@ -56,7 +56,7 @@ public class Overview extends Activity implements MyDialog.Communicator{
 
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(Overview.this, Gameoffline.class));
+				startActivity(new Intent(OverviewActivity.this, Gameoffline.class));
 				
 			}
 			
@@ -108,12 +108,7 @@ public class Overview extends Activity implements MyDialog.Communicator{
 				Game game = myCurrentGames.get(i);
 				currentGames[i] = game.getGameId() + " | " + game.getP1() + " - " + game.getP2();
 			}
-			
-			
-			//new String[myCurrentGames.size()];
-			/*for(int i = 0;i<foundUserList.length;i++) {
-				foundUserList[i] = myCurrentGames.get(i).getP1() + "  --  " + myCurrentGames.get(i).getP2();
-			}*/
+
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.alt_overview_child, currentGames);
 			
 	    	
@@ -154,8 +149,6 @@ public class Overview extends Activity implements MyDialog.Communicator{
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-				// state.setAllUsers(result);
 			}
 			
 			private void registerClickCallback() {
@@ -172,11 +165,9 @@ public class Overview extends Activity implements MyDialog.Communicator{
 								String gameId = tk.nextToken();
 								Bundle bundle = new Bundle();
 								bundle.putString("gameId", gameId);
-								Intent i = new Intent(Overview.this, GameActivity.class);
+								Intent i = new Intent(OverviewActivity.this, GameActivity.class);
 								i.putExtras(bundle);
 								startActivity(i);
-								Toast.makeText(Overview.this, gameId,
-										Toast.LENGTH_SHORT).show();
 							}
 						});
 			}

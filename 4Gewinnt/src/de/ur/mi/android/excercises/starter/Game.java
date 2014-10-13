@@ -33,5 +33,8 @@ public class Game {
 	public String getLastPlayer() {
 		return currentPlayer;
 	}
+	public void setcurrentPlayer(String newCurrent) {
+		currentPlayer = newCurrent;
+	}
 
 }
