@@ -36,14 +36,13 @@ public class GameActivity extends Activity {
 	// Main Game
 	private Field Field;
 	private int playernumber = 1;
-	// private int counter = 0;
 	private GameWinCheck win;
 	private boolean ExtraCanBeSet = false;
 	private MediaPlayer mp2;
 	private boolean muted = false;
 	private Game thisGame;
 
-	private static final String SERVER_IP = "192.168.2.102";
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP;
 	private GameDB myDb;
@@ -389,9 +388,6 @@ public class GameActivity extends Activity {
 			if (!muted)
 				mp2.start();
 			playernumber = 0;
-			/*Button button = (Button) findViewById(R.id.Button);
-			button.setText(R.string.drawstring);
-			button.setBackgroundColor(getResources().getColor(R.color.green));*/
 		}
 	}
 

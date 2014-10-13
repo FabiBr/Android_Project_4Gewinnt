@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 public class OverviewActivity extends Activity implements MyDialog.Communicator{
 	
-	private static final String SERVER_IP = "192.168.2.102";
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 	
 	private ArrayList<Game> myCurrentGames;
@@ -108,12 +108,7 @@ public class OverviewActivity extends Activity implements MyDialog.Communicator{
 				Game game = myCurrentGames.get(i);
 				currentGames[i] = game.getGameId() + " | " + game.getP1() + " - " + game.getP2();
 			}
-			
-			
-			//new String[myCurrentGames.size()];
-			/*for(int i = 0;i<foundUserList.length;i++) {
-				foundUserList[i] = myCurrentGames.get(i).getP1() + "  --  " + myCurrentGames.get(i).getP2();
-			}*/
+
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.alt_overview_child, currentGames);
 			
 	    	
@@ -154,8 +149,6 @@ public class OverviewActivity extends Activity implements MyDialog.Communicator{
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
-				// state.setAllUsers(result);
 			}
 			
 			private void registerClickCallback() {

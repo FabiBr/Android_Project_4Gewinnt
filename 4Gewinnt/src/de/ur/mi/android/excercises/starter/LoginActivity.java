@@ -31,8 +31,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 
-	// Socket socket = null;
-	private static final String SERVER_IP = "192.168.2.102";
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP = new MyProtocol();
 	private String callback = "0";
@@ -43,7 +42,6 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		myDb = new GameDB(this);
-		// new Thread(new ClientThread()).start();
 		Button logbutton = (Button) findViewById(R.id.logcheckbutton);
 		logbutton.setOnClickListener(new OnClickListener() {
 
@@ -103,8 +101,6 @@ public class LoginActivity extends Activity {
 		protected String doInBackground(Void... arg0) {
 
 			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
 				socket = new Socket(SERVER_IP, SERVERPORT);
 				System.out.println("gr8 success very nice");
 
@@ -161,19 +157,4 @@ public class LoginActivity extends Activity {
 
 		}
 	}
-
-	/*
-	 * class ClientThread implements Runnable {
-	 * 
-	 * 
-	 * @Override public void run() {
-	 * 
-	 * try { // InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-	 * 
-	 * socket = new Socket(SERVER_IP, SERVERPORT);
-	 * System.out.println("gr8 success very nice");
-	 * 
-	 * } catch (UnknownHostException e1) { e1.printStackTrace(); } catch
-	 * (IOException e1) { e1.printStackTrace(); } } }
-	 */
 }

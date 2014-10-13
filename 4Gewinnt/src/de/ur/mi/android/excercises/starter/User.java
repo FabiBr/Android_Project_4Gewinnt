@@ -18,8 +18,6 @@ public class User {
 	public User(int id, String username, String pw, int gamesWon,
 			int gamesLost, int premium) {
 		this.id = id;
-		//this.md5username = computeMD5Hash(username);
-		//this.md5pw = computeMD5Hash(pw);
 		this.md5username = username;
 		this.md5pw = pw;
 		this.gamesWon = gamesWon;

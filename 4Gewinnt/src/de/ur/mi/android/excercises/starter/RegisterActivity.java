@@ -28,11 +28,7 @@ public class RegisterActivity extends Activity {
 	public String name;
 	private GameDB db;
 
-	// zum Testen: Server Main() einfach in Eclipse laugen lassen. Beim debuggen
-	// mit echtem ger�t bei Server IP die eignene IP eingeben console ->
-	// ipconfig
-	// beim testen mit virtual device einfach localhost verwenden
-	private static final String SERVER_IP = "192.168.2.102";
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 
 	private MyProtocol myP = new MyProtocol();
@@ -93,29 +89,7 @@ public class RegisterActivity extends Activity {
 		return false;
 	}
 
-	/*private void sendData() {
-
-		try {
-			EditText username = (EditText) findViewById(R.id.editText1);
-			EditText password = (EditText) findViewById(R.id.editText2);
-			String name = username.getText().toString();
-			String pw = password.getText().toString();
-			String output = myP.newUserDataOutput(name, pw);
-
-			PrintWriter out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream())), true);
-			out.println(output);
-			out.flush();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	private void safeDataLocal(String username, String pw) {
+private void safeDataLocal(String username, String pw) {
 		User me = new User(1, username, pw, 0, 0, 0);
 		db.open();
 		db.addUser(me);
@@ -129,8 +103,6 @@ public class RegisterActivity extends Activity {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
 				socket = new Socket(SERVER_IP, SERVERPORT);
 				System.out.println("gr8 success very nice");
 
@@ -179,23 +151,4 @@ public class RegisterActivity extends Activity {
 			return "User already exists, pick another username";
 		}
 	}
-
-	/*class ClientThread implements Runnable {
-
-		@Override
-		public void run() {
-
-			try {
-				// InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
-
-				socket = new Socket(SERVER_IP, SERVERPORT);
-				System.out.println("gr8 success very nice");
-
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}*/
 }

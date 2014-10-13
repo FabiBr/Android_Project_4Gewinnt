@@ -33,7 +33,7 @@ public class SearchResultsActivity extends Activity {
 	private String[] userList;
 	private GameDB myDb;
 
-	private static final String SERVER_IP = "192.168.2.102";
+	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
 	private static final int SERVERPORT = 1939;
 
 	private MyProtocol myP = new MyProtocol();
@@ -45,31 +45,9 @@ public class SearchResultsActivity extends Activity {
 		myDb = new GameDB(this);
 		new ServerSynch().execute();
 		setContentView(R.layout.activity_search_results);
-
-		//
-		// Intent intent = getIntent();
-		/*
-		 * if(Intent.ACTION_SEARCH.equals(intent.getAction())){ String query =
-		 * intent.getStringExtra(SearchManager.QUERY); showListResult(query); }
-		 * //
-		 * 
-		 * // get the action bar ActionBar actionBar = getActionBar();
-		 * 
-		 * // Enabling Back navigation on Action Bar icon
-		 * actionBar.setDisplayHomeAsUpEnabled(true);
-		 * 
-		 * txtQuery = (TextView) findViewById(R.id.txtQuery);
-		 * 
-		 * handleIntent(getIntent()); registerClickCallback();
-		 */
 	}
 
 	private void showListResult(String s) {
-
-		// new ArrayList<User>();//
-		// User mario = new User(1,"mario","123",0,0,0);
-		// users.add(mario);
-
 		userList = new String[users.size()];
 		for (int i = 0; i < userList.length; i++) {
 			userList[i] = users.get(i).getUsername();
@@ -100,13 +78,11 @@ public class SearchResultsActivity extends Activity {
 						Toast.makeText(SearchResultsActivity.this, message,
 								Toast.LENGTH_SHORT).show();
 						new contactOpponent().execute(textView.getText()
-								.toString());
-						// showDialog();//textView.getText().toString());
-					}
+								.toString());					}
 				});
 	}
 
-	public void showDialog() {// String spieler){
+	public void showDialog() {
 		FragmentManager manager = getFragmentManager();
 		MyDialog dialog = new MyDialog();
 		dialog.show(manager, "dialog");
@@ -263,8 +239,6 @@ public class SearchResultsActivity extends Activity {
 				String query = intent.getStringExtra(SearchManager.QUERY);
 				showListResult(query);
 			}
-			//
-
 			// get the action bar
 			ActionBar actionBar = getActionBar();
 
