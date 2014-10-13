@@ -10,6 +10,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,7 +32,7 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 
 	// Socket socket = null;
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final String SERVER_IP = "192.168.2.102";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP = new MyProtocol();
 	private String callback = "0";
@@ -71,11 +74,21 @@ public class LoginActivity extends Activity {
 	}
 
 	private boolean checkUser() {
-		if (callback.equals("1")) {
+		if (!callback.equals("0")) {
 			EditText username = (EditText) findViewById(R.id.editText4);
 			String name = username.getText().toString();
+			JSONArray userData;
+			User me = null;
+			try {
+				userData = new JSONArray(callback);
+				me = new User(userData.getInt(0), userData.getString(1), userData.getString(2), userData.getInt(3), userData.getInt(4), userData.getInt(5));
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			myDb.open();
-			myDb.updateMyCurrentData(name);
+			myDb.updateMyCurrentData(me);
 			myDb.close();
 			return true;
 		}

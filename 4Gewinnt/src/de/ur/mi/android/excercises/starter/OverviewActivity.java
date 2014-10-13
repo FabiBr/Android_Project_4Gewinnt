@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 public class OverviewActivity extends Activity implements MyDialog.Communicator{
 	
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final String SERVER_IP = "192.168.2.102";
 	private static final int SERVERPORT = 1939;
 	
 	private ArrayList<Game> myCurrentGames;
@@ -175,8 +175,6 @@ public class OverviewActivity extends Activity implements MyDialog.Communicator{
 								Intent i = new Intent(OverviewActivity.this, GameActivity.class);
 								i.putExtras(bundle);
 								startActivity(i);
-								Toast.makeText(OverviewActivity.this, gameId,
-										Toast.LENGTH_SHORT).show();
 							}
 						});
 			}

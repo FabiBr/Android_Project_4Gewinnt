@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +32,7 @@ public class RegisterActivity extends Activity {
 	// mit echtem ger�t bei Server IP die eignene IP eingeben console ->
 	// ipconfig
 	// beim testen mit virtual device einfach localhost verwenden
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final String SERVER_IP = "192.168.2.102";
 	private static final int SERVERPORT = 1939;
 
 	private MyProtocol myP = new MyProtocol();
@@ -49,9 +51,8 @@ public class RegisterActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					if (checkPassword()) {
+					if (checkPassword() && isOnline()) {
 						new CallbackHandler().execute();
-						startActivity(new Intent(RegisterActivity.this, OverviewActivity.class));
 					} else
 						Toast.makeText(RegisterActivity.this,
 								"Bitte zweimal das gleiche Passwort eingeben",
@@ -61,6 +62,19 @@ public class RegisterActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	public boolean isOnline() {
+		ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext()
+				.getSystemService(RegisterActivity.this.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+		if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
+			Toast.makeText(RegisterActivity.this, "No Internet connection!",
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
 	}
 
 	private boolean checkPassword() {
@@ -105,7 +119,7 @@ public class RegisterActivity extends Activity {
 		User me = new User(1, username, pw, 0, 0, 0);
 		db.open();
 		db.addUser(me);
-		db.updateMyCurrentData(username);
+		db.updateMyCurrentData(me);
 		db.close();
 	}
 
@@ -134,6 +148,7 @@ public class RegisterActivity extends Activity {
 			Toast.makeText(RegisterActivity.this,
 					result,
 					Toast.LENGTH_LONG).show();
+			startActivity(new Intent(RegisterActivity.this, OverviewActivity.class));
 			super.onPostExecute(result);
 		}
 		

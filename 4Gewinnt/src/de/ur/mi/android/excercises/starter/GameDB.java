@@ -96,20 +96,15 @@ public class GameDB {
 			db.insert(USER_TABLE, null, values);
 		}
 		
-		public void updateMyCurrentData(String username) {
-			String[] columns = { USER_ID_KEY, USER_NAME_KEY, USER_PW_KEY,
-					USER_GWON_KEY, USER_GLOST_KEY, USER_PREMIUM_KEY };
-			Cursor cursor = db.query(USER_TABLE, columns, USER_NAME_KEY + " = ?",
-					new String[] { username }, null, null, null);
+		public void updateMyCurrentData(User me) {
 			
 			ContentValues values = new ContentValues();
-			cursor.moveToFirst();
 			
-			values.put(MY_NAME_KEY, cursor.getString(1));
-			values.put(MY_PW_KEY, cursor.getString(2));
-			values.put(MY_GWON_KEY, cursor.getString(3));
-			values.put(MY_GLOST_KEY, cursor.getString(4));
-			values.put(MY_PREMIUM_KEY, cursor.getString(5));
+			values.put(MY_NAME_KEY, me.getUsername());
+			values.put(MY_PW_KEY, me.getPW());
+			values.put(MY_GWON_KEY, Integer.valueOf(me.getWon()));
+			values.put(MY_GLOST_KEY, Integer.valueOf(me.getLost()));
+			values.put(MY_PREMIUM_KEY, Integer.valueOf(me.getPremiumStatus()));
 			db.update(MY_CURRENT_ACCOUNT, values, "id" + "='1'", null);
 		}
 		

@@ -43,13 +43,14 @@ public class GameActivity extends Activity {
 	private boolean muted = false;
 	private Game thisGame;
 
-	private static final String SERVER_IP = "hiersollteetwaseinfallsreichesstehen.de";
+	private static final String SERVER_IP = "192.168.2.102";
 	private static final int SERVERPORT = 1939;
 	private MyProtocol myP;
 	private GameDB myDb;
 	private String gameId;
 	private User me;
 	private Handler myHandler;
+	private boolean gameOver = false;
 
 	/*
 	 * Start Method
@@ -140,9 +141,9 @@ public class GameActivity extends Activity {
 					public void onClick(View v) {
 						try {
 							String currentPlayer = thisGame.getLastPlayer();
-							if (currentPlayer.equals(me.getUsername())) {
+							if (currentPlayer.equals(me.getUsername()) && !gameOver) {
 								decisionMaker(row, rownumber);
-								new sendTurn().execute();
+								//new sendTurn().execute();
 							} else {
 								Toast.makeText(GameActivity.this,
 										"Du bist ned dro!", Toast.LENGTH_LONG)
@@ -155,6 +156,24 @@ public class GameActivity extends Activity {
 				});
 			}
 		}
+		
+		((Button) findViewById(R.id.Button))
+		.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				try {
+					setContentView(R.layout.game);
+					try {
+						startActivity(new Intent(GameActivity.this,
+								OverviewActivity.class));
+						mp2.stop();
+
+					} catch (Exception e) {
+					}
+				} catch (Exception e) {
+				}
+			}
+		});
+		
 
 		((Button) findViewById(R.id.Mainmenue))
 				.setOnClickListener(new OnClickListener() {
@@ -186,6 +205,14 @@ public class GameActivity extends Activity {
 						}
 					}
 				});
+	}
+	
+	private void changeCurrentPlayerInstant() {
+		if(thisGame.getLastPlayer().equals(thisGame.getP1())) {
+			thisGame.setcurrentPlayer(thisGame.getP2());
+		} else if (thisGame.getLastPlayer().equals(thisGame.getP2())) {
+			thisGame.setcurrentPlayer(thisGame.getP1());
+		}
 	}
 
 	/*
@@ -226,6 +253,8 @@ public class GameActivity extends Activity {
 			// stein setzen
 		} else if (!isBlocked(rownumber)) {
 			setstones(bottom, rownumber, row);
+			new sendTurn().execute();
+			changeCurrentPlayerInstant();
 		} else {
 
 			// wenn in blockierte Reihe gesetzt werden will
@@ -297,7 +326,7 @@ public class GameActivity extends Activity {
 		if (thisGame.getLastPlayer().equals(thisGame.getP1())) {
 			bottomstone.setBackgroundResource(R.drawable.breze);
 			playericon.setBackgroundResource(R.drawable.bier);
-			player.setText(R.string.hansl2);
+			player.setText(thisGame.getP2());
 			playernumber = 2;
 			Field.setField(bottom, rownumber, 1);
 			Field.setTurns(Field.getTurns() + 1);
@@ -306,7 +335,7 @@ public class GameActivity extends Activity {
 		} else if (thisGame.getLastPlayer().equals(thisGame.getP2())) {
 			bottomstone.setBackgroundResource(R.drawable.bier);
 			playericon.setBackgroundResource(R.drawable.breze);
-			player.setText(R.string.hansl1);
+			player.setText(thisGame.getP1());
 			playernumber = 1;
 			Field.setField(bottom, rownumber, 2);
 			Field.setTurns(Field.getTurns() + 1);
@@ -315,9 +344,10 @@ public class GameActivity extends Activity {
 		}
 		updateField();
 		if (playernumber == 0) {
-			Button button = (Button) findViewById(R.id.Button);
-			button.setText(R.string.winstring);
-			button.setBackgroundColor(getResources().getColor(R.color.green));
+			gameOver = true;
+			Toast.makeText(GameActivity.this,
+					"Gwunna! Ju'che!",
+					Toast.LENGTH_LONG).show();
 		}
 		drawcheck();
 	}
@@ -330,6 +360,9 @@ public class GameActivity extends Activity {
 			playernumber = 0;
 			if (!muted)
 				mp2.start();
+			Button button = (Button) findViewById(R.id.Button);
+			button.setVisibility(View.VISIBLE);
+			button.setBackgroundColor(getResources().getColor(R.color.green));
 		}
 		extras(bottom, rownumber, row);
 	}
@@ -356,9 +389,9 @@ public class GameActivity extends Activity {
 			if (!muted)
 				mp2.start();
 			playernumber = 0;
-			Button button = (Button) findViewById(R.id.Button);
+			/*Button button = (Button) findViewById(R.id.Button);
 			button.setText(R.string.drawstring);
-			button.setBackgroundColor(getResources().getColor(R.color.green));
+			button.setBackgroundColor(getResources().getColor(R.color.green));*/
 		}
 	}
 
@@ -374,8 +407,6 @@ public class GameActivity extends Activity {
 			try {
 				
 				new RepeatedUpdate().execute(String.valueOf(thisGame.getGameId()));
-				Toast.makeText(GameActivity.this, "shit works",
-						Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -427,8 +458,12 @@ public class GameActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
-			// state.setAllUsers(result);
+			if(win.wincheck()) {
+				gameOver = true;
+				Toast.makeText(GameActivity.this,
+						"Verlorn! Noob!",
+						Toast.LENGTH_LONG).show();
+			}
 		}
 
 		private void setField(Game thisGame) {
@@ -560,12 +595,18 @@ public class GameActivity extends Activity {
 				setField(thisGame);
 				createUI();
 				updateField();
+				TextView player = ((TextView) findViewById(R.id.iscurrentlyplaying));
+				player.setText(thisGame.getLastPlayer());
 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
-			// state.setAllUsers(result);
+			if(win.wincheck()) {
+				gameOver = true;
+				Toast.makeText(GameActivity.this,
+						"Verlorn! Noob!",
+						Toast.LENGTH_LONG).show();
+			}
 		}
 
 		private void createUI() {
